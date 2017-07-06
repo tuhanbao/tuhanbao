@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>客户信息</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.css">
+    <link rel="stylesheet" href="/web/css/AdminLTE.css">
+    <link rel="stylesheet" href="/web/css/ionicons.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.css">
+    <link rel="stylesheet" href="/web/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/web/css/icheck/all.css">
+    <link rel="stylesheet" href="/web/css/sweetalert.css">
+    <link rel="stylesheet" href="/web/js/datatables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/web/css/fileinput/fileinput.css"/>
+</head>
+<body>
+<section class="content-header">
+    <h1>
+        我的工作台
+        <small>客户信息</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>主页</a></li>
+        <li><a href="#">我的工作台</a></li>
+        <li class="active">客户信息</li>
+    </ol>
+</section>
+<section class="content" style="">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">客户信息</h3>
+        </div>
+        <div class="box-body">
+            <div class="modal fade" id="myModalDIY" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalLable">
+                                自定义
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="delePower" style="display: none;">
+                                确定删除角色?
+                            </div>
+                            <div class="form-horizontal" id="showcondition">
+                                <table id="example" class="table table-bordered display text-center cell-border table-hover">
+                                    <thead>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>排序号</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="">
+
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>名称</th>
+                                        <th>排序号</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="form-horizontal" id="editcondition" style="display: none;">
+                                <div class="form-group">
+                                    <label for="conditionname" class="col-sm-2 control-label"><span style="color:red">*</span>名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="conditionname" placeholder="标签的名称" maxlength="20" required>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="conditionsort" class="col-sm-2 control-label"><span style="color:red">*</span>排序号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="conditionsort" name="sort" placeholder="数字越小越靠前" maxlength="20" required >
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">所在地区</label>
+                                    <div class="col-sm-10">
+                                        <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    <select class="form-control select2" id="provinceFilter">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3 col-sm-offset-1" style="">
+                                                <!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <select class="form-control select2" id="cityFilter">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-sm-offset-1" style="">
+                                                <!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <select class="form-control select2" id="countryFilter">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">内容过滤</label>
+                                    <div class="col-sm-10" style="margin-top: 7px;">
+                                        <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                        <label>
+                                            <input type="radio" name="conditionfilter" class="flat-red" checked value="0">
+                                            全部客户
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="conditionfilter" class="flat-red" value="1">
+                                            自定义条件过滤客户
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="condition" style="display: none;">
+                                    <label class="col-sm-2 control-label">指定条件</label>
+                                    <div class="col-sm-10">
+                                        <div>
+                                            <button id="addItem_btn" type="button" class="btn btn-default">
+                                                <span class="glyphicon glyphicon-plus-sign"></span>添加项
+                                            </button>
+                                        </div>
+                                        <div id="conditionbody">
+                                            <!--<div class="row" style="margin-top: 10px;margin-left: 0px;">-->
+                                                <!--<div class="col-sm-2">-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<select class="form-control select2">-->
+                                                            <!--<option selected="selected">并且</option>-->
+                                                            <!--<option>或者</option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-sm-2" style="margin-left: 10px;">-->
+                                                    <!--&lt;!&ndash; /.form-group &ndash;&gt;-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<select class="form-control select2">-->
+                                                            <!--<option selected="selected">姓名</option>-->
+                                                            <!--<option>性别</option>-->
+                                                            <!--<option>手机号</option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-sm-2" style="margin-left: 10px;">-->
+                                                    <!--&lt;!&ndash; /.form-group &ndash;&gt;-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<select class="form-control select2">-->
+                                                            <!--<option selected="selected">==</option>-->
+                                                            <!--<option>>=</option>-->
+                                                            <!--<option><=</option>-->
+                                                            <!--<option>!=</option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-sm-2" style="margin-left: 10px;">-->
+                                                    <!--&lt;!&ndash; /.form-group &ndash;&gt;-->
+                                                    <!--<div class="form-group">-->
+                                                        <!--<select class="form-control select2">-->
+                                                            <!--<option selected="selected">男</option>-->
+                                                            <!--<option>女</option>-->
+                                                        <!--</select>-->
+                                                    <!--</div>-->
+                                                <!--</div>-->
+                                                <!--<div class="col-sm-2">-->
+                                                    <!--<button class="btn btn-warning">删除</button>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsCondition_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="addCondition_btn">新建</button>
+                            <button type="button" class="btn btn-primary" id="saveCondition_btn" style="display: none;">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div class="modal fade" id="myModalSearch" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalSearchLable">
+                                搜索
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            &lt;!&ndash;<div id="delePower" style="display: none;">&ndash;&gt;
+                                &lt;!&ndash;确定删除角色?&ndash;&gt;
+                            &lt;!&ndash;</div>&ndash;&gt;
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">客户信息</h3>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">客户ID</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-2">客户手机号</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">客户名称</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-2">性别</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">生日</label>
+                                                <div class="col-sm-4">
+                                                    <input type="date" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-2" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="date" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">所在地区</label>
+                                            <div class="col-sm-10">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control select2">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 col-sm-1" style="margin-left: 0px;margin-right: 0px;">
+                                                    &lt;!&ndash; /.form-group &ndash;&gt;
+                                                    <div class="form-group">
+                                                        <select class="form-control select2">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-sm-1" style="margin-left: 0px;margin-right: 0px;">
+                                                    &lt;!&ndash; /.form-group &ndash;&gt;
+                                                    <div class="form-group">
+                                                        <select class="form-control select2">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <div class="col-sm-12" style="margin-left: 0px;">
+                                                    &lt;!&ndash; /.form-group &ndash;&gt;
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control"  placeholder="详细地址">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">其他内容</h3>
+
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">客户分类</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2">
+                                                        <option selected="selected">复肥用户</option>
+                                                        <option>非复肥用户</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日在投余额</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日可用余额</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日回款余额</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">累计投资额
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">累计年化投资额
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">总投资笔数
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">邀请投资人数
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">邀请投资人累计交易额
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">邀请投资人累计年化交易额
+                                                </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                                <label class="control-label col-sm-1" style="text-align: center;color: red">至</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsSearch_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doSearch_btn">搜索</button>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+            <div class="modal fade" id="myModalAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalAddLable">
+                                新建
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--<div id="delePower" style="display: none;">-->
+                                <!--确定删除角色?-->
+                            <!--</div>-->
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">客户信息</h3>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2"><span style="color:red">*</span>客户ID</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customIdAdd" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                </div>
+                                                <label class="control-label col-sm-2"><span style="color:red">*</span>客户手机号</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customPhoneAdd" maxlength="20" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2"><span style="color:red">*</span>客户名称</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customNameAdd" maxlength="20" required>
+                                                </div>
+                                                <label class="control-label col-sm-2">性别</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control select2" id="sexAdd">
+                                                        <option value="1">男</option>
+                                                        <option value="0">女</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">生日</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" class="form-control" id="customBirthDayAdd">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">所在地区</label>
+                                            <div class="col-sm-10">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <div class="col-sm-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control select2" id="provinceSelectAdd">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 col-sm-offset-1" style="">
+                                                    <!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <select class="form-control select2" id="citySelectAdd">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4 col-sm-offset-1" style="">
+                                                    <!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <select class="form-control select2" id="countrySelectAdd">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <div class="col-sm-12" style="margin-left: 0px;">
+                                                    <!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="detailAddressAdd" placeholder="详细地址" maxlength="20" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">其他内容</h3>
+
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">客户分类</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2" id="customTypeAdd">
+                                                        <option value="1">复肥用户</option>
+                                                        <option value="2">非复肥用户</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>当日在投余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayInvestBalanceAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>当日可用余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayAccountBalanceAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>当日回款余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayAddInvestAmountAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>累计投资额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInvestAmountAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>累计年化投资额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInvestYearAmountAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>总投资笔数
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="totalInvestTimesAdd" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>邀请投资人数
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestPersonsAdd" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>邀请投资人累计交易额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestAmountAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3"><span style="color:red">*</span>邀请投资人累计年化交易额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestAmountYearAdd" maxlength="20" required onKeyPress="if (event.keyCode!=46 && event.keyCode!=45 && (event.keyCode<48 || event.keyCode>57)) event.returnValue=false">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsAdd_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doAdd_btn">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalEditLable">
+                                新建
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <!--<div id="delePower" style="display: none;">-->
+                            <!--确定删除角色?-->
+                            <!--</div>-->
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">客户信息</h3>
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">客户ID</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customIdEdit" disabled>
+                                                </div>
+                                                <label class="control-label col-sm-2">客户手机号</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customPhoneEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">客户名称</label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" class="form-control" id="customNameEdit" disabled>
+                                                </div>
+                                                <label class="control-label col-sm-2">性别</label>
+                                                <div class="col-sm-4">
+                                                    <select class="form-control select2" id="sexEdit" disabled>
+                                                        <option value="1">男</option>
+                                                        <option value="0">女</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-2">生日</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" class="form-control" id="customBirthDayEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">所在地区</label>
+                                            <div class="col-sm-10">
+                                                <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <select class="form-control select2" id="provinceSelectEdit">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3 col-sm-offset-1" style="">
+                                                        <!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <select class="form-control select2" id="citySelectEdit">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4 col-sm-offset-1" style="">
+                                                        <!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <select class="form-control select2" id="countrySelectEdit">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                    <div class="col-sm-12" style="margin-left: 0px;">
+                                                        <!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control" id="detailAddressEdit" placeholder="详细地址">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">其他内容</h3>
+
+                                </div>
+                                <div class="form-horizontal">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">客户分类</label>
+                                                <div class="col-sm-9">
+                                                    <select class="form-control select2" id="customTypeEdit" disabled>
+                                                        <option value="1">复肥用户</option>
+                                                        <option value="2">非复肥用户</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日在投余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayInvestBalanceEdit" disabled>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日可用余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayAccountBalanceEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">当日回款余额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="dayAddInvestAmountEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">累计投资额</label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInvestAmountEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;" disabled>
+                                                <label class="control-label col-sm-3">累计年化投资额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInvestYearAmountEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">总投资笔数
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="totalInvestTimesEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;" disabled>
+                                                <label class="control-label col-sm-3">邀请投资人数
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestPersonsEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">邀请投资人累计交易额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestAmountEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                                                <label class="control-label col-sm-3">邀请投资人累计年化交易额
+                                                </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" class="form-control" id="accInviInvestAmountYearEdit" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsEdit_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doEdit_btn">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalMsgLable">
+                                发送短信
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>短信名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="messageName" placeholder="短信名称" maxlength="20" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageContent" class="col-sm-2 control-label"><span style="color:red">*</span>短信内容</label>
+                                    <div class="col-sm-10">
+                                        <!--<input type="" class="form-control" id="messageContent" placeholder="数字越小越靠前">-->
+                                        <textarea id="messageContent" rows="3" cols="20" class="form-control">
+
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">发送类型</label>
+                                    <div class="col-sm-10" style="margin-top: 7px;">
+                                        <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                        <label>
+                                            <input type="radio" name="msgSendType" class="flat-red" checked value="0">
+                                            立即发送
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="msgSendType" class="flat-red" value="1">
+                                            定时发送
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="msgDate" style="display: none;">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <div id="msgdatebody">
+                                            <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="date" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5" style="margin-left: 10px;">
+                                                    <div class="form-group">
+                                                        <select class="form-control select2">
+                                                            <option selected="selected">1</option>
+                                                            <option>2</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsMessage_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doMessage_btn">保存</button>
+                            <button type="button" class="btn btn-primary" id="doMessageAll_btn" style="display: none;">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalGiftLable">
+                                奖励
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>奖励名称</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="giftName" placeholder="奖励名称" maxlength="20" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageContent" class="col-sm-2 control-label">奖励券</label>
+                                    <div class="col-sm-10">
+                                        <!--<div class="row" >-->
+                                            <!--<label class="col-sm-4">-->
+                                                <select id="awardSelect"  class="form-control select2">
+                                                    <option selected="selected" value="1119">奖励券1</option>
+                                                    <option value="1119">奖励券2</option>
+                                                </select>
+                                            <!--</label>-->
+                                        <!--</div>-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>农庄积分</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="jifenGift" placeholder="农庄积分       " maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">发放类型</label>
+                                    <div class="col-sm-10" style="margin-top: 7px;">
+
+                                        <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                        <label>
+                                            <input type="radio" name="giftSendType" class="flat-red" checked value="0">
+                                            立即发放
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="giftSendType" class="flat-red" value="1">
+                                            预约发放
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="giftDate" style="display: none;">
+                                    <label class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <div id="giftbody">
+                                            <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                <div class="col-sm-5">
+                                                    <div class="form-group">
+                                                        <input type="date" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-5" style="margin-left: 10px;">
+                                                    <div class="form-group">
+                                                        <select class="form-control select2">
+                                                            <option selected="selected">1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                            <option>5</option>
+                                                            <option>6</option>
+                                                            <option>7</option>
+                                                            <option>8</option>
+                                                            <option>9</option>
+                                                            <option>10</option>
+                                                            <option>11</option>
+                                                            <option>12</option>
+                                                            <option>13</option>
+                                                            <option>14</option>
+                                                            <option>15</option>
+                                                            <option>16</option>
+                                                            <option>17</option>
+                                                            <option>18</option>
+                                                            <option>19</option>
+                                                            <option>20</option>
+                                                            <option>21</option>
+                                                            <option>22</option>
+                                                            <option>23</option>
+                                                            <option>24</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsGift_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doGift_btn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalUploadCustomInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalUploadCustomInfoLable">
+                                导入客户明细
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>文件</label>
+                                    <div class="col-sm-10">
+                                        <input id="uploadCustomInfoInput" class="filename" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsUploadCustomInfo_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doUploadCustomInfo_btn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalUploadInvestInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalUploadInvestInfoLable">
+                                导入投资明细
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>文件</label>
+                                    <div class="col-sm-10">
+                                        <input id="uploadInvestInfoInput" class="filename" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsUploadInvestInfo_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doUploadInvestInfo_btn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalUploadBackMoneyInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                x
+                            </button>
+                            <h4 class="modal-title" id="myModalUploadBackMoneyInfoLable">
+                                导入回款明细
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>文件</label>
+                                    <div class="col-sm-10">
+                                        <input id="uploadBackMoneyInfoInput" class="filename" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" id="clsUploadBackMoneyInfo_btn">关闭</button>
+                            <button type="button" class="btn btn-primary" id="doUploadBackMoneyInfo_btn">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="background-color: #00c0ef;margin-left: 0px;margin-right: 0px;">
+                <div class="btn-group" id="filterGroup">
+                    <button type="button" class="btn bg-maroon btn-flat">自定义</button>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;margin-left: 0px;margin-right: 0px;">
+            <div id="toolbar" class="btn-group">
+                <!--<button id="deatail_btn" type="button" class="btn bg-olive">
+                    <span class="glyphicon glyphicon-search"></span>查看
+                </button>-->
+                <button id="add_btn" type="button" class="btn bg-orange">
+                    <!--<i class="glyphicon glyphicon-plus">新增</i>-->
+                    <span class="glyphicon glyphicon-plus-sign"></span>新增
+                </button>
+                <button id="edit_btn" type="button" class="btn bg-purple">
+                    <span class="glyphicon glyphicon-pencil"></span>修改
+                </button>
+                <button id="dele_btn" type="button" class="btn bg-red">
+                    <span class="glyphicon glyphicon-trash"></span>删除
+                </button>
+                <button id="msg_btn" type="button" class="btn bg-olive">
+                    <span class="glyphicon glyphicon-envelope"></span>短信(选中)
+                </button>
+                <button id="msg_all_btn" type="button" class="btn bg-olive">
+                    <span class="glyphicon glyphicon-envelope"></span>短信(全部)
+                </button>
+                <button id="export_btn" type="button" class="btn bg-orange">
+                    <span class="glyphicon glyphicon-export"></span>导出
+                </button>
+                <button id="uploadCustomInfo_btn" type="button" class="btn bg-purple">
+                    <span class="glyphicon glyphicon-import"></span>导入客户明细
+                </button>
+                <button id="uploadInvestInfo_btn" type="button" class="btn bg-olive">
+                    <span class="glyphicon glyphicon-import"></span>导入投资明细
+                </button>
+                <button id="uploadBackMoneyInfo_btn" type="button" class="btn bg-orange">
+                    <span class="glyphicon glyphicon-import"></span>导入回款明细
+                </button>
+                <button id="gift_btn" type="button" class="btn bg-purple">
+                    <span class="glyphicon glyphicon-gift"></span>客户奖励
+                </button>
+            </div>
+            <table id="example2" class="table table-bordered display text-center cell-border table-hover">
+                <thead>
+                <tr>
+                    <th><input name="allChecked" type="checkbox"></th>
+                    <th>客户id</th>
+                    <th>姓名</th>
+                    <th>注册手机号</th>
+                    <th>性别</th>
+                    <th>客户本人邀请码</th>
+                    <th>生日</th>
+                    <th>客户渠道</th>
+                    <th>当日在投余额</th>
+                    <th>当日账户余额</th>
+                    <th>当日新增投资额</th>
+                    <th>总投资笔数</th>
+                    <th>累计投资额</th>
+                    <th>累计年化投资额</th>
+                    <th>累计邀请投资人数</th>
+                    <th>累计邀请投资额</th>
+                    <th>累计邀请年化投资额</th>
+                    <th>客户标签</th>
+                    <th>客户区域</th>
+                    <th>首次注册VIP时间</th>
+                    <!--<th>操作</th>-->
+                </tr>
+                </thead>
+                <tbody class="">
+
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th><input name="allChecked" type="checkbox"></th>
+                    <th>客户id</th>
+                    <th>姓名</th>
+                    <th>注册手机号</th>
+                    <th>性别</th>
+                    <th>客户本人邀请码</th>
+                    <th>生日</th>
+                    <th>客户渠道</th>
+                    <th>当日在投余额</th>
+                    <th>当日账户余额</th>
+                    <th>当日新增投资额</th>
+                    <th>总投资笔数</th>
+                    <th>累计投资额</th>
+                    <th>累计年化投资额</th>
+                    <th>累计邀请投资人数</th>
+                    <th>累计邀请投资额</th>
+                    <th>累计邀请年化投资额</th>
+                    <th>客户标签</th>
+                    <th>客户区域</th>
+                    <th>首次注册VIP时间</th>
+                    <!--<th>操作</th>-->
+                </tr>
+                </tfoot>
+            </table>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/web/js/require.js"></script>
+<script src="/web/js/jquery-2.2.3.min.js"></script>
+<script src="/web/css/icheck/icheck.min.js"></script>
+<script>
+    var customer;
+    $(function () {
+        require(['/web/html/js/customer_cp.js'], function (customer_cp) {
+            customer = customer_cp;
+        });
+
+    });
+</script>
+</body>
+</html>

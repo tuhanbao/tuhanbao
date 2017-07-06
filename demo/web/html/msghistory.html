@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.css">
+    <link rel="stylesheet" href="/web/css/AdminLTE.css">
+    <link rel="stylesheet" href="/web/css/ionicons.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.css">
+    <link rel="stylesheet" href="/web/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/web/css/icheck/all.css">
+    <link rel="stylesheet" href="/web/css/sweetalert.css">
+    <link rel="stylesheet" href="/web/js/datatables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+</head>
+<body>
+<section class="content-header">
+    <h1>
+        我的工作台
+        <small>短信管理</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>主页</a></li>
+        <li><a href="#">我的工作台</a></li>
+        <li><a href="#">短信管理</a></li>
+        <li class="active">发送历史记录</li>
+    </ol>
+</section>
+<section class="content" style="">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">历史记录</h3>
+        </div>
+        <div class="modal fade" id="myModalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            x
+                        </button>
+                        <h4 class="modal-title" id="myModalMsgLable">
+                            短信详情
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label for="msgNameNew" class="col-sm-2 control-label">短信名称</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="msgNameNew" placeholder="短信名称">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNew" class="col-sm-2 control-label">发送对象</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="phoneNew" placeholder="发送对象">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">发送日期</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="sendDateNew" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group" style="display: none;">
+                                <label class="control-label col-sm-2">发送状态</label>
+                                <div class="col-sm-10">
+                                    <select name="" id="sendStatusNew" class="form-control">
+                                        <option value="">--</option>
+                                        <option value="0">发送成功</option>
+                                        <!--<option value="1">待发送</option>-->
+                                        <option value="2">发送失败</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">内容</label>
+                                <div class="col-sm-4">
+                                    <textarea id="sendContentNew" cols="62" rows="10"></textarea>
+                                    <!--<textarea type="text" id="sendContentNew" class="form-control"></textarea>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="clsMsg_btn">关闭</button>
+                        <button type="button" class="btn btn-primary" style="display: none;" id="doMsg_btn">保存</button>
+                        <button type="button" class="btn btn-primary" style="display: none;" id="updateMsg_btn">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                        <label class="control-label col-sm-1">短信名称</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="msgName">
+                        </div>
+                        <label class="control-label col-sm-1">发送对象</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                    <!--</div>
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;margin-top: 10px;">-->
+                        <label class="control-label col-sm-1">发送时间</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="sendDateStart" class="form-control">
+                        </div>
+                        <label class="control-label" style="text-align: center;color: red;float: left">至</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="sendDateEnd" class="form-control">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;margin-top: 10px;">
+                        <!--<label class="control-label col-sm-1">发送状态</label>-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<select name="" id="sendStatus" class="form-control">-->
+                                <!--<option value="">&#45;&#45;</option>-->
+                                <!--<option value="0">发送成功</option>-->
+                                <!--&lt;!&ndash;<option value="1">待发送</option>&ndash;&gt;-->
+                                <!--<option value="2">发送失败</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                        <button id="search_btn" type="button" class="btn btn-default col-sm-1">
+                            搜索
+                        </button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row"  style="margin-left: 2px;">
+                        <div id="toolbar" class="btn-group">
+                            <button id="detailBtn" type="button" class="btn bg-olive">
+                                <!--<i class="glyphicon glyphicon-search">搜索</i>-->
+                                <span class="glyphicon glyphicon-search"></span>查看
+                                <!--<span class="fa fa-fw fa-gg-circle"></span>搜索-->
+                            </button>
+                            <!--<button type="button" class="btn bg-purple">-->
+                                <!--<span class="glyphicon glyphicon-pencil"></span>编辑-->
+                            <!--</button>-->
+                            <button type="button" class="btn bg-red" id="deleteBtn">
+                                <span class="glyphicon glyphicon-trash"></span>删除
+                            </button>
+                        </div>
+                        <table id="example2" class="table table-bordered display text-center cell-border table-hover">
+                                <thead>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>短信名称</th>
+                                    <th>发送对象</th>
+                                    <th>发送日期</th>
+                                    <th>内容</th>
+                                </tr>
+                                </thead>
+                                <tbody class="">
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>短信名称</th>
+                                    <th>发送对象</th>
+                                    <th>发送日期</th>
+                                    <th>内容</th>
+                                </tr>
+                                </tfoot>
+                        </table>
+                    </div>
+                </div>
+                </div>
+        </div>
+    </div>
+
+</section>
+</body>
+<script src="/web/js/require.js"></script>
+<script src="/web/js/jquery-2.2.3.min.js"></script>
+<!--<script src="/web/css/icheck/icheck.min.js"></script>-->
+<script>
+    $(function () {
+        require(['/web/html/js/msghistory.js'], function (msghistory) {
+
+        });
+
+    });
+</script>
+</html>

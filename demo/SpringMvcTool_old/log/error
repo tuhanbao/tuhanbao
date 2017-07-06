@@ -1,0 +1,257 @@
+[2016-12-23 10:43:01,321][ERROR][main]java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+[2016-12-23 10:57:37,325][ERROR][main]java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
+[2016-12-23 17:23:22,006][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'test'
+[2016-12-23 17:23:22,011][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'test'
+[2016-12-23 17:23:22,015][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'test'
+[2016-12-23 17:23:22,019][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'test'
+[2016-12-23 17:23:22,023][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'test'
+[2017-01-03 14:15:03,036][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:03,743][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:04,053][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:04,732][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:04,975][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:05,227][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:05,284][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:05,340][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:06,090][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:06,146][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:06,454][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:42,696][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:43,337][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:43,643][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:44,341][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:44,574][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:44,809][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:44,861][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:44,914][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:45,654][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:45,709][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-03 14:15:46,025][ERROR][main]java.sql.SQLRecoverableException: Listener refused the connection with the following error:
+ORA-12514, TNS:listener does not currently know of service requested in connect descriptor
+ 
+[2017-01-05 13:26:16,318][ERROR][main]java.lang.NullPointerException
+[2017-01-10 16:43:33,499][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-01-12 13:11:57,116][ERROR][main]java.lang.NullPointerException
+[2017-01-19 13:48:42,787][ERROR][main]java.lang.NullPointerException
+[2017-01-19 16:18:59,773][ERROR][main]java.lang.IllegalArgumentException: No enum constant com.tuhanbao.io.impl.tableUtil.DataType.OPERATORTYPE
+[2017-01-19 16:22:59,596][ERROR][main]java.lang.IllegalArgumentException: No enum constant com.tuhanbao.io.impl.tableUtil.DataType.OPERATORTYPE
+[2017-02-09 18:00:19,425][ERROR][main]java.lang.NullPointerException
+[2017-05-09 15:53:25,758][ERROR][main]java.lang.NullPointerException
+[2017-05-09 15:53:54,613][ERROR][main]java.lang.NullPointerException
+[2017-05-22 14:00:51,281][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:00:51,304][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:00:51,305][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:00:51,337][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:00:51,540][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:02:39,572][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:02:39,579][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:02:39,581][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:02:39,612][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:02:39,801][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:03:00,672][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:03:00,680][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:03:00,681][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:03:00,712][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:03:00,906][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:04:28,664][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:04:28,671][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:04:28,673][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:04:28,706][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:04:28,892][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:05:37,028][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:05:37,034][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:05:37,036][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:05:37,069][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:05:37,255][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:08:43,663][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:08:43,670][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:08:43,672][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:08:43,705][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:08:43,893][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:09:36,310][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:09:36,318][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:09:36,320][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:09:36,353][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:09:36,539][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:12:10,851][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:12:10,858][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:12:10,860][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:12:10,892][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:12:11,108][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:13:28,180][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:13:28,187][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:13:28,188][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:13:28,221][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:13:28,406][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:13:31,777][ERROR][main]java.lang.NullPointerException
+[2017-05-22 14:16:45,041][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:16:45,048][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:16:55,412][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:16:55,449][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:16:59,940][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:18:03,199][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:18:03,206][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:18:06,428][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:18:06,465][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:18:14,493][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:18:14,500][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:32:11,864][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:32:11,871][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:32:11,909][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:55:37,196][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:55:37,204][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:55:37,242][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 14:56:14,755][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 14:56:14,762][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 14:56:14,802][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:00:30,983][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:00:30,990][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:00:31,031][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:01:37,425][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:01:37,431][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:01:37,469][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:02:25,577][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:02:25,584][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:02:25,624][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:05:11,407][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:05:11,411][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:05:11,446][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:09:15,655][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:09:15,663][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:09:15,704][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:12:04,360][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:12:04,366][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:12:04,405][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:13:26,957][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:13:26,963][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:13:26,999][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:17:57,456][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:17:57,462][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:17:57,497][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:25:12,276][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:25:12,282][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:25:12,322][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:30:24,325][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:30:24,330][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:30:24,364][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:52:31,360][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:52:31,366][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:52:31,400][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:54:29,256][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:54:29,261][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:54:29,297][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:57:02,800][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:57:02,804][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:57:02,839][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 15:58:46,707][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 15:58:46,712][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 15:58:46,746][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:03:23,687][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:03:23,691][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:03:23,724][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:05:28,654][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:05:28,659][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:05:28,695][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:06:00,125][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:06:00,129][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:06:00,165][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:06:32,255][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:06:32,260][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:06:32,294][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:09:27,551][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:09:27,556][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:09:27,590][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:19:23,242][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:19:23,248][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:19:23,282][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:21:05,828][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:21:05,835][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:21:05,878][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:22:41,554][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:22:41,560][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:22:41,607][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:25:04,578][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:25:04,585][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:25:04,629][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:25:55,498][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:25:55,503][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:25:55,540][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:28:28,218][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:28:28,223][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:28:28,256][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:29:28,506][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:29:28,511][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:29:28,546][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:29:58,723][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:29:58,730][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:29:58,782][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:33:20,321][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:33:20,328][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:33:20,371][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:35:00,376][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:35:00,381][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:35:00,414][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:36:59,025][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:36:59,029][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:36:59,065][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:48:42,151][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:48:42,157][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:48:42,190][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-22 16:49:13,081][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-22 16:49:13,086][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-22 16:49:13,120][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-23 13:37:10,642][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-23 13:37:10,662][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-23 13:37:10,749][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-23 14:19:25,496][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-23 14:19:25,501][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-23 14:19:25,536][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-23 14:20:07,079][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-23 14:20:07,084][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig
+[2017-05-23 14:20:07,118][ERROR][main]java.lang.InstantiationException: com.tuhanbao.base.chain.IEventHandler
+[2017-05-24 17:20:06,946][ERROR][main]java.lang.ExceptionInInitializerError
+[2017-05-24 17:20:06,967][ERROR][main]java.lang.NoClassDefFoundError: Could not initialize class com.tuhanbao.thirdapi.cache.redis.RedisConfig

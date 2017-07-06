@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>生日提醒</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.css">
+    <link rel="stylesheet" href="/web/css/AdminLTE.css">
+    <link rel="stylesheet" href="/web/css/ionicons.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.css">
+    <link rel="stylesheet" href="/web/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/web/css/icheck/all.css">
+    <link rel="stylesheet" href="/web/css/sweetalert.css">
+</head>
+<body>
+<section class="content-header">
+    <h1>
+        我的工作台
+        <small>生日提醒</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>主页</a></li>
+        <li><a href="#">我的工作台</a></li>
+        <li class="active">生日提醒</li>
+    </ol>
+</section>
+
+<section class="content" style="">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">生日提醒</h3>
+        </div>
+        <div class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                        <label for="customId" class="control-label col-sm-1">客户Id</label>
+                        <div class="col-sm-2">
+                            <input type="text" class="form-control" id="customId" name="customerId" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                        </div>
+                        <label for="customName" class="control-label col-sm-1">客户姓名</label>
+                        <div class="col-sm-2">
+                            <input id="customName" name="customName" type="text" class="form-control" maxlength="20" required/>
+                        </div>
+                        <label for="tel" class="control-label col-sm-1">手机号</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="tel" name="tel" class="form-control" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                        </div>
+                        <label for="sex" class="control-label col-sm-1">性别</label>
+                        <div class="col-sm-2">
+                            <select id="sex" name="sex" class="form-control">
+                                <option value="">--</option>
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;margin-top: 15px;">
+                        <label for="startDate" class="control-label col-sm-1">生日(月)</label>
+                        <div class="col-sm-2">
+                            <!--<input type="date" id="startDate" class="form-control">-->
+                            <select id="startDate" name="startDate" class="form-control">
+                                <option value="">--</option>
+                                <option value="1">1月</option>
+                                <option value="2">2月</option>
+                                <option value="3">3月</option>
+                                <option value="4">4月</option>
+                                <option value="5">5月</option>
+                                <option value="6">6月</option>
+                                <option value="7">7月</option>
+                                <option value="8">8月</option>
+                                <option value="9">9月</option>
+                                <option value="10">10月</option>
+                                <option value="11">11月</option>
+                                <option value="12">12月</option>
+                            </select>
+                        </div>
+                        <!--<label class="control-label" style="text-align: center;color: red;float: left">至</label>-->
+                        <label for="endDate" class="control-label col-sm-1">生日(日)</label>
+                        <div class="col-sm-2">
+                        <!--<select id="endDate" name="endDate" class="form-control">-->
+                            <!--<option selected>&#45;&#45;</option>-->
+                            <!--&lt;!&ndash;默认选中，动态生成option &ndash;&gt;-->
+                        <!--</select>-->
+                            <select id="endDate" name="endDate" class="form-control">
+                                <option value="">--</option>
+                                <option value="1">1号</option>
+                                <option value="2">2号</option>
+                                <option value="3">3号</option>
+                                <option value="4">4号</option>
+                                <option value="5">5号</option>
+                                <option value="6">6号</option>
+                                <option value="7">7号</option>
+                                <option value="8">8号</option>
+                                <option value="9">9号</option>
+                                <option value="10">10号</option>
+                                <option value="11">11号</option>
+                                <option value="12">12号</option>
+                                <option value="13">13号</option>
+                                <option value="14">14号</option>
+                                <option value="15">15号</option>
+                                <option value="16">16号</option>
+                                <option value="17">17号</option>
+                                <option value="18">18号</option>
+                                <option value="19">19号</option>
+                                <option value="20">20号</option>
+                                <option value="21">21号</option>
+                                <option value="22">22号</option>
+                                <option value="23">23号</option>
+                                <option value="24">24号</option>
+                                <option value="25">25号</option>
+                                <option value="26">26号</option>
+                                <option value="27">27号</option>
+                                <option value="28">28号</option>
+                                <option value="29">29号</option>
+                                <option value="30">30号</option>
+                                <option value="31">31号</option>
+                            </select>
+                        </div>
+                        <button id="search_btn" type="button" class="btn bg-orange">搜索</button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row" style="margin-top: 15px;margin-left: 2px;margin-right: 0px;">
+                            <div id="toolbar" class="btn-group">
+                                <button type="button" class="btn bg-olive" id="msg_btn">
+                                    <span class="glyphicon glyphicon-envelope"></span>短信(选中)
+                                </button>
+                                <button id="msg_all_btn" type="button" class="btn bg-olive">
+                                    <span class="glyphicon glyphicon-envelope"></span>短信(全部)
+                                </button>
+                                <button type="button" class="btn bg-purple" id="gift_btn">
+                                    <span class="glyphicon glyphicon-gift"></span>客户奖励
+                                </button>
+                            </div>
+                            <table id="example2" class="table table-bordered display text-center cell-border table-hover">
+                                <thead>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>客户id</th>
+                                    <th>姓名</th>
+                                    <th>注册手机号</th>
+                                    <th>性别</th>
+                                    <th>生日</th>
+                                    <th>地址</th>
+                                </tr>
+                                </thead>
+                                <tbody class="">
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>客户id</th>
+                                    <th>姓名</th>
+                                    <th>注册手机号</th>
+                                    <th>性别</th>
+                                    <th>生日</th>
+                                    <th>地址</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="modal fade" id="myModalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            x
+                                        </button>
+                                        <h4 class="modal-title" id="myModalMsgLable">
+                                            发送短信
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>短信名称</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="messageName" placeholder="短信名称" maxlength="20" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="messageContent" class="col-sm-2 control-label"><span style="color:red">*</span>短信内容</label>
+                                                <div class="col-sm-10">
+                                                    <!--<input type="" class="form-control" id="messageContent" placeholder="数字越小越靠前">-->
+                                                    <textarea id="messageContent" rows="3" cols="20" class="form-control">
+
+                                        </textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">发送类型</label>
+                                                <div class="col-sm-10" style="margin-top: 7px;">
+                                                    <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                                    <label>
+                                                        <input type="radio" name="msgSendType" class="flat-red" checked value="0">
+                                                        立即发送
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="msgSendType" class="flat-red" value="1">
+                                                        定时发送
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="msgDate" style="display: none;">
+                                                <label class="col-sm-2 control-label"></label>
+                                                <div class="col-sm-10">
+                                                    <div id="msgdatebody">
+                                                        <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                            <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                    <input type="date" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-5" style="margin-left: 10px;">
+                                                                <div class="form-group">
+                                                                    <select class="form-control select2">
+                                                                        <option selected="selected">1</option>
+                                                                        <option>2</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" id="clsMessage_btn">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="doMessage_btn">保存</button>
+                                        <button type="button" class="btn btn-primary" id="doMessageAll_btn" style="display: none;">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="myModalGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            x
+                                        </button>
+                                        <h4 class="modal-title" id="myModalGiftLable">
+                                            奖励
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>奖励名称</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="giftName" placeholder="奖励名称" maxlength="20" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="messageContent" class="col-sm-2 control-label">奖励券</label>
+                                                <div class="col-sm-10">
+                                                    <!--<div class="row" >-->
+                                                    <!--<label class="col-sm-4">-->
+                                                    <select id="awardSelect"  class="form-control select2">
+                                                        <option selected="selected" value="1119">奖励券1</option>
+                                                        <option value="1119">奖励券2</option>
+                                                    </select>
+                                                    <!--</label>-->
+                                                    <!--</div>-->
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>农庄积分</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="jifenGift" placeholder="农庄积分       " maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">发放类型</label>
+                                                <div class="col-sm-10" style="margin-top: 7px;">
+
+                                                    <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                                    <label>
+                                                        <input type="radio" name="giftSendType" class="flat-red" checked value="0">
+                                                        立即发放
+                                                    </label>
+                                                    <label>
+                                                        <input type="radio" name="giftSendType" class="flat-red" value="1">
+                                                        预约发放
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" id="giftDate" style="display: none;">
+                                                <label class="col-sm-2 control-label"></label>
+                                                <div class="col-sm-10">
+                                                    <div id="giftbody">
+                                                        <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                            <div class="col-sm-5">
+                                                                <div class="form-group">
+                                                                    <input type="date" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-5" style="margin-left: 10px;">
+                                                                <div class="form-group">
+                                                                    <select class="form-control select2">
+                                                                        <option selected="selected">1</option>
+                                                                        <option>2</option>
+                                                                        <option>3</option>
+                                                                        <option>4</option>
+                                                                        <option>5</option>
+                                                                        <option>6</option>
+                                                                        <option>7</option>
+                                                                        <option>8</option>
+                                                                        <option>9</option>
+                                                                        <option>10</option>
+                                                                        <option>11</option>
+                                                                        <option>12</option>
+                                                                        <option>13</option>
+                                                                        <option>14</option>
+                                                                        <option>15</option>
+                                                                        <option>16</option>
+                                                                        <option>17</option>
+                                                                        <option>18</option>
+                                                                        <option>19</option>
+                                                                        <option>20</option>
+                                                                        <option>21</option>
+                                                                        <option>22</option>
+                                                                        <option>23</option>
+                                                                        <option>24</option>                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" id="clsGift_btn">关闭</button>
+                                        <button type="button" class="btn btn-primary" id="doGift_btn">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/web/js/require.js"></script>
+<script src="/web/js/jquery-2.2.3.min.js"></script>
+<script src="/web/css/icheck/icheck.min.js"></script>
+<script>
+    $(function () {
+        require(['/web/html/js/birthdayWarn.js'], function (customer) {
+
+        });
+
+    });
+    function move() {
+        var s1=document.getElementById("startDate");
+        var s2=document.getElementById("endDate");
+        var add;
+        if (s1.value === "") {
+            add = new Array("");
+        } else  if (s1.value === "1" || s1.value === "3" || s1.value === "5" || s1.value === "7" || s1.value === "8" || s1.value === "10" || s1.value === "12"){
+//            for (var i=1;i<32;i++)
+//            {
+//                add = new Array(i);
+//            }
+            add = new Array("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","24","25","26","27","28","29","30","31");
+        } else if (s1.value === "4" || s1.value === "6" || s1.value === "9" || s1.value === "11") {
+//            for (var i=1;i<31;i++)
+//            {
+//                add = new Array(i);
+//            }
+            add = new Array("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","24","25","26","27","28","29","30");
+        } else if (s1.value === "2"){
+//            for (var i=1;i<30;i++)
+//            {
+//                add = new Array(i);
+//            }
+            add = new Array("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","24","25","26","27","28","29");
+        } else if (s1.value === "--") {
+            add = new Array("--");
+        } else {
+            add = null;
+        }
+        s2.length=0;
+        for(var i=0;i<add.length;i++)
+        {
+            var ss=new Option();
+            ss.text=add[i].split()[0];
+
+            s2.add(ss);
+            <!--把text值添加到二级select中，显示出来-->
+        }
+
+
+
+    }
+   // $('input[required]').before('<span style="color:red">*</span>');
+</script>
+<script>
+    var oDate = new Date();
+    var day = oDate.getDate();
+    var month = oDate.getMonth() + 1;
+    document.getElementById("startDate").value = month;
+    document.getElementById("endDate").value = day;
+</script>
+</body>
+</html>

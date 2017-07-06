@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>回款计划</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.css">
+    <link rel="stylesheet" href="/web/css/AdminLTE.css">
+    <link rel="stylesheet" href="/web/css/ionicons.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.css">
+    <link rel="stylesheet" href="/web/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/web/css/icheck/all.css">
+    <link rel="stylesheet" href="/web/css/sweetalert.css">
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.css">
+</head>
+<body>
+<section class="content-header">
+    <h1>
+        我的工作台
+        <small>回款计划</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>主页</a></li>
+        <li><a href="#">我的工作台</a></li>
+        <li class="active">回款计划</li>
+    </ol>
+</section>
+
+<section class="content" style="">
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">回款计划</h3>
+        </div>
+        <div class="form-horizontal">
+            <div class="box-body">
+                <div class="form-group">
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+                        <label for="customId" class="control-label col-sm-1">客户Id</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="customId" class="form-control" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                        </div>
+                        <label for="customName" class="control-label col-sm-1">客户姓名</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="customName" class="form-control" maxlength="20" required/>
+                        </div>
+                        <label for="tel" class="control-label col-sm-1">注册手机号</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="tel" class="form-control" maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+                        </div>
+                        <label for="projectName" class="control-label col-sm-1">项目名称</label>
+                        <div class="col-sm-2">
+                            <input type="text" id="projectName" class="form-control" size="6" maxlength="20" required/>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-left: 0px;margin-right: 0px;margin-top: 15px;">
+                        <label for="status" class="control-label col-sm-1">状态</label>
+                        <div class="col-sm-2">
+                            <select id="status" name="status" class="form-control">
+                                <option value="">--</option>
+                                <option value="1">已回款</option>
+                                <option value="2">未回款</option>
+                            </select>
+                        </div>
+                        <label for="startDate" class="control-label col-sm-1">回款时间</label>
+                        <div class="col-sm-2">
+                            <input type="date" id="startDate" class="form-control">
+                        </div>
+                        <label class="control-label" style="text-align: center;color: red;float: left">至</label>
+                        <div class="col-sm-2">
+                            <input type="date" id="endDate" class="form-control">
+                        </div>
+                        <button id="search_btn" button type="button" class="btn bg-orange">搜索</button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row" style="margin-top: 15px;margin-left: 2px;margin-right: 0px;">
+                            <div id="toolbar" class="btn-group">
+                                <button type="button" class="btn bg-olive" id="msg_btn">
+                                    <span class="glyphicon glyphicon-envelope"></span>短信(选中)
+                                </button>
+                                <button id="msg_all_btn" type="button" class="btn bg-olive">
+                                    <span class="glyphicon glyphicon-envelope"></span>短信(全部)
+                                </button>
+                                <button  id="gift_btn" type="button" class="btn bg-purple">
+                                    <span class="glyphicon glyphicon-gift"></span>客户奖励
+                                </button>
+                            </div>
+                            <div class="modal fade" id="myModalMsg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                x
+                                            </button>
+                                            <h4 class="modal-title" id="myModalMsgLable">
+                                                发送短信
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>短信名称</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="messageName" placeholder="短信名称" maxlength="20" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="messageContent" class="col-sm-2 control-label"><span style="color:red">*</span>短信内容</label>
+                                                    <div class="col-sm-10">
+                                                        <!--<input type="" class="form-control" id="messageContent" placeholder="数字越小越靠前">-->
+                                                        <textarea id="messageContent" rows="3" cols="20" class="form-control" maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)">
+
+                                        </textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">发送类型</label>
+                                                    <div class="col-sm-10" style="margin-top: 7px;">
+                                                        <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                                        <label>
+                                                            <input type="radio" name="msgSendType" class="flat-red" checked value="0">
+                                                            立即发送
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="msgSendType" class="flat-red" value="1">
+                                                            定时发送
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" id="msgDate" style="display: none;">
+                                                    <label class="col-sm-2 control-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <div id="msgdatebody">
+                                                            <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group">
+                                                                        <input type="date" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5" style="margin-left: 10px;">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control select2">
+                                                                            <option selected="selected">1</option>
+                                                                            <option>2</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" id="clsMessage_btn">关闭</button>
+                                            <button type="button" class="btn btn-primary" id="doMessage_btn">保存</button>
+                                            <button type="button" class="btn btn-primary" id="doMessageAll_btn" style="display: none;">保存</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="myModalGift" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                x
+                                            </button>
+                                            <h4 class="modal-title" id="myModalGiftLable">
+                                                奖励
+                                            </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-horizontal">
+                                                <div class="form-group">
+                                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>奖励名称</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="giftName" placeholder="奖励名称" maxlength="20" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="messageContent" class="col-sm-2 control-label">奖励券</label>
+                                                    <div class="col-sm-10">
+                                                        <!--<div class="row" >-->
+                                                        <!--<label class="col-sm-4">-->
+                                                        <select id="awardSelect"  class="form-control select2">
+                                                            <option selected="selected" value="1119">奖励券1</option>
+                                                            <option value="1119">奖励券2</option>
+                                                        </select>
+                                                        <!--</label>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="messageName" class="col-sm-2 control-label"><span style="color:red">*</span>农庄积分</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="jifenGift" placeholder="农庄积分       " maxlength="20" required onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">发放类型</label>
+                                                    <div class="col-sm-10" style="margin-top: 7px;">
+
+                                                        <!--<input type="text" class="form-control" id="conditionfilter" placeholder="数字越小越靠前">-->
+                                                        <label>
+                                                            <input type="radio" name="giftSendType" class="flat-red" checked value="0">
+                                                            立即发放
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="giftSendType" class="flat-red" value="1">
+                                                            预约发放
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" id="giftDate" style="display: none;">
+                                                    <label class="col-sm-2 control-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <div id="giftbody">
+                                                            <div class="row" style="margin-top: 10px;margin-left: 0px;">
+                                                                <div class="col-sm-5">
+                                                                    <div class="form-group">
+                                                                        <input type="date" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5" style="margin-left: 10px;">
+                                                                    <div class="form-group">
+                                                                        <select class="form-control select2">
+                                                                            <option selected="selected">1</option>
+                                                                            <option>2</option>
+                                                                            <option>3</option>
+                                                                            <option>4</option>
+                                                                            <option>5</option>
+                                                                            <option>6</option>
+                                                                            <option>7</option>
+                                                                            <option>8</option>
+                                                                            <option>9</option>
+                                                                            <option>10</option>
+                                                                            <option>11</option>
+                                                                            <option>12</option>
+                                                                            <option>13</option>
+                                                                            <option>14</option>
+                                                                            <option>15</option>
+                                                                            <option>16</option>
+                                                                            <option>17</option>
+                                                                            <option>18</option>
+                                                                            <option>19</option>
+                                                                            <option>20</option>
+                                                                            <option>21</option>
+                                                                            <option>22</option>
+                                                                            <option>23</option>
+                                                                            <option>24</option>                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" id="clsGift_btn">关闭</button>
+                                            <button type="button" class="btn btn-primary" id="doGift_btn">保存</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <table id="example2" class="table table-bordered display text-center cell-border table-hover">
+                                <thead>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>客户id</th>
+                                    <th>姓名</th>
+                                    <th>注册手机号</th>
+                                    <th>项目名称</th>
+                                    <th>本金</th>
+                                    <th>收益</th>
+                                    <th>状态</th>
+                                    <th>回款日</th>
+                                </tr>
+                                </thead>
+                                <tbody class="">
+
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th><input name="allChecked" type="checkbox"></th>
+                                    <th>客户id</th>
+                                    <th>姓名</th>
+                                    <th>注册手机号</th>
+                                    <th>项目名称</th>
+                                    <th>本金</th>
+                                    <th>收益</th>
+                                    <th>状态</th>
+                                    <th>回款日</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/web/js/require.js"></script>
+<script src="/web/js/jquery-2.2.3.min.js"></script>
+<script src="/web/css/icheck/icheck.min.js"></script>
+<script src="/web/css/icheck/icheck.min.js"></script>
+<script>
+    $(function () {
+        require(['/web/html/js/earningPlan.js'], function (earningsPlan) {
+
+        });
+
+    });
+
+</script>
+<script>
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    var start = new Date();
+    document.getElementById("startDate").value = start.Format("yyyy-MM-dd");
+    var end = start.setMonth(start.getMonth()+1);
+    var d = new Date(end);
+    //    var end = start.addMonths(1);
+    console.log(start.Format("yyyy-MM-dd"));
+    console.log(d.Format("yyyy-MM-dd"));
+    document.getElementById("endDate").value = d.Format("yyyy-MM-dd");
+
+</script>
+</body>
+</html>
