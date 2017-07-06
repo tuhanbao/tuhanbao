@@ -1,5 +1,6 @@
 package com.tuhanbao.autotool.mvc.excel;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import com.tuhanbao.autotool.mvc.ProjectConfig;
 import com.tuhanbao.autotool.mvc.SpringMvcProjectInfo;
 import com.tuhanbao.base.chain.Context;
 import com.tuhanbao.base.chain.FilterAnnotation;
-import com.tuhanbao.base.util.io.excel.Excel2007Util;
+import com.tuhanbao.base.util.io.excel.ExcelUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
 
 @FilterAnnotation("parseExcel")
@@ -26,12 +27,31 @@ public class ParseExcelFilter extends ExcelAGCFilter {
         Map<String, String[][]> configs = new HashMap<String, String[][]>();
         
         for (String url : configUrl) {
-            int i = 0;
-            for (String[][] arrays : Excel2007Util.read(url)) {
-                configs.put(Excel2007Util.getSheetName(url, i++), arrays);
-            }
+            readFile(configs, new File(url));
         }
         return configs;
     }
+
+    private void readExcel(Map<String, String[][]> configs, File f) {
+        String url = f.getPath();
+        if (!ExcelUtil.isExcel(url)) return;
+        
+        int i = 0;
+        for (String[][] arrays : ExcelUtil.read(url)) {
+            configs.put(ExcelUtil.getSheetName(url, i++), arrays);
+        }
+    }
+
+    private void readFile(Map<String, String[][]> configs, File f) {
+        if (f.isDirectory()) {
+            for (File item : f.listFiles()) {
+                readFile(configs, item);
+            }
+        }
+        else {
+            readExcel(configs, f);
+        }
+    }
+
 
 }

@@ -8,7 +8,7 @@ import com.tuhanbao.base.util.io.codeGenarator.tableUtil.DBType;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportColumn;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportTable;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.src.TableSrcUtilFactory;
-import com.tuhanbao.base.util.io.excel.Excel2007Util;
+import com.tuhanbao.base.util.io.excel.ExcelUtil;
 import com.tuhanbao.base.util.objutil.ArrayUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
 
@@ -23,12 +23,12 @@ public class ExcelTableSrcManager {
 	 * @param url
 	 */
 	public static void getTables(String url) {
-		String[][][] arrays = Excel2007Util.read(url);
+		String[][][] arrays = ExcelUtil.read(url);
 		
 		initTableConfig(arrays[0]);
 		int length = arrays.length;
 		for (int i = 1; i < length; i++) {
-			String tableName = Excel2007Util.getSheetName(url, i);
+			String tableName = ExcelUtil.getSheetName(url, i);
 			ImportTable table = getTable(tableName, arrays[i], DB_TYPE);
 			TABLES.put(tableName, table);
 		}
