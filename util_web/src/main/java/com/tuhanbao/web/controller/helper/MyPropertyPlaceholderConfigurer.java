@@ -9,6 +9,7 @@ import org.springframework.core.io.Resource;
 
 import com.tuhanbao.base.Constants;
 import com.tuhanbao.base.util.config.ConfigManager;
+import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.base.util.log.LogManager;
 import com.tuhanbao.base.util.objutil.FileUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
@@ -27,9 +28,8 @@ public class MyPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigur
         for (String key : keys) {
             String url = null;
             url = ConfigManager.getPropertiesPath(key);
-            //如果当模式但是找不到debug配置文件，2正常模式
-            if (StringUtil.isEmpty(url) && ConfigManager.getCurrentConfigPattern() != ConfigManager.DEFAULT_CONFIG_PATTERN) {
-                url = ConfigManager.getPropertiesPath(key, ConfigManager.DEFAULT_CONFIG_PATTERN);
+            if (StringUtil.isEmpty(url)) {
+                throw new MyException("can not find properties for : " + key);
             }
             resources[i] = new ClassPathResource(getSimplePath(url));
         }

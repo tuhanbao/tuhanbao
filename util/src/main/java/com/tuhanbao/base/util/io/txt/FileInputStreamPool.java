@@ -1,10 +1,7 @@
 package com.tuhanbao.base.util.io.txt;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import com.tuhanbao.base.Constants;
 import com.tuhanbao.base.util.exception.MyException;
 
 public class FileInputStreamPool {

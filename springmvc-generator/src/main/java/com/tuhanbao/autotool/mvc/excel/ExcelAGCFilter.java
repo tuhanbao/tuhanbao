@@ -46,7 +46,11 @@ public abstract class ExcelAGCFilter implements IChainFilter {
     }
 
     public String[][] removeConfig(Context context, String key) {
-        return ((Map<String, String[][]>)context.get(CONFIG)).remove(key);
+        String[][] config = ((Map<String, String[][]>)context.get(CONFIG)).remove(key + ConfigManager.getCurrentConfigPattern().getName());
+        if (config == null) {
+            config = ((Map<String, String[][]>)context.get(CONFIG)).remove(key);
+        }
+        return config;
     }
 
 }

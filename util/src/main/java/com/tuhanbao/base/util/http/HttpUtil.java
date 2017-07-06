@@ -135,23 +135,21 @@ public class HttpUtil {
         return encode(s, Constants.UTF_8);
     }
 
-    @SuppressWarnings("deprecation")
     public static String encode(String s, String charset) {
         try {
             return URLEncoder.encode(s, charset);
         }
         catch (UnsupportedEncodingException e) {
-            return URLEncoder.encode(s);
+            throw MyException.getMyException(e, "encode error : " + s);
         }
     }
 
-    @SuppressWarnings("deprecation")
     public static String decode(String s) {
         try {
             return URLDecoder.decode(s, Constants.UTF_8);
         }
         catch (UnsupportedEncodingException e) {
-            return URLDecoder.decode(s);
+            throw MyException.getMyException(e, "encode error : " + s);
         }
     }
 }

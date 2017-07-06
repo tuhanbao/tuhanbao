@@ -208,23 +208,21 @@ public class SolidClazzCreator implements IFileGenerator {
     private List<CreateFileEvent> getDBConfigProperties() {
         List<CreateFileEvent> list = new ArrayList<CreateFileEvent>();
 
-        for (ConfigPattern cp : ConfigManager.getAllConfigPattern()) {
-            Map<String, DBSrc> allDebugModules = ModuleManager.getAllModules(cp);
-            if (allDebugModules != null && !allDebugModules.isEmpty()) {
-                String url = FileUtil.appendPath(project.getRootPath(), ((SpringMvcProjectInfo)this.project).getConfigUrl(), cp.getName(), 
-                        "db" + cp.getSuffix() + ".properties");
-                
-                StringBuilder sb = new StringBuilder();
-                for (Map.Entry<String, DBSrc> entry : allDebugModules.entrySet()) {
-                    String module = entry.getKey();
-                    DBSrc src = entry.getValue();
-                    sb.append(getModuleStr1("db_url", module)).append("=").append(src.getUrl()).append(Constants.ENTER);
-                    sb.append(getModuleStr1("db_user", module)).append("=").append(src.getUser()).append(Constants.ENTER);
-                    sb.append(getModuleStr1("db_password", module)).append("=").append(src.getPassword()).append(Constants.ENTER);
-                    sb.append(Constants.ENTER);
-                }
-                list.add(new CreateFileEvent(url, sb.toString()));
+        Map<String, DBSrc> allDebugModules = ModuleManager.getAllModules();
+        if (allDebugModules != null && !allDebugModules.isEmpty()) {
+            String url = FileUtil.appendPath(project.getRootPath(), ((SpringMvcProjectInfo)this.project).getConfigUrl(), ConfigManager.getCurrentConfigPattern().getName(), 
+                    "db.properties");
+            
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, DBSrc> entry : allDebugModules.entrySet()) {
+                String module = entry.getKey();
+                DBSrc src = entry.getValue();
+                sb.append(getModuleStr1("db_url", module)).append("=").append(src.getUrl()).append(Constants.ENTER);
+                sb.append(getModuleStr1("db_user", module)).append("=").append(src.getUser()).append(Constants.ENTER);
+                sb.append(getModuleStr1("db_password", module)).append("=").append(src.getPassword()).append(Constants.ENTER);
+                sb.append(Constants.ENTER);
             }
+            list.add(new CreateFileEvent(url, sb.toString()));
         }
 
         return list;

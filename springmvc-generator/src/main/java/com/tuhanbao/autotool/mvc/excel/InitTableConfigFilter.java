@@ -10,7 +10,7 @@ import com.tuhanbao.base.util.objutil.ArrayUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
 
 @FilterAnnotation("init")
-public class InitConstantsFilter extends ExcelAGCFilter {
+public class InitTableConfigFilter extends ExcelAGCFilter {
     @Override
     public void filter(Context context) {
         removeConfig(context, README);

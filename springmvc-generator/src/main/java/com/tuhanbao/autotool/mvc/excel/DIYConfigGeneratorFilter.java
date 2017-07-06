@@ -193,13 +193,14 @@ public class DIYConfigGeneratorFilter extends ExcelAGCFilter {
         method.setMethodBody("return KEY;");
         clazzInfo.addMethodInfo(method);
         
-        ConfigPattern cp = getConfigPattern(name);
+        String cp = getConfigPattern(name);
+        name = getCleanName(name);
         if (isCreateJava && cp == null) {
             context.addEvent(new CreateFileEvent(clazzInfo, project));
         }
         
         if (cp != null) {
-            context.addEvent(new CreateFileEvent(FileUtil.appendPath(project.getRootPath(), project.getConfigUrl(), cp.getName(),
+            context.addEvent(new CreateFileEvent(FileUtil.appendPath(project.getRootPath(), project.getConfigUrl(), cp,
                     name + Constants.PROPERTIES_SUFFIX), sb.toString()));
         }
         else {
@@ -213,13 +214,24 @@ public class DIYConfigGeneratorFilter extends ExcelAGCFilter {
         
     }
     
-    private static ConfigPattern getConfigPattern(String propertiesName) {
-        for (ConfigPattern cp : ConfigManager.getAllConfigPatternWithoutDefault()) {
-            if (propertiesName.endsWith(cp.getSuffix())) {
-                return cp;
-            }
+    private static String getConfigPattern(String propertiesName) {
+        int indexOf = propertiesName.lastIndexOf("_");
+        if (indexOf != -1) {
+            return propertiesName.substring(indexOf + 1);
         }
-        return null;
+        else {
+            return propertiesName;
+        }
+    }
+
+    private static String getCleanName(String propertiesName) {
+        int indexOf = propertiesName.lastIndexOf("_");
+        if (indexOf != -1) {
+            return propertiesName.substring(0, indexOf);
+        }
+        else {
+            return propertiesName;
+        }
     }
 
 }

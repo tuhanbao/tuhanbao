@@ -17,7 +17,7 @@ import com.tuhanbao.base.util.log.LogManager;
 import com.tuhanbao.base.util.objutil.StringUtil;
 import com.tuhanbao.web.controller.authority.IUser;
 import com.tuhanbao.web.controller.authority.TokenService;
-import com.tuhanbao.web.controller.authority.UserAccessApiInterceptor;
+import com.tuhanbao.web.util.URLUtil;
 
 /**
  * @author: chaoyang.ren
@@ -43,7 +43,7 @@ public class ControllerAdvice {
         HttpServletRequest request = getRequest();
         MethodSignature signature = (MethodSignature)proceedingJoinPoint.getSignature();
         StringBuilder sb = new StringBuilder();
-        String ip = UserAccessApiInterceptor.getRemoteHost(request);
+        String ip = URLUtil.getClientAddr(request);
         sb.append("ip:").append(ip).append(Constants.COMMA);
         TokenService tokenService = TokenService.getInstance();
         if (tokenService != null) {

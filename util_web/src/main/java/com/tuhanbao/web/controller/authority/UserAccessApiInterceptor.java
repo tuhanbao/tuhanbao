@@ -19,6 +19,7 @@ import com.tuhanbao.base.util.objutil.StringUtil;
 import com.tuhanbao.base.util.objutil.TimeUtil;
 import com.tuhanbao.web.ServerManager;
 import com.tuhanbao.web.controller.AdminController;
+import com.tuhanbao.web.util.URLUtil;
 
 /**
  * 2016年10月24日
@@ -50,7 +51,7 @@ public class UserAccessApiInterceptor extends HandlerInterceptorAdapter {
         if (ConfigManager.isMaintaining() && method.getDeclaringClass() != AdminController.class) {
             //如果是超级管理员，依然可以绕过
             if (!isSupperManager(request)) {
-                String ip = UserAccessApiInterceptor.getRemoteHost(request);
+                String ip = URLUtil.getClientAddr(request);
                 if (!isInWhiteList(ip)) {
                     String repaireTime = ConfigManager.getBaseConfig().getString(BaseConfigConstants.REPAIR_TIME);
                     if (!StringUtil.isEmpty(repaireTime)) {
@@ -133,23 +134,6 @@ public class UserAccessApiInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         super.postHandle(request, response, handler, modelAndView);
-    }
-
-    public static String getRemoteHost(HttpServletRequest request) {
-        if (request == null) {
-            return null;
-        }
-        String ip = request.getHeader("x-forwarded-for");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getHeader("WL-Proxy-Client-IP");
-        }
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            ip = request.getRemoteAddr();
-        }
-        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
     }
 
     @Override

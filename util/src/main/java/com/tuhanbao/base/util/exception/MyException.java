@@ -52,6 +52,19 @@ public class MyException extends RuntimeException
         }
     }
 
+    public static MyException getMyException(Throwable t, String myMsg)
+    {
+        if (t instanceof MyException)
+        {
+            return (MyException) t;
+        }
+        else
+        {
+            LogManager.error(t);
+            return new MyException(BaseErrorCode.ERROR, t.getMessage(), myMsg);
+        }
+    }
+
     @Override
     public String toString()
     {

@@ -39,6 +39,12 @@ public final class FileUtil
         return index < 0 ? null : filename.substring(index).toLowerCase();
     }
 
+    /**
+     * 在文件夹f下递归查找名称为name的子文件
+     * @param name
+     * @param f
+     * @return
+     */
     public static File getChildFile(String name, File f) {
         if (f == null) return null;
         File child = null;
@@ -48,6 +54,26 @@ public final class FileUtil
                 if (child == null) continue;
             }
             else {
+                if (file.getName().equals(name)) {
+                    return file;
+                }
+            }
+        }
+
+        return child;
+    }
+    
+    /**
+     * 只在当前目录下寻找
+     * @param name
+     * @param f
+     * @return
+     */
+    public static File getChildFileDirect(String name, File f) {
+        if (f == null) return null;
+        File child = null;
+        for (File file : f.listFiles()) {
+            if (!file.isDirectory()) {
                 if (file.getName().equals(name)) {
                     return file;
                 }

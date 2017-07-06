@@ -14,7 +14,7 @@ import com.tuhanbao.base.util.db.IField;
  * @param <L>
  *
  */
-public  class Selector<T extends IDataGroup<L>, L extends IField> {
+public class Selector<T extends IDataGroup<L>, L extends IField> {
 
     private Set<L> selectFields = new HashSet<>();
     
