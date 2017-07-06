@@ -59,7 +59,7 @@ public class ExcelTemplate {
 			if (!file.exists())
             {
             	if (!file.getParentFile().exists()) FileUtil.createDir(file.getParentFile());
-                Excel2007Util.createXLS(url);
+                ExcelUtil.createXLS(url);
             }
             
 			fi = new FileInputStream(url);
@@ -92,10 +92,10 @@ public class ExcelTemplate {
     		// cloneSheet.set(i, srcSheet.isColumnHidden(i));
     		// cloneSheet.setColumnWidth(i, srcSheet.getColumnWidth(i));
     		// }
-    		Row[] rows = Excel2007Util.getRows(srcSheet);
+    		Row[] rows = ExcelUtil.getRows(srcSheet);
     		if (rows != null && rows.length > 0) {
     			//拷贝column的默认格式
-    			Cell[] cells = Excel2007Util.getCells(rows[0]);
+    			Cell[] cells = ExcelUtil.getCells(rows[0]);
     			for (int i = 0; i < cells.length; i++) {
     				cloneSheet.setColumnHidden(i, srcSheet.isColumnHidden(i));
     				cloneSheet.setColumnWidth(i, srcSheet.getColumnWidth(i));
@@ -111,7 +111,7 @@ public class ExcelTemplate {
     			for (int i = 0; i < rowSize; i++) {
     				Row row = rows[i];
     				if (row == null) continue;
-    				Cell[] cols = Excel2007Util.getCells(row);;
+    				Cell[] cols = ExcelUtil.getCells(row);;
     				int colSize = cols.length;
     				Row cloneRow = cloneSheet.createRow(i);
     				cloneRow.setHeight(row.getHeight());

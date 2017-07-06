@@ -9,7 +9,7 @@ import com.tuhanbao.base.util.io.codeGenarator.tableUtil.DataType;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportColumn;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportTable;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.src.TableSrcUtilFactory;
-import com.tuhanbao.base.util.io.excel.Excel2007Util;
+import com.tuhanbao.base.util.io.excel.ExcelUtil;
 import com.tuhanbao.base.util.io.txt.TxtUtil;
 
 /**
@@ -41,7 +41,7 @@ public class Sql2Excel
             }
         }
         
-        Excel2007Util.createSheet(excelUrl, sheetName, getArray(list));
+        ExcelUtil.createSheet(excelUrl, sheetName, getArray(list));
         
     }
     

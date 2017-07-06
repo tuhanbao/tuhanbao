@@ -28,7 +28,7 @@ public abstract class ChangeExcelUtil
 
     public void change(int index) throws Exception
     {
-        String[][] s = Excel2007Util.read(inFileURL, index);
+        String[][] s = ExcelUtil.read(inFileURL, index);
         
         for (String[] rowValue : s)
         {
@@ -37,11 +37,11 @@ public abstract class ChangeExcelUtil
         
         if (outFileURL.equals(inFileURL))
         {
-            Excel2007Util.writeSheet(inFileURL, index, s);
+            ExcelUtil.writeSheet(inFileURL, index, s);
         }
         else
         {
-            Excel2007Util.createSheet(outFileURL, null, s);
+            ExcelUtil.createSheet(outFileURL, null, s);
         }
     }
     

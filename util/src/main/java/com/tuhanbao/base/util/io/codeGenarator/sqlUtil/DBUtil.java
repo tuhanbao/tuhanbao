@@ -22,7 +22,7 @@ import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportColumn;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportTable;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.XlsTable;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.src.TableSrcUtilFactory;
-import com.tuhanbao.base.util.io.excel.Excel2007Util;
+import com.tuhanbao.base.util.io.excel.ExcelUtil;
 import com.tuhanbao.base.util.log.LogManager;
 
 public class DBUtil
@@ -130,7 +130,7 @@ public class DBUtil
 				result[i++] = data;
 			}
 			baseInfo.add(new String[]{table.getName(), "", "", "NOT", AUTOCREATE, "", "", ""});
-			Excel2007Util.createSheet(url, table.getName(), result);
+			ExcelUtil.createSheet(url, table.getName(), result);
 		}
 		
 		String[][] result = new String[baseInfo.size()][];
@@ -138,7 +138,7 @@ public class DBUtil
 		for (String[] data : baseInfo) {
 			result[i++] = data;
 		}
-		Excel2007Util.createSheet(url, "base", result);
+		ExcelUtil.createSheet(url, "base", result);
     }
     
     /**

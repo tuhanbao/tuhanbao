@@ -19,7 +19,7 @@ import com.tuhanbao.base.util.io.codeGenarator.codeUtil.Xls2CodeUtil;
 import com.tuhanbao.base.util.io.codeGenarator.codeUtil.Xls2JavaUtil;
 import com.tuhanbao.base.util.io.codeGenarator.sqlUtil.DBUtil;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.XlsTable.XlsColumn;
-import com.tuhanbao.base.util.io.excel.Excel2007Util;
+import com.tuhanbao.base.util.io.excel.ExcelUtil;
 import com.tuhanbao.base.util.io.txt.TxtUtil;
 import com.tuhanbao.base.util.objutil.FileUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
@@ -97,7 +97,7 @@ public class TableUtil
      */
     protected static List<XlsTable> getTables(String xlsUrl)
     {
-        String[][][] arrays = Excel2007Util.read(xlsUrl);
+        String[][][] arrays = ExcelUtil.read(xlsUrl);
         List<XlsTable> list = new ArrayList<XlsTable>();
 
         Map<String, String[]> map = new HashMap<String, String[]>();
@@ -113,7 +113,7 @@ public class TableUtil
         for (int i = 1, length = arrays.length; i < length; i++)
         {
             String[][] tableArray = arrays[i];
-            String name = Excel2007Util.getSheetName(xlsUrl, i);
+            String name = ExcelUtil.getSheetName(xlsUrl, i);
             XlsTable table = new XlsTable(name, map.get(name));
             if (map.containsKey(name))
             {
