@@ -6,6 +6,7 @@ import java.util.Map;
 import com.tuhanbao.autotool.mvc.SpringMvcProjectInfo;
 import com.tuhanbao.base.chain.Context;
 import com.tuhanbao.base.chain.IChainFilter;
+import com.tuhanbao.base.util.config.ConfigManager;
 import com.tuhanbao.base.util.io.codeGenarator.tableUtil.ImportTable;
 
 /**

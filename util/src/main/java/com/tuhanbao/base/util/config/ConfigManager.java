@@ -248,4 +248,8 @@ public final class ConfigManager implements ConfigRefreshListener {
     public String getKey() {
         return BASE_CONFIG;
     }
+    
+    public static boolean isDebug() {
+        return CURRENT_CONFIG_PATTERN == ConfigPattern.DEBUG;
+    }
 }
