@@ -87,7 +87,7 @@ public class SolidClazzCreator implements IFileGenerator {
 
     public List<IEvent> getFileBean(Object args) {
         List<IEvent> list = new ArrayList<>();
-        for (Map.Entry<String, DBSrc> entry : ModuleManager.getAllModules().entrySet()) {
+        for (Entry<String, DBSrc> entry : ModuleManager.getModules().entrySet()) {
             String module = entry.getKey();
             DBType dbType = entry.getValue().getDbType();
             list.add(getMapperClass(module));
@@ -208,13 +208,14 @@ public class SolidClazzCreator implements IFileGenerator {
     private List<CreateFileEvent> getDBConfigProperties() {
         List<CreateFileEvent> list = new ArrayList<CreateFileEvent>();
 
-        Map<String, DBSrc> allDebugModules = ModuleManager.getAllModules();
-        if (allDebugModules != null && !allDebugModules.isEmpty()) {
-            String url = FileUtil.appendPath(project.getRootPath(), ((SpringMvcProjectInfo)this.project).getConfigUrl(), ConfigManager.getCurrentConfigPattern().getName(), 
+        for (Entry<ConfigPattern, Map<String, DBSrc>> moduleEntry : ModuleManager.getAllModules().entrySet()) {
+            Map<String, DBSrc> allDebugModules = moduleEntry.getValue();
+            ConfigPattern cp = moduleEntry.getKey();
+            String url = FileUtil.appendPath(project.getRootPath(), ((SpringMvcProjectInfo)this.project).getConfigUrl(), cp.getPath(), 
                     "db.properties");
             
             StringBuilder sb = new StringBuilder();
-            for (Map.Entry<String, DBSrc> entry : allDebugModules.entrySet()) {
+            for (Entry<String, DBSrc> entry : allDebugModules.entrySet()) {
                 String module = entry.getKey();
                 DBSrc src = entry.getValue();
                 sb.append(getModuleStr1("db_url", module)).append("=").append(src.getUrl()).append(Constants.ENTER);
@@ -231,7 +232,7 @@ public class SolidClazzCreator implements IFileGenerator {
     private String getSpringDBXml() {
 
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, DBSrc> entry : ModuleManager.getAllModules().entrySet()) {
+        for (Map.Entry<String, DBSrc> entry : ModuleManager.getModules().entrySet()) {
             String module = entry.getKey();
             String mapper = ((SpringMvcProjectInfo)this.project).getMapperUrl(module);
 

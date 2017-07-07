@@ -169,7 +169,7 @@ public final class ConfigManager implements ConfigRefreshListener {
     }
 
     public static String getPropertiesPath(String key) {
-        File root = new File(FileUtil.appendPath(CONFIG_PATH, CURRENT_CONFIG_PATTERN.getName()));
+        File root = new File(FileUtil.appendPath(CONFIG_PATH, CURRENT_CONFIG_PATTERN.getPath()));
         File childFile = FileUtil.getChildFile(key + ".properties", root);
         if (childFile == null) {
             root = new File(CONFIG_PATH);

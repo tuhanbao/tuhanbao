@@ -193,45 +193,20 @@ public class DIYConfigGeneratorFilter extends ExcelAGCFilter {
         method.setMethodBody("return KEY;");
         clazzInfo.addMethodInfo(method);
         
-        String cp = getConfigPattern(name);
+        ConfigPattern cp = getConfigPattern(name);
         name = getCleanName(name);
         if (isCreateJava && cp == null) {
             context.addEvent(new CreateFileEvent(clazzInfo, project));
         }
         
-        if (cp != null) {
-            context.addEvent(new CreateFileEvent(FileUtil.appendPath(project.getRootPath(), project.getConfigUrl(), cp,
-                    name + Constants.PROPERTIES_SUFFIX), sb.toString()));
-        }
-        else {
-            String url = FileUtil.appendPath(project.getRootPath(), project.getConfigUrl(),
-                    name + Constants.PROPERTIES_SUFFIX);
-            //base不需要覆盖
-            if (!name.equalsIgnoreCase(BASE) || !FileUtil.isExists(url) ) {
-                context.addEvent(new CreateFileEvent(url, sb.toString()));
-            }
+        String url = FileUtil.appendPath(project.getRootPath(), project.getConfigUrl(), cp.getPath(),
+                name + Constants.PROPERTIES_SUFFIX);
+        context.addEvent(new CreateFileEvent(url, sb.toString()));
+        //base不需要覆盖
+        if (!name.equalsIgnoreCase(BASE) || !FileUtil.isExists(url) ) {
+            context.addEvent(new CreateFileEvent(url, sb.toString()));
         }
         
-    }
-    
-    private static String getConfigPattern(String propertiesName) {
-        int indexOf = propertiesName.lastIndexOf("_");
-        if (indexOf != -1) {
-            return propertiesName.substring(indexOf + 1);
-        }
-        else {
-            return propertiesName;
-        }
-    }
-
-    private static String getCleanName(String propertiesName) {
-        int indexOf = propertiesName.lastIndexOf("_");
-        if (indexOf != -1) {
-            return propertiesName.substring(0, indexOf);
-        }
-        else {
-            return propertiesName;
-        }
     }
 
 }

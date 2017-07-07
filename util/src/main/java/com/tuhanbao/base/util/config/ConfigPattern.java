@@ -12,43 +12,44 @@ import com.tuhanbao.base.util.objutil.StringUtil;
  */
 public class ConfigPattern {
 
-    private String name;
+    private String path;
     
     public static final ConfigPattern PRODUCE = new ConfigPattern("");
     public static final ConfigPattern DEBUG = new ConfigPattern("debug");
     public static final ConfigPattern PRE = new ConfigPattern("pre");
     public static final ConfigPattern GRAY = new ConfigPattern("gray");
 
-    public ConfigPattern(String name) {
-        this.name = name;
+    public ConfigPattern(String path) {
+        this.path = path;
     }
 
-    public String getName() {
-        return name;
+    public String getPath() {
+        return path;
     }
 
     public String getSuffix() {
-        return "_" + name;
+        return "_" + path;
     }
     
     public int hashCode() {
-        return name.hashCode();
+        return path.hashCode();
     }
     
     public boolean equals(Object o) {
-        return this.name.equals(((ConfigPattern)o).name);
+        return this.path.equals(((ConfigPattern)o).path);
     }
 
     public static ConfigPattern getPattern(String name) {
         if (StringUtil.isEmpty(name)) return PRODUCE;
         
-        if (DEBUG.name.equals(name)) return DEBUG;
-        if (PRE.name.equals(name)) return DEBUG;
-        if (GRAY.name.equals(name)) return DEBUG;
+        if (DEBUG.path.equals(name)) return DEBUG;
+        if (PRE.path.equals(name)) return PRE;
+        if (GRAY.path.equals(name)) return GRAY;
         return new ConfigPattern(name);
     }
     
     public String toString() {
-        return this.name;
+        if (this == PRODUCE) return "produce";
+        return this.path;
     }
 }

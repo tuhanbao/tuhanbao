@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.tuhanbao.Constants;
 import com.tuhanbao.autotool.mvc.J2EETable;
 import com.tuhanbao.autotool.mvc.ModuleManager;
 import com.tuhanbao.base.chain.Context;
 import com.tuhanbao.base.chain.FilterAnnotation;
+import com.tuhanbao.base.util.config.ConfigPattern;
 import com.tuhanbao.base.util.db.conn.DBSrc;
 import com.tuhanbao.base.util.db.table.CacheType;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.EnumClassInfo;
@@ -31,20 +33,22 @@ public class DBGeneratorFilter extends ExcelAGCFilter {
 
     @Override
     public void filter(Context context) {
-        String[][] arrays = removeConfig(context, DB);
-        if (arrays == null || arrays.length == 0) return;
+        Map<String, String[][]> dbProperties = removeAllConfig(context, DB);
         
-        int length = arrays.length;
-        for (int i = 1; i < length; i++) {
-            String[] array = arrays[i];
-            String module = null;
-            if (!StringUtil.isEmpty(array[0])) {
-                module = array[0];
+        for (Entry<String, String[][]> entry : dbProperties.entrySet()) {
+            String[][] arrays = entry.getValue();
+            String name = entry.getKey();
+            int length = arrays.length;
+            for (int i = 1; i < length; i++) {
+                String[] array = arrays[i];
+                String module = null;
+                if (!StringUtil.isEmpty(array[0])) {
+                    module = array[0];
+                }
+                DBSrc src = new DBSrc(getDriver(array[1]), array[2], array[3], array[4], 0);
+                ModuleManager.addModule(getConfigPattern(name), module, src);
             }
-            DBSrc src = new DBSrc(getDriver(array[1]), array[2], array[3], array[4], 0);
-            ModuleManager.addModule(module, src);
         }
-        
         List<ImportTable> tables = initTables(context);
         Collections.sort(tables);
         context.putAttr(TABLES, tables);

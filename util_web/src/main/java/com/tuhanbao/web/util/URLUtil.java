@@ -214,7 +214,7 @@ public class URLUtil {
             String uri = getURI(domain, url);
             
             if (!uri.equals(url)) {
-                url = http + www + currentConfigPattern.getName() + domain + uri;
+                url = http + www + currentConfigPattern.getPath() + domain + uri;
             }
         }
         

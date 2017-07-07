@@ -21,6 +21,10 @@ public class MyPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigur
         start();
     }
 
+    /**
+     * 根据model动态选择加载db文件
+     * @param properties
+     */
     public void setProperties(String properties) {
         String[] keys = StringUtil.string2Array(properties);
         Resource[] resources = new Resource[keys.length];
