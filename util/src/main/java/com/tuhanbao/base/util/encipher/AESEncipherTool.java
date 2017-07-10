@@ -39,7 +39,7 @@ public class AESEncipherTool implements IEncipherTool
 
         //由于AES的特殊性，密码长度有要求
         if (password.length() < AESEncipherTool.PASSWORD_LENGTH) {
-            password += Encipher.DEFAULT_PASSWORD;
+            password += EncipherUtil.DEFAULT_PASSWORD;
         }
         byte[] aesBytes = new byte[AESEncipherTool.PASSWORD_LENGTH];
         System.arraycopy(password.getBytes(), 0, aesBytes, 0, AESEncipherTool.PASSWORD_LENGTH);

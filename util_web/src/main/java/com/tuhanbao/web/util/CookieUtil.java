@@ -8,7 +8,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.tuhanbao.base.util.encipher.Encipher;
+import com.tuhanbao.base.util.encipher.EncipherUtil;
 import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.base.util.io.IOUtil;
 import com.tuhanbao.base.util.log.LogManager;
@@ -77,7 +77,7 @@ public class CookieUtil {
             if (cookie != null) {
                 String value = cookie.getValue();
                 if (isEncrypt) {
-                    value = Encipher.decryptHttp(value);
+                    value = EncipherUtil.decryptHttp(value);
                 }
                 value = URLDecoder.decode(value, IOUtil.DEFAULT_CHARSET);
                 return value;
@@ -122,7 +122,7 @@ public class CookieUtil {
         try {
             value = URLEncoder.encode(value, IOUtil.DEFAULT_CHARSET);
             if (isEncrypt) {
-                value = Encipher.decryptHttp(value);
+                value = EncipherUtil.decryptHttp(value);
             }
             Cookie cookie = new Cookie(name, value);
             cookie.setDomain(domain);

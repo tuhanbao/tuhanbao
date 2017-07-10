@@ -1,4 +1,4 @@
-package com.tuhanbao.base.util.io;
+package com.tuhanbao.base.util.encipher;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

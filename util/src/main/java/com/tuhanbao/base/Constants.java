@@ -194,4 +194,8 @@ public class Constants
     
     public static final String DEFAULT_PACKAGE_HEAD = "com.tuhanbao";
     
+    public static final String OS = System.getProperty("os.name").toLowerCase();
+    
+    public static final String LOCALHOST = "127.0.0.1";
+    
 }

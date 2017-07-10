@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import com.tuhanbao.base.util.exception.BaseErrorCode;
 import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.base.util.log.LogManager;
+import com.tuhanbao.base.util.objutil.Base64Util;
 import com.tuhanbao.base.util.objutil.ByteUtil;
 
 /**
@@ -12,8 +13,20 @@ import com.tuhanbao.base.util.objutil.ByteUtil;
  * 
  * 计算公众平台的消息签名接口.
  */
-public class SHA1
+public class SHAUtil
 {
+    public static final String getSHA1(String text, String type) {
+        return getSHA(text, "SHA-512");
+    }
+    
+    public static final String getSHA256(String text, String type) {
+        
+        return getSHA(text, "SHA-512");
+    }
+    
+    public static final String getSHA512(String text, String type) {
+        return getSHA(text, "SHA-512");
+    }
 
     /**
      * 用SHA1算法生成安全签名
@@ -21,32 +34,21 @@ public class SHA1
      * @return 安全签名
      * @throws AesException
      */
-    public static String getSHA1(String text)
+    private static String getSHA(String text, String type)
     {
         try
         {
             // SHA1签名生成
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            MessageDigest md = MessageDigest.getInstance(type);
             md.update(ByteUtil.string2Bytes(text));
             byte[] digest = md.digest();
 
-            StringBuffer hexstr = new StringBuffer();
-            String shaHex = "";
-            for (int i = 0; i < digest.length; i++)
-            {
-                shaHex = Integer.toHexString(digest[i] & 0xFF);
-                if (shaHex.length() < 2)
-                {
-                    hexstr.append(0);
-                }
-                hexstr.append(shaHex);
-            }
-            return hexstr.toString();
+            return Base64Util.encode(digest);
         }
         catch (Exception e)
         {
             LogManager.error(e);
-            throw new MyException(BaseErrorCode.ERROR);
+            throw MyException.getMyException(e);
         }
     }
 }

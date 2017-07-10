@@ -25,7 +25,16 @@ public final class ErrorCodeMsgManager implements ConfigRefreshListener {
             //初始化后还未空，直接return
             if (config == null) {
                 if (errCode == BaseErrorCode.ERROR) {
-                    return "system error!";
+                    StringBuilder sb = new StringBuilder("system error : no init errorCode.properties");
+                    if (args != null) {
+                        sb.append("(");
+                        for (String arg : args) {
+                            sb.append(arg).append(",");
+                        }
+                        sb.deleteCharAt(sb.length() - 1);
+                        sb.append(")");
+                    }
+                    return sb.toString();
                 }
             }
         }

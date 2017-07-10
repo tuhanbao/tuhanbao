@@ -3,7 +3,7 @@ package com.tuhanbao.web.controller.authority;
 import javax.servlet.http.HttpServletRequest;
 
 import com.tuhanbao.base.Constants;
-import com.tuhanbao.base.util.encipher.Encipher;
+import com.tuhanbao.base.util.encipher.EncipherUtil;
 import com.tuhanbao.base.util.encipher.EncipherType;
 import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.base.util.objutil.StringUtil;
@@ -27,7 +27,7 @@ public class TokenService {
 
     public String newToken(IUser user) {
         String token = user.getAuthority() + Constants.UNDER_LINE + getUserId(user) + Constants.UNDER_LINE + TimeUtil.nowStr();
-        return Encipher.encrypt(EncipherType.SELF, token);
+        return EncipherUtil.encrypt(EncipherType.SELF, token);
     }
 
     protected String getUserIdByToken(String token) {
@@ -38,7 +38,7 @@ public class TokenService {
 
     public IUser getUserByToken(String token, Class<? extends IUser> clazz) {
         if (StringUtil.isEmpty(token)) return null;
-        String userId = getUserIdByToken(Encipher.decrypt(EncipherType.SELF, token));
+        String userId = getUserIdByToken(EncipherUtil.decrypt(EncipherType.SELF, token));
         IUser user = CacheManager.get(CacheKey.TOKEN, userId, clazz);
         if (user == null || !token.equals(user.getToken())) {
             return null;

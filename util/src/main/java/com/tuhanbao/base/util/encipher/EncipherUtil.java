@@ -6,6 +6,7 @@ import java.util.Map;
 import com.tuhanbao.base.util.config.BaseConfigConstants;
 import com.tuhanbao.base.util.config.Config;
 import com.tuhanbao.base.util.config.ConfigManager;
+import com.tuhanbao.base.util.objutil.Base64Util;
 import com.tuhanbao.base.util.objutil.ByteUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
 
@@ -16,7 +17,7 @@ import com.tuhanbao.base.util.objutil.StringUtil;
  * @author tuhanbao
  *
  */
-public class Encipher 
+public class EncipherUtil 
 {
     public static IEncipherTool TCP_TOOL = null;
     public static IEncipherTool HTTP_TOOL = null;
@@ -78,11 +79,11 @@ public class Encipher
     }
     
     public static String encrypt(EncipherType type, String str) {
-        return ByteUtil.bytes2String(encrypt(type, ByteUtil.string2Bytes(str)));
+        return Base64Util.encode(encrypt(type, ByteUtil.string2Bytes(str)));
     }
     
     public static String decrypt(EncipherType type, String str) {
-        return ByteUtil.bytes2String(decrypt(type, ByteUtil.string2Bytes(str)));
+        return ByteUtil.bytes2String(decrypt(type, Base64Util.decode(str)));
     }
     
     public static byte[] encryptTcp(byte[] bytes)

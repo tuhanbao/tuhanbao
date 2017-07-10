@@ -11,7 +11,6 @@ import com.tuhanbao.autotool.mvc.J2EETable;
 import com.tuhanbao.autotool.mvc.ModuleManager;
 import com.tuhanbao.base.chain.Context;
 import com.tuhanbao.base.chain.FilterAnnotation;
-import com.tuhanbao.base.util.config.ConfigPattern;
 import com.tuhanbao.base.util.db.conn.DBSrc;
 import com.tuhanbao.base.util.db.table.CacheType;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.EnumClassInfo;

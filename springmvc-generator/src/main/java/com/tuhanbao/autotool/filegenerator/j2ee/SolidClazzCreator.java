@@ -16,7 +16,6 @@ import com.tuhanbao.base.chain.IEvent;
 import com.tuhanbao.base.chain.event.CreateFileEvent;
 import com.tuhanbao.base.dataservice.ServiceBean;
 import com.tuhanbao.base.util.clazz.ClazzUtil;
-import com.tuhanbao.base.util.config.ConfigManager;
 import com.tuhanbao.base.util.config.ConfigPattern;
 import com.tuhanbao.base.util.db.conn.DBSrc;
 import com.tuhanbao.base.util.db.table.CacheType;
@@ -27,8 +26,8 @@ import com.tuhanbao.base.util.io.txt.TxtUtil;
 import com.tuhanbao.base.util.objutil.FileUtil;
 import com.tuhanbao.base.util.objutil.StringUtil;
 import com.tuhanbao.thirdapi.cache.CacheManager;
-import com.tuhanbao.web.filter.SelectorFactory;
 import com.tuhanbao.web.filter.MyBatisSelectorFilter;
+import com.tuhanbao.web.filter.SelectorFactory;
 
 public class SolidClazzCreator implements IFileGenerator {
 
