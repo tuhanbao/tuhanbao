@@ -1,6 +1,8 @@
 package com.tuhanbao.base.util.objutil;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.tuhanbao.base.Constants;
@@ -22,6 +24,12 @@ public final class FileUtil
     
     public static boolean isExists(String url) {
     	return new File(url).exists();
+    }   
+    
+    public static String getFileName(String filePath) {
+        File file = new File(filePath);
+        String name = file.getName();
+        return name;
     }
 
     public static String[] getMenus(String filePath) {
@@ -124,5 +132,77 @@ public final class FileUtil
         else {
             return url + suffix;
         }
+    }
+    
+    public static File createFile(byte[] b, String filePath) throws IOException {
+        FileOutputStream fos = null;
+        BufferedOutputStream bos = null;
+        File file = null;
+
+        try {
+            file = new File(filePath);
+
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
+            bos.write(b);
+            bos.flush();
+        } finally {
+            if (bos != null) {
+                bos.close();
+            }
+            
+            if (fos != null) {
+                fos.close();
+            }
+        }
+
+        return file;
+    }
+
+    public static boolean delete(String filePath) {
+        File file = new File(filePath);
+
+        if (file.isFile()) {
+            return deleteFile(filePath);
+        } else {
+            return deleteDirectory(filePath);
+        }
+    }
+
+    private static boolean deleteFile(String filePath) {
+        File file = new File(filePath);
+
+        if (file.exists()) {
+            file.delete();
+        }
+
+        return true;
+    }
+
+    private static boolean deleteDirectory(String filePath) {
+        if (!filePath.endsWith(File.separator)) {
+            filePath = filePath + File.separator;
+        }
+
+        File dirFile = new File(filePath);
+
+        if (dirFile.exists()) {
+            File[] files = dirFile.listFiles();
+
+            for (int i = 0; i < files.length; i++) {
+                if (files[i].isFile()) {
+                    deleteFile(files[i].getAbsolutePath());
+                } else {
+                    deleteDirectory(files[i].getAbsolutePath());
+                }
+            }
+        }
+
+        dirFile.delete();
+        return true;
     }
 }

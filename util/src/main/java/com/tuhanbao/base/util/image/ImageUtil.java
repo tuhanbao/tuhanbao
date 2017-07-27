@@ -16,6 +16,8 @@ import org.im4java.core.ConvertCmd;
 import org.im4java.core.IM4JavaException;
 import org.im4java.core.IMOperation;
 
+import com.tuhanbao.base.ImageInfo;
+
 
 /**
  * 
@@ -234,6 +236,73 @@ public class ImageUtil {
         CompositeCmd convert = new CompositeCmd(true);
         convert.run(op);
         return true;
+    }
+
+    /**
+     * 获取图片信息(包括图片的高和宽)
+     *
+     * @param filePath 图片文件绝对路径
+     * @return 高度
+     * @throws IOException
+     */
+    public static ImageInfo getImageInfo(String filePath) throws IOException {
+        File file = new File(filePath);
+        return getImageInfo(file);
+    }
+
+    /**
+     * 获取图片信息(包括图片的高和宽)
+     *
+     * @param file 图片文件
+     * @return 图片
+     * @throws IOException
+     */
+    public static ImageInfo getImageInfo(File file) throws IOException {
+        InputStream is = null;
+        BufferedImage src = null;
+        int height = 0;
+        int width = 0;
+
+        try {
+            is = new FileInputStream(file);
+            src = ImageIO.read(is);
+
+            if (src == null) {
+                return null;
+            }
+
+            height = src.getHeight();
+            width = src.getWidth();
+            ImageInfo image = new ImageInfo();
+            image.setHeight(height);
+            image.setWidth(width);
+            return image;
+        } finally {
+            is.close();
+        }
+    }
+
+    /**
+     * 获取图片信息(包括图片的高和宽)
+     *
+     * @param inputStream 图片流
+     * @return 图片
+     * @throws IOException
+     */
+    public static ImageInfo getImageInfo(InputStream inputStream) throws IOException {
+        BufferedImage src = null;
+        src = ImageIO.read(inputStream);
+
+        if (src == null) {
+            return null;
+        }
+
+        int height = src.getHeight();
+        int width = src.getWidth();
+        ImageInfo image = new ImageInfo();
+        image.setHeight(height);
+        image.setWidth(width);
+        return image;
     }
 
 //    public static void main(String[] args) throws Exception {

@@ -32,6 +32,8 @@ public final class TimeUtil
     public static final long DAY2MILLS = 24L * HOUR2MILLS;
     
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy/MM/dd HH:mm:ss";
+
+    public static final String MAX_LONG_DATE_FORMAT_STR = "yyyy-MM-dd HH:mm:ss.SSS";
     
     public static long now()
     {

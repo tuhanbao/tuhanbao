@@ -44,11 +44,15 @@ public class UserAccessApiInterceptor extends HandlerInterceptorAdapter {
         HandlerMethod handlerMethod = (HandlerMethod)handler;
         Method method = handlerMethod.getMethod();
         
+        if (method.getDeclaringClass() == AdminController.class) {
+            return true;
+        }
+        
         if (ServerManager.serverIsBusy()) {
             throw new MyException(BaseErrorCode.SERVER_IS_BUSY);
         }
         
-        if (ConfigManager.isMaintaining() && method.getDeclaringClass() != AdminController.class) {
+        if (ConfigManager.isMaintaining()) {
             //如果是超级管理员，依然可以绕过
             if (!isSupperManager(request)) {
                 String ip = URLUtil.getClientAddr(request);

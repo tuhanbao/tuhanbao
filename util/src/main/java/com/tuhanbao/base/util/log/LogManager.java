@@ -40,6 +40,21 @@ public final class LogManager
         logger.error(t);
     }
     
+    public static void error(String msg)
+    {
+        logger.error(msg);
+    }
+    
+    public static void error(String msg, Throwable t)
+    {
+        logger.info(msg);
+        for (StackTraceElement e : t.getStackTrace())
+        {
+            logger.info(e);
+        }
+        logger.error(t);
+    }
+    
     public static void fatal(Throwable t)
     {
         for (StackTraceElement e : t.getStackTrace())

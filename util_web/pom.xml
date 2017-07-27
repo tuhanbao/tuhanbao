@@ -57,6 +57,18 @@
 		</dependency>
 		<!-- end -->
 		
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis-guice</artifactId>
+		    <version>3.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>net.sf.jsqlparser</groupId>
+		    <artifactId>jsqlparser</artifactId>
+		    <version>0.7.1</version>
+		</dependency>		
+		
+		
 		<!-- SpringFramework -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -144,8 +156,6 @@
 				</configuration>
 			</plugin>
 			
-			
-
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.1</version>

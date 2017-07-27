@@ -1,6 +1,13 @@
 package com.tuhanbao.base.util.objutil;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 
 import com.tuhanbao.base.Constants;
 
@@ -387,6 +394,55 @@ public class StringUtil
         }
         return sb.toString();
         
+    }
+    
+    /**
+     * 去掉字符串前后的指定字符
+     * 
+     * @param str 原字符串
+     * @param trimStr 需要被去掉的字符
+     * @return
+     */
+    public static String trimString(String str, String trimStr) {
+        if (str == null || str.length() == 0 || trimStr == null || trimStr.length() == 0) {
+            return str;
+        }
+
+        // 结束位置
+        int epos = 0;
+
+        // 正规表达式
+        String regpattern = "[" + trimStr + "]*+";
+        Pattern pattern = Pattern.compile(regpattern, Pattern.CASE_INSENSITIVE);
+
+        // 去掉结尾的指定字符
+        StringBuffer buffer = new StringBuffer(str).reverse();
+        Matcher matcher = pattern.matcher(buffer);
+        if (matcher.lookingAt()) {
+            epos = matcher.end();
+            str = new StringBuffer(buffer.substring(epos)).reverse().toString();
+        }
+
+        // 去掉开头的指定字符
+        matcher = pattern.matcher(str);
+        if (matcher.lookingAt()) {
+            epos = matcher.end();
+            str = str.substring(epos);
+        }
+
+        // 返回处理后的字符串
+        return str;
+    }
+    
+    //----------------------------copy from org.apache.commons.lang.StringUtils ---------------------------------------------------
+    /**
+     * 
+     * @param collection
+     * @param separator
+     * @return
+     */
+    public static String join(Collection<?> collection, String separator) {
+        return StringUtils.join(collection, separator);
     }
     
 }
