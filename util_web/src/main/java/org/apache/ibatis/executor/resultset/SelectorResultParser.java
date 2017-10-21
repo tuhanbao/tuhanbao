@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.dataservice.ServiceBean;
+import com.tuhanbao.base.util.db.table.CTTable;
 import com.tuhanbao.base.util.db.table.Column;
 import com.tuhanbao.base.util.db.table.DataValueFactory;
 import com.tuhanbao.base.util.db.table.Table;
 import com.tuhanbao.base.util.db.table.data.DataValue;
 import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.web.filter.AsColumn;
-import com.tuhanbao.web.filter.SelectTable;
 import com.tuhanbao.web.filter.MyBatisSelectorFilter;
+import com.tuhanbao.web.filter.SelectTable;
 
 public class SelectorResultParser {
 	
@@ -61,7 +63,8 @@ public class SelectorResultParser {
 		if (dataValue == null) return;
 		
 		String key = col.getTableName();
-		createParentBean(map, selector, key, col.getTable());
+		
+		createParentBean(map, selector, key, selector.getCTTable(col.getTable()));
 		map.get(key).setValue(col.getColumn(), dataValue);
 	}
 
@@ -107,11 +110,21 @@ public class SelectorResultParser {
 		try {
 			Class<?> type = Class.forName(table.getModelName());
 		
-			Constructor<?> constructor = type.getDeclaredConstructor();
-			if (!constructor.isAccessible()) {
-				constructor.setAccessible(true);
+			if (table instanceof CTTable) {
+				Constructor<?> constructor = type.getDeclaredConstructor(ICTBean.class);
+				if (!constructor.isAccessible()) {
+					constructor.setAccessible(true);
+				}
+			
+				return (ServiceBean) constructor.newInstance(((CTTable)table).getCTBean());
 			}
-			return (ServiceBean) constructor.newInstance();
+			else {
+				Constructor<?> constructor = type.getDeclaredConstructor();
+				if (!constructor.isAccessible()) {
+					constructor.setAccessible(true);
+				}
+				return (ServiceBean) constructor.newInstance();
+			}
 		} catch (Exception e) {
 			throw MyException.getMyException(e);
 		}

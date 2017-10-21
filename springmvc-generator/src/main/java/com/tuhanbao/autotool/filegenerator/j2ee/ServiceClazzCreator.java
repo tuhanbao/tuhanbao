@@ -17,6 +17,14 @@ public class ServiceClazzCreator extends J2EETableClazzCreator {
 		ClassInfo clazz = new ClassInfo();
 		String modelName = table.getModelName();
 		clazz.setName(table.getServiceName() + " extends ServiceImpl<" + modelName + "> implements " + table.getIServiceName());
+		
+		if (table.isCTTable()) {
+			clazz.setName(table.getServiceName() + " extends CTServiceImpl<" + modelName + "> implements " + table.getIServiceName());
+		}
+		else {
+			clazz.setName(table.getServiceName() + " extends ServiceImpl<" + modelName + "> implements " + table.getIServiceName());
+		}
+		
 		String module = table.getModule();
 		clazz.setPackageInfo(project.getServiceUrl(module));
 		clazz.addImportInfo("org.springframework.stereotype.Service");

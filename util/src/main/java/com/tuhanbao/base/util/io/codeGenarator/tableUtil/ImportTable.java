@@ -27,7 +27,9 @@ public class ImportTable implements Comparable<ImportTable>
     //对象的mo名称
     protected String modelName;
     
-    //用于生成代码，别人外键过来的列
+    private boolean isCTTable;
+    
+	//用于生成代码，别人外键过来的列
     protected List<ImportColumn> fkColumns = new ArrayList<ImportColumn>();
     
     public ImportTable(String name) {
@@ -277,6 +279,15 @@ public class ImportTable implements Comparable<ImportTable>
         }
         return sb.toString();
     }
+    
+    public boolean isCTTable() {
+		return isCTTable;
+	}
+
+	public void setCTTable(boolean isCTTable) {
+		this.isCTTable = isCTTable;
+	}
+
     
     private static String str2ClassName(String s)
     {

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tuhanbao.impl.crm.mapper.crm.CrmMapper" >
+  <resultMap id="BaseResultMap" type="com.tuhanbao.base.dataservice.ServiceBean" >
+  </resultMap>
+  
+  <resultMap id="SeqMap" type="com.tuhanbao.base.dataservice.SeqBean" >
+  	<result column="ID" property="id" jdbcType="BIGINT" />
+  </resultMap>
+  
+  <sql id="Filter_Where_Clause" >
+    <if test="filter.items != null">
+	  <where>
+		<foreach collection="filter.items" item="item" separator="" >
+		  ${item.getMyBatisSql()}
+		    <if test="item.isList()">
+		      <foreach collection="item.listValue()" item="listItem" open="(" close=")" separator="," >
+		        #{listItem}
+		      </foreach>
+		    </if>
+		  </foreach>
+	  </where>
+    </if>
+    ${filter.getOrderSql()}
+  </sql>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="keyValue" parameterType="com.tuhanbao.base.dataservice.ServiceBean" >
+    insert into ${_parameter.getTable().getName()} (${_parameter.getColumns()}) values (${_parameter.getMyBatisColumnValueStr()})
+  </insert>
+  <delete id="deleteByFilter" parameterType="map" >
+    delete from ${table.getName()}
+    <if test="filter != null" >
+      <include refid="Filter_Where_Clause" />
+    </if>
+  </delete>
+  <update id="updateByFilter" parameterType="map" >
+    update ${model.getTable().getName()} set ${model.getMyBatisUpdateValueStr()}
+    <if test="filter != null" >
+      <include refid="Filter_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateSelective" parameterType="map" >
+    update ${model.getTable().getName()} set ${model.getMyBatisUpdateValueStrSelected()}
+    <if test="filter != null" >
+      <include refid="Filter_Where_Clause" />
+    </if>
+  </update>
+  <select id="countByFilter" parameterType="com.tuhanbao.web.filter.MyBatisSelectorFilter" resultType="java.lang.Integer">
+    select count(1) from ${_parameter.getTable().toString()}
+    <if test="_parameter.filter != null" >
+      <include refid="Filter_Where_Clause" />
+    </if>
+  </select>
+  <select id="select" resultMap="BaseResultMap" parameterType="com.tuhanbao.web.filter.MyBatisSelectorFilter" >
+    <include refid="CutPagePrefix" />
+    select 
+    <foreach collection="_parameter.getSelectColumns()" item="column" separator="," >
+      ${column.getNameWithAs()}
+    </foreach>
+    from ${_parameter.getTable().toString()}
+    <if test="_parameter.filter != null" >
+      <include refid="Filter_Where_Clause" />
+    </if>
+    <include refid="CutPageSuffix" />
+  </select>
+  <select id="excuteSql" resultType="Map" parameterType="com.tuhanbao.web.db.MyBatisSqlSentence" >
+    ${_parameter.getSql()}
+  </select>
+  <select id="nextVal" resultMap="SeqMap" parameterType="java.lang.String" >
+    select ${_parameter}.nextval as id from dual
+  </select>
+  <sql id="CutPagePrefix" ></sql>
+  <sql id="CutPageSuffix" >
+    <if test="page != null" >
+      <![CDATA[ limit #{page.begin}, #{page.numPerPage} ]]>
+    </if>
+  </sql>
+
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+    <context:component-scan base-package="com.hhnz.*,com.tuhanbao.*" scoped-proxy="targetClass"/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="com.tuhanbao.web.controller.helper.JsonHttpMessageConverter" />
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="permissionManager" class="com.tuhanbao.web.controller.authority.PermissionManager">
+           <property name="rolePermissionService" ref="roleService" />
+           <property name="regex" value="/manage/*" />
+    </bean>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="com.tuhanbao.web.controller.authority.UserAccessApiInterceptor">
+                <!-- <property name="permissionManager" ref="permissionManager" /> -->
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    
+    <bean
+        class="com.tuhanbao.web.controller.helper.MyPropertyPlaceholderConfigurer">
+        <property name="properties" value="db"></property>
+    </bean>
+    
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <!-- 指定所上传文件的总大小不能超过800KB......注意maxUploadSize属性的限制不是针对单个文件,而是所有文件的容量之和   -->
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="maxUploadSize" value="2048000"/>
+        <property name="maxInMemorySize" value="4096000" /> 
+    </bean> 
+    
+    <bean id="ds_crm" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="url" value="${db_url_crm}"></property>
+        <property name="username" value="${db_user_crm}"></property>
+        <property name="password" value="${db_password_crm}"></property>
+    </bean>
+    <bean id="crmSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ds_crm" />
+        <property name="configurationProperties">
+        <props>
+            <prop key="jdbcTypeForNull">NULL</prop>
+        </props>
+        </property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.tuhanbao.impl.crm.mapper.crm" />
+        <property name="sqlSessionFactoryBeanName" value="crmSqlSessionFactory"></property>
+    </bean>
+    <bean id="crmTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ds_crm"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="crmTransactionManager" />
+
+    <bean class="com.tuhanbao.impl.crm.ServerManager"></bean>
+</beans>

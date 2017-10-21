@@ -36,49 +36,6 @@
         </dependency>
         <!-- 微信支付依赖end -->
 
-        <!-- oss依赖 -->
-        <dependency>
-            <groupId>com.aliyun</groupId>
-            <artifactId>aliyun-sdk-oss</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/jdom/jdom -->
-        <dependency>
-            <groupId>jdom</groupId>
-            <artifactId>jdom</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-core -->
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
-            <version>1.1</version>
-        </dependency>
-        <!-- oss依赖 end -->
-
-        <!-- 中金支付 -->
-        <dependency>
-            <groupId>payment</groupId>
-            <artifactId>api</artifactId>
-            <version>2.2.8</version>
-        </dependency>
-        <dependency>
-            <groupId>payment</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-        <!-- 百度推送 -->
-        <dependency>
-            <groupId>com.baidu</groupId>
-            <artifactId>yun</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <!-- 农行 -->
-        <dependency>
-            <groupId>com.abc</groupId>
-            <artifactId>trustpay</artifactId>
-            <version>V3.0.2</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/jstl/jstl -->
         <dependency>
             <groupId>jstl</groupId>

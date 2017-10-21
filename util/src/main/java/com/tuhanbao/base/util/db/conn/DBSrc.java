@@ -36,19 +36,18 @@ public final class DBSrc
     
     private int resultSetType;
     
-    public DBSrc(String driver, String url, String user, String password) 
+    public DBSrc(String url, String user, String password) 
     {
-    	this(driver, url, user, password, ConnectionManager.MIN_SIZE);
+    	this(url, user, password, ConnectionManager.MIN_SIZE);
     }
 
-    public DBSrc(String driver, String url, String user, String password, int size) 
+    public DBSrc(String url, String user, String password, int size) 
     {
-        this(driver, url, user, password, size, ConnectionManager.RESULTSET_TYPE);
+        this(url, user, password, size, ConnectionManager.RESULTSET_TYPE);
     }
 
-	public DBSrc(String driver, String url, String user, String password, int minSize, int resultSetType) 
+	public DBSrc(String url, String user, String password, int minSize, int resultSetType) 
     {
-    	this.driver = driver;
     	this.url = url;
     	this.user = user;
     	this.password = password;
@@ -57,13 +56,15 @@ public final class DBSrc
     	properties.setProperty(Constants.PASSWORD, password);
     	properties.setProperty(Constants.USE_UNICODE, ConnectionManager.DB_USEUNICODE);
     	properties.setProperty(Constants.CHARACTER_ENCODING, ConnectionManager.DB_ENCODE);
-    	if (driver.contains("oracle")) {
+    	if (url.contains("oracle")) {
+    		this.driver = "oracle.jdbc.driver.OracleDriver";
     		this.dbType = DBType.ORACLE;
     		int start = this.url.indexOf("service_name=");
     		int end = this.url.indexOf(")", start + "service_name=".length());
     		this.db_instance = this.url.substring(start + "service_name=".length(), end);
     	} 
     	else {
+    		this.driver = "com.mysql.jdbc.Driver";
     		this.dbType = DBType.MYSQL;
     		int start = this.url.lastIndexOf("/");
     		this.db_instance = this.url.substring(start + 1);

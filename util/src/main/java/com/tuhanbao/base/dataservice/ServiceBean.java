@@ -20,7 +20,7 @@ import com.tuhanbao.base.util.json.JsonUtil;
 
 public class ServiceBean implements ISyncData
 {
-    private MetaObject mo;
+    protected MetaObject mo;
     
     //外键关联的对象, 其实Object应该为外键对应的Column，便于扩展，允许业务开发自定义
     /**

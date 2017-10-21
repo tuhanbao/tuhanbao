@@ -41,6 +41,8 @@
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>2.1.0</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/aliyun-sdk-oss-2.1.0.jar</systemPath>
         </dependency>
         <!-- https://mvnrepository.com/artifact/jdom/jdom -->
         <dependency>
@@ -61,23 +63,31 @@
             <groupId>payment</groupId>
             <artifactId>api</artifactId>
             <version>2.2.8</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/api-2.2.8.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>payment</groupId>
             <artifactId>tools</artifactId>
             <version>1.7.2</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/tools-1.7.2.jar</systemPath>
         </dependency>
         <!-- 百度推送 -->
         <dependency>
             <groupId>com.baidu</groupId>
             <artifactId>yun</artifactId>
             <version>3.0.1</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/yun-3.0.1.jar</systemPath>
         </dependency>
         <!-- 农行 -->
         <dependency>
             <groupId>com.abc</groupId>
             <artifactId>trustpay</artifactId>
             <version>V3.0.2</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/trustpay-V3.0.2.jar</systemPath>
         </dependency>
         <!-- https://mvnrepository.com/artifact/jstl/jstl -->
         <dependency>
@@ -130,12 +140,16 @@
 		    <groupId>com.taobao.pamirs.schedule</groupId>
 		    <artifactId>tbschedule</artifactId>
 		    <version>3.2.18</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/tbschedule-3.2.18.jar</systemPath>
 		</dependency>
 
 		<dependency>
 		    <groupId>org.csource</groupId>
 		    <artifactId>fastdfs-client</artifactId>
 		    <version>1.35</version>
+            <scope>system</scope>
+        	<systemPath>D:/workspace/git/thirdlib/fastdfs-client-1.35.jar</systemPath>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->

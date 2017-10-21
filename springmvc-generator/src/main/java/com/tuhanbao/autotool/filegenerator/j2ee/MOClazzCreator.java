@@ -4,6 +4,8 @@ import com.tuhanbao.Constants;
 import com.tuhanbao.autotool.filegenerator.ClazzCreator;
 import com.tuhanbao.autotool.mvc.J2EETable;
 import com.tuhanbao.autotool.mvc.SpringMvcProjectInfo;
+import com.tuhanbao.base.dataservice.CTServiceBean;
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.dataservice.MetaObject;
 import com.tuhanbao.base.dataservice.ServiceBean;
 import com.tuhanbao.base.util.clazz.ClazzUtil;
@@ -20,6 +22,7 @@ import com.tuhanbao.base.util.objutil.StringUtil;
 public class MOClazzCreator extends J2EETableClazzCreator {
     private static final String MO_CLASS = MetaObject.class.getName();
     private static final String SERVICE_BEAN_CLASS = ServiceBean.class.getName();
+    private static final String CT_SERVICE_BEAN_CLASS = CTServiceBean.class.getName();
     private static final String MOCLASS_SUFFIX = "MO";
     
 	public MOClazzCreator(SpringMvcProjectInfo project) {
@@ -31,7 +34,15 @@ public class MOClazzCreator extends J2EETableClazzCreator {
         String modelName = table.getModelName();
         String tableName = table.getTableName();
         String className = modelName + MOCLASS_SUFFIX;
-        classInfo.setName(className + " extends ServiceBean");
+        
+        if (table.isCTTable()) {
+        	classInfo.setName(className + " extends CTServiceBean");
+        	classInfo.addImportInfo(ICTBean.class);
+        	classInfo.addImportInfo(CT_SERVICE_BEAN_CLASS);
+        }
+        else {
+        	classInfo.setName(className + " extends ServiceBean");
+        }
         classInfo.setPackageInfo(this.project.getServiceBeanUrl(table.getModule()));
         classInfo.addImportInfo(SERVICE_BEAN_CLASS);
         classInfo.addImportInfo(this.project.getConstantsUrl() + ".TableConstants");
@@ -40,14 +51,27 @@ public class MOClazzCreator extends J2EETableClazzCreator {
         MethodInfo method = new MethodInfo();
         method.setName(className);
         method.setPe(PackageEnum.PROTECTED);
-        method.setMethodBody("this(new MetaObject(TableConstants." + tableName + ".TABLE));");
+        if (table.isCTTable()) {
+        	method.setArgs("ICTBean ctBean");
+        	method.setMethodBody("this(ctBean, new MetaObject(TableConstants." + tableName + ".TABLE));");
+        }
+        else {
+        	method.setMethodBody("this(new MetaObject(TableConstants." + tableName + ".TABLE));");
+        }
         classInfo.addMethodInfo(method);
         
         method = new MethodInfo();
-        method.setArgs("MetaObject mo");
+        
+        if (table.isCTTable()) {
+        	method.setArgs("ICTBean ctBean, MetaObject mo");
+        	method.setMethodBody("super(ctBean, mo);");
+        }
+        else {
+        	method.setArgs("MetaObject mo");
+        	method.setMethodBody("super(mo);");
+        }
         method.setName(className);
         method.setPe(PackageEnum.PROTECTED);
-        method.setMethodBody("super(mo);");
         classInfo.addMethodInfo(method);
         
         boolean hasByteBuffer = false;

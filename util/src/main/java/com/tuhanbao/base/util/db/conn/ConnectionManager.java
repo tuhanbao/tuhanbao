@@ -50,16 +50,15 @@ public final class ConnectionManager
 	    		RESULTSET_TYPE = baseConfig.getInt(BaseConfigConstants.RESULTSET_TYPE);
 	    	}
 	    	//有可能未设置数据库
-	    	String driver = baseConfig.getString(BaseConfigConstants.DB_DRIVER);
-	    	if (driver != null)
+	    	String url = baseConfig.getString(BaseConfigConstants.DB_URL);
+	    	if (!StringUtil.isEmpty(url))
 	    	{
-	    		String url = baseConfig.getString(BaseConfigConstants.DB_URL);
 	    		String user = baseConfig.getString(BaseConfigConstants.DB_USER);
 	    		String password = baseConfig.getString(BaseConfigConstants.DB_PASSWORD);
 	    		
 	    		HAS_DEFAULT_DB = true;
 	    		
-	    		DEFAULT_DB = new DBSrc(driver, url, user, password);
+	    		DEFAULT_DB = new DBSrc(url, user, password);
 	    	}
 	    	else
 	    	{

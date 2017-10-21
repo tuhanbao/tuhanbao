@@ -92,6 +92,7 @@ public class SolidClazzCreator implements IFileGenerator {
             list.add(getMapperClass(module));
             list.add(getMapperXml(module, dbType));
             list.add(getServiceImpl(module, dbType));
+            list.add(getCTServiceImpl(module, dbType));
         }
         list.add(getServerManager(tables));
         list.addAll(getDBConfigProperties());
@@ -192,6 +193,31 @@ public class SolidClazzCreator implements IFileGenerator {
             String tableConstants = ((SpringMvcProjectInfo)this.project).getConstantsUrl() + Constants.STOP_EN + "TableConstants";
 
             String oldTxt = TxtUtil.read(new File(FileUtil.appendPath(Constants.CONFIG_ROOT, "bak", "ServiceImpl.java")));
+            String newTxt = oldTxt.replace("{package}", ((SpringMvcProjectInfo)this.project).getServiceUrl(module));
+            newTxt = newTxt.replace("{tableConstants}", tableConstants);
+            newTxt = newTxt.replace("{mapper}", mapper).replace("{mapper.name}", mapperName);
+
+            return new CreateFileEvent(url, newTxt);
+
+        }
+        catch (IOException e) {
+            throw MyException.getMyException(e);
+        }
+    }
+    
+
+
+    private CreateFileEvent getCTServiceImpl(String module, DBType dbType) {
+        try {
+            String servicePath = ((SpringMvcProjectInfo)this.project).getServiceUrl(module);
+            String mapperName = this.getMapperName(module);
+            String url = FileUtil.appendPath(project.getSrcPath(),
+                    FileUtil.appendPath(servicePath.replace(".", Constants.FILE_SEP), "CTServiceImpl.java"));
+
+            String mapper = ((SpringMvcProjectInfo)this.project).getMapperUrl(module) + Constants.STOP_EN + mapperName;
+            String tableConstants = ((SpringMvcProjectInfo)this.project).getConstantsUrl() + Constants.STOP_EN + "TableConstants";
+
+            String oldTxt = TxtUtil.read(new File(FileUtil.appendPath(Constants.CONFIG_ROOT, "bak", "CTServiceImpl.java")));
             String newTxt = oldTxt.replace("{package}", ((SpringMvcProjectInfo)this.project).getServiceUrl(module));
             newTxt = newTxt.replace("{tableConstants}", tableConstants);
             newTxt = newTxt.replace("{mapper}", mapper).replace("{mapper.name}", mapperName);
@@ -313,7 +339,7 @@ public class SolidClazzCreator implements IFileGenerator {
                 importMapper.append("import ").append(MyBatisSelectorFilter.class.getName()).append(";").append(Constants.ENTER);
                 importMapper.append("import ").append(ServiceBean.class.getName()).append(";").append(Constants.ENTER);
                 importMapper.append("import ").append(CacheManager.class.getName()).append(";").append(Constants.ENTER);
-                importMapper.append("import com.hhnz.api.{projectName}.constants.TableConstants;").append(Constants.ENTER);
+                importMapper.append("import {projectHead}.api.{projectName}.constants.TableConstants;").append(Constants.ENTER);
             }
             String newTxt = oldTxt.replace("{mapperImport}", importMapper.toString());
             newTxt = newTxt.replace("{mapper}", mapper.toString());

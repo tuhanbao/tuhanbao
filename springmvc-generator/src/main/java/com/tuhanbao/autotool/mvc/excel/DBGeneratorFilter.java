@@ -13,6 +13,7 @@ import com.tuhanbao.base.chain.Context;
 import com.tuhanbao.base.chain.FilterAnnotation;
 import com.tuhanbao.base.util.db.conn.DBSrc;
 import com.tuhanbao.base.util.db.table.CacheType;
+import com.tuhanbao.base.util.db.table.data.BooleanValue;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.EnumClassInfo;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.IEnumType;
 import com.tuhanbao.base.util.io.codeGenarator.codeUtil.Xls2CodeUtil;
@@ -44,7 +45,7 @@ public class DBGeneratorFilter extends ExcelAGCFilter {
                 if (!StringUtil.isEmpty(array[0])) {
                     module = array[0];
                 }
-                DBSrc src = new DBSrc(getDriver(array[1]), array[2], array[3], array[4], 0);
+                DBSrc src = new DBSrc(array[2], array[3], array[4], 0);
                 ModuleManager.addModule(getConfigPattern(name), module, src);
             }
         }
@@ -83,6 +84,7 @@ public class DBGeneratorFilter extends ExcelAGCFilter {
         CacheType cacheType = CacheType.getCacheType(ArrayUtil.indexOf(tableConfig, 3));
         String seq = ArrayUtil.indexOf(tableConfig, 4);
         String orderCol = ArrayUtil.indexOf(tableConfig, 5);
+        boolean isCTTable = BooleanValue.valueOf(ArrayUtil.indexOf(tableConfig, 7)).getValue();
         DBType dbType = ModuleManager.getDBSrc(module).getDbType();
 
         TableConfig tcfg = new TableConfig();
@@ -97,6 +99,7 @@ public class DBGeneratorFilter extends ExcelAGCFilter {
         ImportTable table = new J2EETable(tableName, module, tcfg);
         initColumns(table, arrays, dbType);
         table.setComment(comment);
+        table.setCTTable(isCTTable);
         return table;
     }
     
@@ -109,13 +112,6 @@ public class DBGeneratorFilter extends ExcelAGCFilter {
         else {
             return seqName;
         }
-    }
-    
-    private static String getDriver(String dbType) {
-        if ("oracle".equalsIgnoreCase(dbType)) {
-            return "oracle.jdbc.driver.OracleDriver";
-        }
-        return "com.mysql.jdbc.Driver";
     }
     
     private void initColumns(ImportTable table, String[][] arrays, DBType dbType) {

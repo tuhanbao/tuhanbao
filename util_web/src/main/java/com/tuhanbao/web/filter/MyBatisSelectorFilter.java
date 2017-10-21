@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.apache.ibatis.executor.resultset.SelectorResultParser;
 
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.dataservice.filter.Filter;
 import com.tuhanbao.base.dataservice.filter.JoinType;
 import com.tuhanbao.base.dataservice.filter.page.Page;
+import com.tuhanbao.base.util.db.table.CTTable;
 import com.tuhanbao.base.util.db.table.Column;
 import com.tuhanbao.base.util.db.table.Table;
 import com.tuhanbao.base.util.exception.MyException;
@@ -140,5 +142,20 @@ public class MyBatisSelectorFilter {
 
     public void setIs4Count(boolean is4Count) {
         this.is4Count = is4Count;
+    }    
+    
+    public void refreshCTTable(ICTBean ctBean) {
+		tablesOfSelector.refreshCTTable(ctBean);
+    }
+    
+    public Table getCTTable(Table table) {
+    	if (!table.isCTTable() || table instanceof CTTable) return table;
+    	
+    	for (SelectTable t : this.getAllTables().values()) {
+    		if (t.getTable().getModelName().equals(table.getModelName())) {
+    			return t.getTable();
+    		}
+    	}
+    	return table;
     }
 }

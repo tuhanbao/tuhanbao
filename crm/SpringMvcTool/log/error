@@ -1,0 +1,59 @@
+[2017-07-07 16:29:22,406][ERROR][main]java.io.FileNotFoundException: E:\git\tuhanbao\demo\config\~$config_debug.xlsx (另一个程序正在使用此文件，进程无法访问。)
+[2017-07-07 16:44:48,096][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,114][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,132][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,151][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,167][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,189][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,207][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,224][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,242][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,258][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,278][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,293][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,310][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,327][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,400][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,416][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,433][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,448][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,466][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,485][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:48,500][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:53,720][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Access denied for user 'cfcrm_user'@'%' to database 'cfcrmdebug'
+[2017-07-07 16:44:53,720][ERROR][main]java.lang.NullPointerException
+[2017-08-29 23:34:53,158][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-08-29 23:34:55,225][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-08-29 23:34:57,237][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-08-29 23:34:59,251][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-08-29 23:35:01,262][ERROR][main]com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: Communications link failure
+
+Last packet sent to the server was 0 ms ago.
+[2017-08-31 23:05:03,452][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,470][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,475][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,479][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,483][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,487][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,492][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,496][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,499][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,503][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,509][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,513][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,517][ERROR][main]java.sql.SQLException: Access denied for user 'cfcrm_user'@'localhost' (using password: YES)
+[2017-08-31 23:05:03,517][ERROR][main]java.lang.NullPointerException
+[2017-09-01 21:10:57,244][ERROR][main]java.io.FileNotFoundException: D:\workspace\git\tuhanbao\crm\config\~$crm.xlsx (另一个程序正在使用此文件，进程无法访问。)
+[2017-09-01 23:44:14,746][ERROR][main]java.io.FileNotFoundException: D:\workspace\git\tuhanbao\crm\config\~$config.xlsx (另一个程序正在使用此文件，进程无法访问。)
+[2017-09-02 00:52:01,001][ERROR][main]
+[2017-09-06 23:37:03,538][ERROR][main]java.io.FileNotFoundException: D:\workspace\git\tuhanbao\crm\config\~$crm.xlsx (另一个程序正在使用此文件，进程无法访问。)
+[2017-09-13 21:00:19,231][ERROR][main]java.io.FileNotFoundException: D:\workspace\git\tuhanbao\crm\config\~$crm.xlsx (另一个程序正在使用此文件，进程无法访问。)
+[2017-09-23 16:36:50,000][ERROR][main]java.io.FileNotFoundException: D:\workspace\git\tuhanbao\crm\config\~$config.xlsx (另一个程序正在使用此文件，进程无法访问。)

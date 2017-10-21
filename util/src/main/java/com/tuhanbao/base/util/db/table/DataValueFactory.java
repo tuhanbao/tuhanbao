@@ -98,6 +98,8 @@ public final class DataValueFactory
                 return BooleanValue.valueOf((Boolean)value);
             if (value instanceof Number)
                 return BooleanValue.valueOf(((Number)value).byteValue());
+            if (value instanceof String)
+            	return BooleanValue.valueOf((String)value);
         }
         else if (dataType == DataType.STRING)
         {
@@ -105,19 +107,19 @@ public final class DataValueFactory
         }
         else if (dataType == DataType.BYTE)
         {
-            return ByteValue.valueOf(((Number)value).byteValue());
+            return ByteValue.valueOf(Byte.valueOf(value.toString()));
         }
         else if (dataType == DataType.SHORT)
         {
-            return ShortValue.valueOf(((Number)value).shortValue());
+            return ShortValue.valueOf(Short.valueOf(value.toString()));
         }
         else if (dataType == DataType.INT)
         {
-            return IntValue.valueOf(((Number)value).intValue());
+            return IntValue.valueOf(Integer.valueOf(value.toString()));
         }
         else if (dataType == DataType.LONG)
         {
-            return LongValue.valueOf(((Number)value).longValue());
+            return LongValue.valueOf(Long.valueOf(value.toString()));
         }
         else if (dataType == DataType.BYTEARRAY)
         {
@@ -129,16 +131,16 @@ public final class DataValueFactory
         else if (dataType == DataType.DATE)
         {
             if (value instanceof Date)  return TimeValue.valueOf((Date)value);
-            if (value instanceof String) return TimeValue.valueOf(TimeUtil.getTime((String)value));
+            if (value instanceof String) return TimeValue.valueOf(TimeUtil.getTimeByAnyWay((String)value));
             if (value instanceof Number)  return TimeValue.valueOf(((Number)value).longValue());
         }
         else if (dataType == DataType.FLOAT)
         {
-            return FloatValue.valueOf(((Number)value).floatValue());
+        	return FloatValue.valueOf(Float.valueOf(value.toString()));
         }
         else if (dataType == DataType.DOUBLE)
         {
-            return DoubleValue.valueOf(((Number)value).doubleValue());
+            return DoubleValue.valueOf(Double.valueOf(value.toString()));
         }
         
         throw new MyException(BaseErrorCode.ILLEGAL_ARGUMENT, "DataValue arg is wrong");

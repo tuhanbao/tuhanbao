@@ -45,16 +45,12 @@ public class DSConfig {
 				if (StringUtil.isEmpty(user)) break;
 				String password = config.getString(DB_PASSWORD_NAME + dbName);
 				
-				String dbDriver = config.getString(DB_DRIVER_NAME + "_" + dbName);
 				String dbUrl = config.getString(DB_URL_NAME + "_" + dbName);
-				if (StringUtil.isEmpty(dbDriver)) {
-					dbDriver = DB_DRIVER;
-				}
 				if (StringUtil.isEmpty(dbUrl)) {
 					dbUrl = DB_URL;
 				}
 				
-				DBS.put(dbName, new DBSrc(dbDriver, dbUrl, user, password, 1));
+				DBS.put(dbName, new DBSrc(dbUrl, user, password, 1));
 			}
 		}
 	}

@@ -2,6 +2,7 @@ package com.tuhanbao.base.util.exception;
 
 import com.tuhanbao.base.Constants;
 import com.tuhanbao.base.util.log.LogManager;
+import com.tuhanbao.base.util.objutil.StringUtil;
 
 /**
  * 通过错误码表示的错误
@@ -23,16 +24,15 @@ public class MyException extends RuntimeException
     
     public MyException(int errCode)
     {
-        super();
         this.errCode = errCode;
     }
     
     public MyException(int errCode, String ... args)
     {
-        super();
-        this.errCode = errCode;
-        this.args = args;
+        this(errCode);
+        this.args = StringUtil.deleteEmptyItems(args);
     }
+
     
     public MyException(String msg)
     {

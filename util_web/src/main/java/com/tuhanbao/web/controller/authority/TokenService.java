@@ -21,6 +21,11 @@ public class TokenService {
         return instance;
     }
 
+    /**
+     * 开放用于自定义tokenService
+     * 
+     * @param tokenService
+     */
     public static void registerTokenService(TokenService tokenService) {
         TokenService.instance = tokenService;
     }
@@ -72,7 +77,8 @@ public class TokenService {
     }
 
     public IUser getUserByToken(String token) {
-        throw new MyException("please reload this method in you impl class!");
+    	if (StringUtil.isEmpty(token)) return null;
+    	return (IUser) CacheManager.get(CacheKey.TOKEN, getUserIdByToken(token));
     }
     
     protected String getToken(HttpServletRequest request) {

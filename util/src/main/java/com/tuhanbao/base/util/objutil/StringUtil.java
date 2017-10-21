@@ -1,13 +1,12 @@
 package com.tuhanbao.base.util.objutil;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrBuilder;
 
 import com.tuhanbao.base.Constants;
 
@@ -432,6 +431,24 @@ public class StringUtil
 
         // 返回处理后的字符串
         return str;
+    }
+    
+    public static String[] deleteEmptyItems(String args[]) {
+    	if (args == null) return null;
+    	
+    	String[] result = new String[args.length];
+    	int i = 0;
+    	for (String arg : args) {
+    		if (isEmpty(arg)) continue;
+    		
+    		result[i++] = arg;
+    	}
+    	if (i == args.length) return args;
+    	else {
+    		String[] temp = new String[i];
+    		System.arraycopy(result, 0, temp, 0, i);
+    		return temp;
+    	}
     }
     
     //----------------------------copy from org.apache.commons.lang.StringUtils ---------------------------------------------------

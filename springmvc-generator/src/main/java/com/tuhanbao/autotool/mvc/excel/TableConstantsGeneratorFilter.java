@@ -140,6 +140,11 @@ public class TableConstantsGeneratorFilter extends ExcelAGCFilter {
         if (!StringUtil.isEmpty(table.getSeqName())) {
             sb.append(", \"").append(table.getSeqName()).append("\"");
         }
+        else {
+        	sb.append(", null");
+        }
+        sb.append(", ").append(table.isCTTable());
+        
         sb.append(");").append(Constants.ENTER);
         sb.append(Constants.ENTER);
         for (ImportColumn c : columns)

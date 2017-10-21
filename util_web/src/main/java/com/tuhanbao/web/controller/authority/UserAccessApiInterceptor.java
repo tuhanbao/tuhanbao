@@ -83,6 +83,10 @@ public class UserAccessApiInterceptor extends HandlerInterceptorAdapter {
         }
         
         //自定义权限过滤
+        //自定义权限属于比较粗粒度的权限控制，只支持32种权限区分，但是这32种权限可以任意组合
+        //需要继承IUser并实现getAuthority方法
+        //例如我定义部门管理员DEPT_ADMIN = 1， 人事管理员为HR_ADMIN = 3。   注意，这里的值代表的是bit位在第几位
+        //所以部门管理员的user的getAuthority方法返回1，hr的user返回4，公司ceo就返回1 + 4 = 5
         AccessRequired annotation = method.getAnnotation(AccessRequired.class);
         if (annotation == null) {
             annotation = method.getDeclaringClass().getAnnotation(AccessRequired.class);
@@ -100,7 +104,8 @@ public class UserAccessApiInterceptor extends HandlerInterceptorAdapter {
             return hasPower;
         }
         
-        //role权限过滤
+        //细粒度权限过滤，仿照业内最常用的权限体现，user关联role，role关联permission
+        //要实现细粒度的权限过滤，需要在配置文件中配置permissionManager并注入rolePermissionService属性
         if (permissionManager != null) {
             String requestUrl = buildRequestUrl(request);
             if (user == null && !permissionManager.IS_LOGIN(requestUrl)) {

@@ -2,6 +2,7 @@ package com.tuhanbao.autotool.filegenerator.j2ee;
 
 import com.tuhanbao.autotool.mvc.J2EETable;
 import com.tuhanbao.autotool.mvc.SpringMvcProjectInfo;
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.ClassInfo;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.MethodInfo;
 import com.tuhanbao.base.util.io.codeGenarator.classUtil.PackageEnum;
@@ -21,12 +22,19 @@ public class ModelClazzCreator extends J2EETableClazzCreator {
         classInfo.setName(modelName + " extends " + moClassName);
         classInfo.setPackageInfo(this.project.getServiceBeanUrl(table.getModule()));
         
+        
         //不需要import，在同一个包下面
 //        classInfo.addImportInfo(this.project.getServiceBeanUrl(table.getModule()) + "." + moClassName);
         MethodInfo method = new MethodInfo();
         method.setName(modelName);
         method.setPe(PackageEnum.PUBLIC);
         classInfo.addMethodInfo(method);
+        
+        if (table.isCTTable()) {
+        	method.setArgs("ICTBean ctBean");
+        	method.setMethodBody("super(ctBean);");
+        	classInfo.addImportInfo(ICTBean.class);
+        }
         
         return classInfo;
 	}

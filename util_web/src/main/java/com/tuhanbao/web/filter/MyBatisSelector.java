@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.dataservice.filter.Filter;
 import com.tuhanbao.base.dataservice.filter.JoinType;
 import com.tuhanbao.base.dataservice.filter.Selector;
@@ -157,5 +158,11 @@ public class MyBatisSelector extends Selector<Table, Column> {
 
     public Map<String, SelectTable> getAllTables() {
         return this.allTables;
+    }
+    
+    public void refreshCTTable(ICTBean ctBean) {
+    	for (SelectTable st : this.allTables.values()) {
+    		st.refreshCTTable(ctBean);
+    	}
     }
 }

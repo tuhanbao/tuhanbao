@@ -15,17 +15,20 @@ import com.tuhanbao.base.util.log.LogManager;
  */
 public class Table implements IDataGroup<Column>
 {
-    private String name;
+    protected String name;
     
-    private List<Column> list = new ArrayList<Column>();
+    protected List<Column> list = new ArrayList<Column>();
     
-    private CacheType cacheType;
+    protected CacheType cacheType;
     
-    private Column PK;
+    protected Column PK;
     
-    private String modelName;
+    protected String modelName;
     
-    private String seqName;
+    protected String seqName;
+
+	//代表一个table是否是ctTable
+    private boolean isCTTable;
     
     protected Table() {
     	
@@ -39,10 +42,11 @@ public class Table implements IDataGroup<Column>
     	this.modelName = modelName;
     }
     
-    public Table(int colSize, String name, CacheType cacheType, String modelName, String seqName)
+    public Table(int colSize, String name, CacheType cacheType, String modelName, String seqName, boolean isCTTable)
     {
     	this(colSize, name, cacheType, modelName);
     	this.seqName = seqName;
+    	this.isCTTable = isCTTable;
     }
     
     public void addColumn(Column col)
@@ -133,4 +137,12 @@ public class Table implements IDataGroup<Column>
             return null;
         }
     }
+    
+    public boolean isCTTable() {
+		return isCTTable;
+	}
+
+	public void setCTTable(boolean isCTTable) {
+		this.isCTTable = isCTTable;
+	}
 }

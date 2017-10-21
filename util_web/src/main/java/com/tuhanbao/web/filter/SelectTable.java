@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.tuhanbao.base.Constants;
+import com.tuhanbao.base.dataservice.ICTBean;
 import com.tuhanbao.base.dataservice.filter.Filter;
 import com.tuhanbao.base.dataservice.filter.JoinType;
 import com.tuhanbao.base.util.db.table.CacheType;
@@ -299,5 +300,9 @@ public class SelectTable {
 			return StringUtil.isEmpty(this.asName);
 		}
 		return false;
+	}
+	
+	public void refreshCTTable(ICTBean ctBean) {
+		this.table = ctBean.getTable(table);
 	}
 }

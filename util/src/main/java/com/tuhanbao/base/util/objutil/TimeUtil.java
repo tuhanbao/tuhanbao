@@ -295,6 +295,26 @@ public final class TimeUtil
     {
     	return getTime(dateStr, "yyyy-MM-dd HH:mm:ss", Calendar.MILLISECOND);
     }
+
+    /**
+     * 无论如何也给转成date
+     * @param dateStr
+     * @return
+     */
+    public static long getTimeByAnyWay(String dateStr)
+    {
+    	try {
+    		return getTime(dateStr, "yyyy-MM-dd HH:mm:ss", Calendar.MILLISECOND);
+    	}
+    	catch (Exception e1) {
+    		try {
+    			return getTime(dateStr, "yyyy-MM-dd", Calendar.HOUR);
+    		}
+    		catch (Exception e2) {
+    			return Long.valueOf(dateStr);
+    		}
+    	}
+    }
     
     public static long getLastSecondOfDay(long time) {
         int ymd[] = getYearMonthDayHour(time);

@@ -146,10 +146,10 @@ public class ClazzUtil {
                         }
                     }
                     catch (ClassNotFoundException e) {
-                        LogManager.info("class not found : " + className);
+                        LogManager.error("class not found : " + className);
                     }
                     catch (Throwable e) {
-                        LogManager.info(e.getMessage());
+                        LogManager.error(e.getMessage());
                     }
                 }
             }

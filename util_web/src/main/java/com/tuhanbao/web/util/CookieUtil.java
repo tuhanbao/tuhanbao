@@ -12,8 +12,7 @@ import com.tuhanbao.base.util.encipher.EncipherUtil;
 import com.tuhanbao.base.util.exception.MyException;
 import com.tuhanbao.base.util.io.IOUtil;
 import com.tuhanbao.base.util.log.LogManager;
-
-import payment.tools.util.StringUtil;
+import com.tuhanbao.base.util.objutil.StringUtil;
 
 public class CookieUtil {
 
