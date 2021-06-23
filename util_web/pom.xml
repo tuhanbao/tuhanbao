@@ -5,7 +5,7 @@
 	<artifactId>web</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
 	<properties>
-		<spring.version>3.2.2.RELEASE</spring.version>
+		<spring.version>4.3.21.RELEASE</spring.version>
 	</properties>
 	<dependencies>
 		<dependency>
