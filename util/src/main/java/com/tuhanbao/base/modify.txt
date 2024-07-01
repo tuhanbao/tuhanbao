@@ -1,0 +1,1044 @@
+ArrayUtil 
+	indexOf -> getValue
+com.td.ca -> com.tuhanbao 搜一搜
+IMQMessageListener - > MQMessageListener
+
+CacheSyncThread
+	
+	/**
+     * 清除缓存并且删除所有已保存数据
+     */
+    public void delete() {
+        synchronized (datas) {
+            try {
+                dropTempList = true;
+                failList.clear();
+                datas.clear();
+                dataService.deleteAll();
+            } catch (Exception e) {
+                log.error("", e);
+            }
+        }
+    }
+	
+	改成
+	
+	public void deleteAll() {
+        synchronized (datas) {
+            try {
+                dropTempList = true;
+                failList.clear();
+                datas.clear();
+                datas.add(new CacheEntry<>(null, Event.DELETE_ALL));
+            } catch (Exception e) {
+                log.error(LogUtil.getMessage(e));
+            }
+        }
+    }
+	118 add
+	
+	            } else if (entry.event == Event.DELETE_ALL) {
+                dataService.deleteAll();
+            }
+			
+			
+			
+Event  add DELETE_ALL
+	
+ICacheResource
+	
+	add
+	Object get(ICacheKey cacheKey);
+
+    void set(ICacheKey cacheKey, Object value);
+
+    void del(ICacheKey cacheKey);
+	
+ICacheService
+	update
+
+    int update2DB(T t);
+
+    /**
+     * 单纯的删除，不需要考虑级联删除
+     * 删除必须按照key进行删除
+     */
+    int delete2DB(T t);
+
+    int updateSelective2DB(T t);
+	
+NoExpireCacheKey
+	name -> cacheKey
+	
+	add
+	public void setCacheKey(String cacheKey) {
+        this.cacheKey = cacheKey;
+    }
+
+Operator
+	26 -> this.opt = opt
+	49 -> return Constants.BLANK + opt + Constants.BLANK;
+	
+Page
+	166 ->         if (this.numPerPage == 0 || !hasInit) {
+            return;
+        }
+		
+	add
+	/**
+     * 用来标记是否设置过totalCount，如果设置过，需要智能设置pageNum，比如pageNum为10，numPerPage为10， 总记录为30， 则pageNum会自动调整为3
+     */
+    protected boolean hasInit = false;
+
+    /**
+     * 是否需要分页的同时统计总数
+     */
+    protected boolean needCountTotal = true;
+
+    public boolean isNeedCountTotal() {
+        return needCountTotal;
+    }
+
+    public void setNeedCountTotal(boolean needCountTotal) {
+        this.needCountTotal = needCountTotal;
+    }
+	
+Filter
+	18 -> public class Filter implements Cloneable {
+	del 152, 166
+	add
+    @Override
+    public Filter clone() {
+        Filter filter = new Filter();
+        filter.setDistinct(this.distinct);
+        filter.dataGroup = this.dataGroup;
+        if (this.page != null) {
+            filter.setPage(new Page(this.page.getPageNum(), this.page.getNumPerPage()));
+        }
+
+        if (this.items != null) {
+            List<IFilterItem> cloneItems = new ArrayList<>();
+            cloneItems.addAll(this.items);
+            filter.items = cloneItems;
+        }
+
+        if (this.orderFields != null) {
+            List<OrderField> cloneOrderFields = new ArrayList<>();
+            cloneOrderFields.addAll(this.orderFields);
+            filter.orderFields = cloneOrderFields;
+        }
+        return filter;
+    }
+	
+CutTableServiceBean
+	16 add @JSONField(serialize = false)
+	
+IDataGroup
+	29: -> return getExpireTime() > 0;
+	
+IDataService
+	48 -> int update(T data, Filter filter);
+	63 -> int updateSelective(T data, Filter filter);
+	78 -> IData selectByKey(IDataGroup<?> dg, Object pkValue);
+	
+JavaCacheManager
+	init ->         if (resource == null) {
+            resource = new MemResource(this);
+        }
+		
+MemResource
+	add
+    @Override
+    public Object get(ICacheKey cacheKey) {
+        throw new UnsupportedOperationException("not support simple key-value");
+    }
+
+    @Override
+    public void set(ICacheKey cacheKey, Object value) {
+        throw new UnsupportedOperationException("not support simple key-value");
+    }
+
+    @Override
+    public void del(ICacheKey cacheKey) {
+        throw new UnsupportedOperationException("not support simple key-value");
+    }
+	
+	getAll -> 
+    @Override
+    public List<Object> getAll(ICacheKey ck) {
+        Map<String, Object> cache = getCacheByDataGroup(ck);
+        if (cache == null) {
+            return Collections.emptyList();
+        }
+
+        Collection<Object> values = cache.values();
+        List<Object> list = new ArrayList<>(values.size());
+        if (isExpire(ck) && values != null) {
+            for (Object item : values) {
+                list.add(((ExpireObject) item).getObject());
+            }
+        } else {
+            list.addAll(values);
+        }
+        return list;
+    }
+	
+
+ClazzUtil
+	add
+    public static boolean isStatic(Method method) {
+        return Modifier.isStatic(method.getModifiers());
+    }
+
+    public static Class<?> getRawClass(Type type) {
+        if (type instanceof Class<?>) {
+            return (Class<?>) type;
+        } else if (type instanceof ParameterizedType) {
+            return getRawClass(((ParameterizedType) type).getRawType());
+        } else if (type instanceof WildcardType) {
+            WildcardType wildcardType = (WildcardType) type;
+            Type[] upperBounds = wildcardType.getUpperBounds();
+            if (upperBounds.length == 1) {
+                return getRawClass(upperBounds[0]);
+            } else {
+                throw new AppException();
+            }
+        } else {
+            throw new AppException();
+        }
+    }
+	
+	public static Object getVarValue(Object o, Field field) {
+        return ReflectUtil.getFieldValue(o, field);
+    }
+
+DistributedDiyConfig
+	19 -> public static final String SERVICE_NAME = ConfigManager.getBaseConfig() == null ? null : ConfigManager.getBaseConfig().getValue("service");
+	50 -> public void receiveMessage(Object message) {
+	del getTopics
+	
+DBSrc
+	72~86 -> 
+		this.dbType = url.contains("oracle") ? DBType.ORACLE : DBType.MYSQL;
+        int start;
+        if (this.dbType == DBType.ORACLE) {
+            start = this.url.lastIndexOf("/") == -1 ? this.url.lastIndexOf(":") : this.url.lastIndexOf("/");
+        } else{
+            start = this.url.lastIndexOf("/");
+        }
+        int end = this.url.indexOf("?");
+        this.dbInstance = end == -1 ? this.url.substring(start + 1) : this.url.substring(start + 1, end);
+
+CacheType
+	41 aysn -> async
+	46 add
+	        if (str.startsWith("read")) {
+            return CacheType.CACHE_READ;
+        }
+		
+Column
+	98 private -> public
+
+CutByHashTable
+	getTableByCutTableValue -> 
+    @Override
+    public Table getTableByCutTableValue(Object cutTableValue) {
+        int suffix = getHashValue(cutTableValue);
+        return this.getTableBySuffix(suffix + "");
+    }
+
+    public int getHashValue(Object cutTableValue) {
+        String value = cutTableValue.toString();
+        // >> 9是因为自定义雪花算法的时间戳所在位置原因
+        int suffix = (SALT ^ (value.hashCode() >> 9)) % size;
+        if (suffix < 0) {
+            suffix += size;
+        }
+        return suffix;
+    }
+	
+CutTable
+	51 add
+	        if (cutTableValue == null) {
+            // 有时候更新的时候servicebean不包含hash key，此时依然要返回table.
+            return this;
+        }
+		
+DataValueFactory		
+	68~72
+			if (value instanceof BigDecimal) {
+                return BigDecimalValue.valueOf((BigDecimal) value);
+            } else {
+                return BigDecimalValue.valueOf(new BigDecimal(value.toString()));
+            }
+	74~78
+	            if (value instanceof BigDecimal) {
+                return BigDecimalValue.valueOf((BigDecimal) value);
+            } else {
+                return BigDecimalValue.valueOf(new BigDecimal(value.toString()));
+            }
+    64
+	            if (value instanceof Integer) {
+                return IntValue.valueOf((Integer) value);
+            } else {
+                return IntValue.valueOf(Integer.valueOf(value.toString()));
+            }
+
+Table
+	add
+	protected boolean isAutoIncrement= false;
+
+    protected int expireTime = -1;
+	
+    public void setAutoIncrement(boolean isAutoIncrement) {
+        this.isAutoIncrement = isAutoIncrement;
+    }
+
+    public boolean isAutoIncrement() {
+        return isAutoIncrement;
+    }
+
+    @Override
+    public int getExpireTime() {
+        return this.expireTime;
+    }
+
+    public void setExpireTime(int expireTime) {
+        this.expireTime = expireTime;
+    }
+	
+PluginClassLoader
+	145~148 ClassLoader parent = PluginClassLoader.class.getClassLoader();
+	
+	public static Object eval(String exp, Map<String, Object> vars) {
+        init();
+        log.debug("evl exp: " + exp);
+        try {
+            ExpressionCompiler compiler = new ExpressionCompiler(exp, CTX);
+            Object ans = MVEL.executeExpression(compiler.compile(), vars);
+            log.debug("evl exp result: " + ans);
+            return ans;
+        } catch (Exception e) {
+            throw new AppException("mvel parsing expression: " + exp + " from " + vars + " error!");
+        }
+
+    }
+
+ELUtil
+	modify
+    public static Object eval(CompiledExpression compiledExpression, Map<String, Object> vars) {
+        if (compiledExpression == null) {
+            return null;
+        }
+
+        try {
+            Object ans = MVEL.executeExpression(compiledExpression, vars);
+            log.debug("evl exp result: " + ans);
+            return ans;
+        } catch (Exception e) {
+            throw new AppException("mvel parsing compiled expression: " + compiledExpression + " from " + vars + " error!");
+        }
+    }
+
+    public static CompiledExpression getCompiledExpression(String exp) {
+        init();
+        try {
+            ExpressionCompiler compiler = new ExpressionCompiler(exp, CTX);
+            return compiler.compile();
+        } catch (Exception e) {
+            throw new AppException("mvel get compiled expression: " + exp + " error!");
+        }
+    }
+	
+EncipherUtil
+	147 add
+		if (config == null) {
+            return null;
+        }
+		
+SHAUtil
+	add private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA256";
+	
+	modify 
+	public static final String getSHA1(String text) {
+        return getSHABase64(text, SHA_1);
+    }
+
+    public static final String getSHA256(String text) {
+        return getSHABase64(text, SHA_256);
+    }
+
+    public static final String getSHA512(String text) {
+        return getSHABase64(text, SHA_512);
+    }
+
+	getPBKDF2Password ->
+	public static String getPBKDF2Password(String text, String salt) {
+        String algorithm = EncipherUtil.getValue(SHA_ALGORITHM);
+        if (StringUtil.isEmpty(algorithm)) {
+            algorithm = PBKDF2_ALGORITHM;
+        }
+        return getPBKDF2Password(text, salt, algorithm);
+    }
+
+    public static String getPBKDF2Password(String text, String salt, String algorithm) {
+        try {
+            KeySpec spec = new PBEKeySpec(text.toCharArray(), salt.getBytes(), 10000, 256);
+            SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
+            String ss = Base64.encodeBase64String(f.generateSecret(spec).getEncoded());
+            return ss;
+        } catch (NoSuchAlgorithmException e) {
+            log.error(LogUtil.getMessage(e));
+            log.error("getPBKDF2Pswd failed!");
+            return "";
+        } catch (InvalidKeySpecException e) {
+            log.error(LogUtil.getMessage(e));
+            log.error("getPBKDF2Pswd failed.");
+            return "";
+        }
+    }
+	
+AppException
+	51 -> return new AppException(BaseErrorCode.ERROR, t.getClass().getName() + ":" + t.getMessage());
+	
+ErrorCodeMsgManager
+	28 ~ 40 -> String msg = ResourceManager.getResource(errCode + "", args);
+
+HandlerManager	
+	42 add                if (CACHE.containsKey(type)) {
+                    throw new AppException("handler of type exist : " + type);
+                }
+	
+HttpRequestInfo
+	add
+    @Override
+    public String toString() {
+        return "HttpRequestInfo{" +
+                "url='" + url + '\'' +
+                ", method=" + method +
+                ", params=" + params +
+                ", body=" + body +
+                ", headers=" + headers +
+                '}';
+    }
+
+HttpResponseData	
+	getJSONResult ->
+	public Object getJSONResult() {
+        try {
+            return JSONUtil.parse(body);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+	
+HttpUtil
+	log.info -> log
+	add
+	private boolean needLog = true;
+    public void setNeedLog(boolean needLog) {
+        this.needLog = needLog;
+    }
+
+    private void log(String info) {
+        if (needLog) {
+            log.info(info);
+        }
+    }
+	
+	278 200 -> 1000
+	280 2 -> 500
+
+RecursionOperatorTokenizer	
+	31 -> private <T extends Object> RecursionOperatorTokenizer(String s, Operator<T> op) {
+	74 -> private <T extends Object> void split(Operator<T> op) {
+
+Xls2JavaUtil
+	243 -> String prefix = AbstractXls2CodeUtil.getGap(note.getGap());
+	
+AbstractDBExcutor
+	
+	101 -> sb.append(getIndexSql(table, tableName));
+	96 -> sb.append("    ").append("PRIMARY KEY (").append(pk.getName()).append(")");
+	88,89 ->                 sb.append("    ").append(getColumnSql(col));
+                sb.append(Constants.COMMA).append(Constants.ENTER);
+	85 -> sb.append("create table ").append(tableName).append(Constants.LEFT_PARENTHESE).append(Constants.ENTER);
+	
+	99 add sb.append(Constants.ENTER);
+	
+	47,48 ->
+   protected abstract String getAddIndexSql(ImportTable table, String tableName, IndexInfo indexInfo);
+
+    protected abstract String getDropIndexSql(ImportTable table, String tableName, IndexInfo indexInfo);
+	
+IndexInfo
+	11 ~ 19
+	    public final IndexType indexType;
+
+    public IndexInfo(String name, String[] cols) {
+        this(name, cols, IndexType.NORMAL);
+    }
+
+    public IndexInfo(String name, String[] cols, IndexType indexType) {
+        this.name = name.toLowerCase();
+
+        for (int i = 0; i < cols.length; i++) {
+            cols[i] = cols[i].toUpperCase();
+        }
+        this.cols = cols;
+        this.indexType = indexType;
+    }
+	
+ImportColumn
+	toString -> 
+	public String toString() {
+        DataType dataType = this.getDataType();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(Constants.GAP2).append("public static final Column ").append(getAliasName().toUpperCase()).append(" = ColumnFactory.createColumn(TABLE, \"")
+                .append(name).append("\", \"").append(ClazzUtil.convertUnderline2LowerHump(this.aliasName)).append("\", DataType.").append(dataType).append(", ").append(isPK()).append(")");
+        ImportColumn fc = getFkColumn();
+        sb.append(".setLength(").append(this.getLength()).append(")");
+        if (fc != null) {
+            sb.append(".setRelation(Relation." + fkRT.name() + ").setFk(" + fc.getTable().getAliasName() + ".TABLE)");
+        }
+        if (this.isCanFilter()) {
+            sb.append(".setCanFilter(").append(this.isCanFilter()).append(")");
+            if (this.getEnumInfo() != null) {
+                sb.append(".setEnumStr(\"" + this.getEnumInfo().getClassName() + "\")");
+            }
+        }
+
+
+        String validatorStr = this.getValidatorStr();
+        Set<String> nameAndArgsSet = new HashSet<>();
+        if (!StringUtil.isEmpty(validatorStr)) {
+            NameAndArgs[] nameAndArgs = Column.parse(validatorStr);
+            for (NameAndArgs item : nameAndArgs) {
+                nameAndArgsSet.add(item.name);
+            }
+        }
+
+        // text先不加校验器
+        if (dataType == DataType.STRING) {
+            if (!nameAndArgsSet.contains("length")) {
+                String lengthValidator = "length(0, " + this.getLength() + ")";
+                validatorStr = lengthValidator + (StringUtil.isEmpty(validatorStr) ? "" : ";" + validatorStr);
+            }
+        }
+        if (!StringUtil.isEmpty(validatorStr)) {
+            sb.append(".setValidatorStr(\"" + validatorStr + "\")");
+        }
+
+        sb.append(";");
+        return sb.toString();
+    }
+
+ImportTableManager
+	14 -> private static final Map<String, ImportTable> TABLES = new LinkedHashMap<>();
+	
+TableConfig
+	add
+	
+
+    private int expireTime;
+
+    private String[][] groupKeys;
+	
+TemplateUtil
+	75 ->throw new AppException("freemarker template parsing " + src + " from " + content + " error");
+	
+TxtUtil
+	readSync -> readAsync
+
+ScheduledThreadManager
+	81 -> public static <T> Future<T> submit(Callable<T> command) {
+	add
+	private static final ThreadFactory VT_FACTORY = Thread.ofVirtual().name("vt-fac", 0).factory();
+	    public static Thread newThread(Runnable r) {
+        return VT_FACTORY.newThread(r);
+    }
+
+    public static void executeWithVt(Runnable r) {
+        VT_FACTORY.newThread(r).start();
+    }
+
+    public static <T> Future<T> submitWithVt(Callable<T> command) {
+        if (command == null) {
+            throw new NullPointerException();
+        }
+
+        RunnableFuture<T> fTask = new FutureTask<>(command);
+        VT_FACTORY.newThread(fTask).start();
+        return fTask;
+    }
+	
+ResourceManager
+	72 add
+	        if (impl == ResourceManager.impl) {
+            return;
+        }
+
+
+	23 ~35 ->
+    public static void addResource(String key, String value) {
+        if (impl != null) {
+            impl.addResource(key, value);
+        }
+    }
+
+    public static void addResource(String locale, String key, String value) {
+        if (impl != null) {
+            impl.addResource(locale, key, value);
+        }
+    }
+
+    public static void removeResource(String key) {
+        if (impl != null) {
+            impl.removeResource(key);
+        }
+    }
+	
+	add
+	
+    public static void setLocale(String locale) {
+        if (impl != null) {
+            impl.setLocale(locale);
+        }
+    }
+	
+IPUtil
+	add
+	    public static boolean isIpv6(String ipAddress) {
+        if (StringUtil.isEmpty(ipAddress)) {
+            return false;
+        }
+        String ip = "^([\\da-fA-F]{1,4}:){6}((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.)" +
+                "{3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^::([\\da-fA-F]{1,4}:){0,4}" +
+                "((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]" +
+                "?\\d\\d?)$|^([\\da-fA-F]{1,4}:):([\\da-fA-F]{1,4}:){0,3}((25[0-5]" +
+                "|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^" +
+                "([\\da-fA-F]{1,4}:){2}:([\\da-fA-F]{1,4}:){0,2}((25[0-5]|2[0-4]\\d" +
+                "|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^([\\da-fA-F]" +
+                "{1,4}:){3}:([\\da-fA-F]{1,4}:){0,1}((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.)" +
+                "{3}(25[0-5]|2[0-4]\\d|[01]?\\d\\d?)$|^([\\da-fA-F]{1,4}:){4}:" +
+                "((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]\\d|[01]" +
+                "?\\d\\d?)$|^([\\da-fA-F]{1,4}:){7}[\\da-fA-F]{1,4}$|^:((:[\\da-fA-F]" +
+                "{1,4}){1,6}|:)$|^[\\da-fA-F]{1,4}:((:[\\da-fA-F]{1,4}){1,5}|:)$|^" +
+                "([\\da-fA-F]{1,4}:){2}((:[\\da-fA-F]{1,4}){1,4}|:)$|^([\\da-fA-F]{1,4}:)" +
+                "{3}((:[\\da-fA-F]{1,4}){1,3}|:)$|^([\\da-fA-F]{1,4}:){4}((:[\\da-fA-F]" +
+                "{1,4}){1,2}|:)$|^([\\da-fA-F]{1,4}:){5}:([\\da-fA-F]{1,4})" +
+                "?$|^([\\da-fA-F]{1,4}:){6}:$";
+        return ipAddress.matches(ip);
+    }
+
+ArrayUtil
+	489 -> if (func != null) {
+	318 del continue
+	add
+    public static <E> List<E> newList(E... elements) {
+        int capacity = elements.length;
+        List<E> list = new ArrayList(capacity);
+        Collections.addAll(list, elements);
+        return list;
+    }
+
+    public static <E> Set<E> newSet(E... elements) {
+        int capacity = elements.length;
+        Set<E> set = new HashSet<>(capacity);
+        Collections.addAll(set, elements);
+        return set;
+    }
+	
+	public static boolean contain(char[] chars, char c) {
+        if (chars == null || chars.length == 0) {
+            return false;
+        }
+
+        for (char entry : chars) {
+            if (entry == c) {
+                return true;
+            }
+        }
+        return false;
+    }
+	
+	    public static <T extends Object> int indexOf(T[] array, T item) {
+        if (array == null || array.length == 0) {
+            return -1;
+        } else {
+            int length = array.length;
+            for (int i = 0; i < length; i++) {
+                if (ObjectUtil.isEqual(array[i], item)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }
+
+    public static <T extends Object> int indexOf(List<T> array, T item) {
+        if (array == null || array.isEmpty()) {
+            return -1;
+        } else {
+            int length = array.size();
+            for (int i = 0; i < length; i++) {
+                if (ObjectUtil.isEqual(array.get(i), item)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+    }    
+	
+	public static long[] subArray(long[] array, int startIndex, int length) {
+        long[] t = new long[length];
+        length = Math.min(length, array.length - startIndex);
+        System.arraycopy(array, startIndex, t, 0, length);
+        return t;
+    }
+
+    public static int[] subArray(int[] array, int startIndex, int length) {
+        int[] t = new int[length];
+        length = Math.min(length, array.length - startIndex);
+        System.arraycopy(array, startIndex, t, 0, length);
+        return t;
+    }    
+	
+	public static List<Map<?, ?>> meger(List<Map<?, ?>> list, Object[] megerCols, Object[] newColNames,
+                                        Function<List<Map<?, ?>>, ?> func) {
+        return meger(list, 0, megerCols, newColNames, func);
+    }
+	
+	
+
+
+    /**
+     * 是否包含相同的元素
+     */
+    public static <T> boolean hasIntersection(List<T> objects1, List<T> objects2) {
+        if (isEmpty(objects1) || isEmpty(objects2)) {
+            return false;
+        }
+
+        for (T object : objects1) {
+            if (objects2.contains(object)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static <T> T getOne(List<T> data) {
+        if (data == null || data.size() == 0) {
+            return null;
+        }
+        return data.get(0);
+    }
+
+
+    public static <T> T getOne(T[] data) {
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        return data[0];
+    }
+
+    public static <T, R> void executeBatch(T[] ts, int batchSize, Function<T[], R> function) {
+        int length = ts == null ? 0 : ts.length;
+        if (batchSize <= 0) {
+            throw new AppException("batch size <= 0");
+        }
+        int batch = length / batchSize;
+        for (int i = 0; i < batch; i++) {
+            T[] newArray = subArray(ts, i * batchSize, batchSize);
+            function.apply(newArray);
+        }
+
+        int remainSize = length - (batch * batchSize);
+        if (batch * batchSize < length) {
+            T[] newArray = subArray(ts, batch * batchSize, remainSize);
+            function.apply(newArray);
+        }
+    }
+
+    public static <T, R> void executeBatch(List<T> ts, int batchSize, Function<List<T>, R> function) {
+        int length = ts == null ? 0 : ts.size();
+        if (batchSize <= 0) {
+            throw new AppException("batch size <= 0");
+        }
+        int batch = length / batchSize;
+        for (int i = 0; i < batch; i++) {
+            List<T> temp = ts.subList(i * batchSize, (i + 1) * batchSize);
+            function.apply(temp);
+        }
+
+        int remainSize = length - (batch * batchSize);
+        if (batch * batchSize < length) {
+            List<T> temp = ts.subList(batch * batchSize, length);
+            function.apply(temp);
+        }
+    }
+
+    public static <R> void executeBatch(long[] ts, int batchSize, Function<long[], R> function) {
+        int length = ts == null ? 0 : ts.length;
+        if (batchSize <= 0) {
+            throw new AppException("batch size <= 0");
+        }
+        int batch = length / batchSize;
+        for (int i = 0; i < batch; i++) {
+            long[] newArray = subArray(ts, i * batchSize, batchSize);
+            function.apply(newArray);
+        }
+
+        int remainSize = length - (batch * batchSize);
+        if (batch * batchSize < length) {
+            long[] newArray = subArray(ts, batch * batchSize, remainSize);
+            function.apply(newArray);
+        }
+
+    }
+
+    public static <R> void executeBatch(int[] ts, int batchSize, Function<int[], R> function) {
+        int length = ts == null ? 0 : ts.length;
+        if (batchSize <= 0) {
+            throw new AppException("batch size <= 0");
+        }
+        int batch = length / batchSize;
+        for (int i = 0; i < batch; i++) {
+            int[] newArray = subArray(ts, i * batchSize, batchSize);
+            function.apply(newArray);
+        }
+
+        int remainSize = length - (batch * batchSize);
+        if (batch * batchSize < length) {
+            int[] newArray = subArray(ts, batch * batchSize, remainSize);
+            function.apply(newArray);
+        }
+    }
+
+    public static Collection createCollection(Type type) {
+        Class<?> rawClass = ClazzUtil.getRawClass(type);
+        Collection list;
+        if (rawClass == AbstractCollection.class //
+                || rawClass == Collection.class) {
+            list = new ArrayList();
+        } else if (rawClass.isAssignableFrom(HashSet.class)) {
+            list = new HashSet();
+        } else if (rawClass.isAssignableFrom(LinkedHashSet.class)) {
+            list = new LinkedHashSet();
+        } else if (rawClass.isAssignableFrom(TreeSet.class)) {
+            list = new TreeSet();
+        } else if (rawClass.isAssignableFrom(ArrayList.class)) {
+            list = new ArrayList();
+        } else if (rawClass.isAssignableFrom(EnumSet.class)) {
+            Type itemType;
+            if (type instanceof ParameterizedType) {
+                itemType = ((ParameterizedType) type).getActualTypeArguments()[0];
+            } else {
+                itemType = Object.class;
+            }
+            list = EnumSet.noneOf((Class<Enum>) itemType);
+        } else if (rawClass.isAssignableFrom(Queue.class)) {
+            list = new LinkedList();
+        } else {
+            try {
+                list = (Collection) rawClass.newInstance();
+            } catch (Exception e) {
+                throw new AppException("create instance error, class " + rawClass.getName());
+            }
+        }
+        return list;
+    }
+	
+MapUtil
+
+	add
+    public static boolean isEqual(Map map1, Map map2) {
+        return isEqual(map1, map2, null);
+    }
+
+    public static boolean isEqual(Map map1, Map map2, EqualComparator<Object> comparator) {
+        int size1 = map1 == null ? 0 : map1.size();
+        int size2 = map2 == null ? 0 : map2.size();
+        if (size1 == size2) {
+            // 空集合和null也认为相等
+            if (size1 == 0) {
+                return true;
+            }
+
+            for (Object item : map1.entrySet()) {
+                Map.Entry entry = (Map.Entry) item;
+                Object o1 = entry.getValue();
+                if (map2.containsKey(entry.getKey())) {
+                    Object o2 = map2.get(entry.getKey());
+
+                    boolean isEqual;
+                    if (comparator != null) {
+                        isEqual = comparator.compare(o1, o2);
+                    } else {
+                        isEqual = ObjectUtil.isEqual(o1, o2);
+                    }
+                    if (!isEqual) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isEmpty(Map<?, ?> beans) {
+        return beans == null || beans.isEmpty();
+    }
+
+    public static Map<Object, Object> createMap(Type type) {
+        if (type == Map.class) {
+            return new HashMap();
+        }
+
+        if (type == HashMap.class) {
+            return new HashMap();
+        }
+
+        if (type == LinkedHashMap.class) {
+            return new LinkedHashMap();
+        }
+
+        if (type == Properties.class) {
+            return new Properties();
+        }
+
+        if (type == Hashtable.class) {
+            return new Hashtable();
+        }
+
+        if (type == IdentityHashMap.class) {
+            return new IdentityHashMap();
+        }
+
+        if (type == SortedMap.class || type == TreeMap.class) {
+            return new TreeMap();
+        }
+
+        if (type == ConcurrentMap.class || type == ConcurrentHashMap.class) {
+            return new ConcurrentHashMap();
+        }
+
+        if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+
+            Type rawType = parameterizedType.getRawType();
+            if (EnumMap.class.equals(rawType)) {
+                Type[] actualArgs = parameterizedType.getActualTypeArguments();
+                return new EnumMap((Class) actualArgs[0]);
+            }
+
+            return createMap(rawType);
+        }
+
+        Class<?> clazz = (Class<?>) type;
+        if (clazz.isInterface()) {
+            throw new AppException("unsupport type " + type);
+        }
+
+        if ("java.util.Collections$UnmodifiableMap".equals(clazz.getName())) {
+            return new HashMap();
+        }
+
+        try {
+            return (Map<Object, Object>) clazz.newInstance();
+        } catch (Exception e) {
+            throw new AppException("unsupport type " + type);
+        }
+    }
+	
+RelectUtl
+
+	25 -> 
+    public static Object getFieldValue(Object obj, String fieldName) {
+        Field field = ReflectUtil.getField(obj, fieldName);
+        return getFieldValue(obj, field);
+    }
+
+    public static Object getFieldValue(Object obj, Field field) {
+	
+	add
+	
+
+    public static <T> T invokeStatic(Method method, Object... args) {
+        return invoke(null, method, args);
+    }
+
+    public static <T> T invoke(Object obj, Method method, Object... args) {
+        setAccessible(method);
+
+        try {
+            return (T) method.invoke(ClazzUtil.isStatic(method) ? null : obj, args);
+        } catch (Exception e) {
+            throw AppException.getAppException(e);
+        }
+    }
+
+    public static <T> T invoke(Object obj, String methodName, Object... args) {
+        Method method = ClazzUtil.getMethod(obj.getClass(), methodName, getClasses(args));
+        if (null == method) {
+            throw new AppException("No such method: " + methodName);
+        }
+        return invoke(obj, method, args);
+    }
+
+    /**
+     * 设置方法为可访问（私有方法可以被外部调用）
+     */
+    public static <T extends AccessibleObject> T setAccessible(T accessibleObject) {
+        if (null != accessibleObject && false == accessibleObject.isAccessible()) {
+            accessibleObject.setAccessible(true);
+        }
+        return accessibleObject;
+    }
+
+    public static Object getDefaultValue(Class<?> clazz) {
+        // 原始类型
+        if (clazz.isPrimitive()) {
+            return getPrimitiveDefaultValue(clazz);
+        }
+        return null;
+    }
+
+    public static Object getPrimitiveDefaultValue(Class<?> clazz) {
+        if (long.class == clazz) {
+            return 0L;
+        } else if (int.class == clazz) {
+            return 0;
+        } else if (short.class == clazz) {
+            return (short) 0;
+        } else if (char.class == clazz) {
+            return (char) 0;
+        } else if (byte.class == clazz) {
+            return (byte) 0;
+        } else if (double.class == clazz) {
+            return 0D;
+        } else if (float.class == clazz) {
+            return 0f;
+        } else if (boolean.class == clazz) {
+            return false;
+        }
+        return null;
+    }
+
+    public static Class<?>[] getClasses(Object... objects) {
+        Class<?>[] classes = new Class<?>[objects.length];
+        Object obj;
+        for (int i = 0; i < objects.length; i++) {
+            obj = objects[i];
+            if (null == obj) {
+                classes[i] = Object.class;
+            } else {
+                classes[i] = obj.getClass();
+            }
+        }
+        return classes;
+    }
