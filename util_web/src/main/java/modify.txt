@@ -1,0 +1,292 @@
+spring-boot-starter-web 3.2.5
+
+SyncTableDataUpdateListener -> AsyncTableDataUpdateListener
+
+CheckCodeUtil
+42 -> if (ConfigManager.getBaseConfig() != null && ConfigManager.getBaseConfig().containsKey(BaseConfigUtil.CHECK_CODE_OVER_TIME_MINS_NAME)) {
+
+
+SessionManager
+111 112 del session.setAttribute(CsrfInterceptor.CSRFTOKEN, UUIDUtil.getUUID());
+
+del UserAccessApiInterceptor, WebSecurityConfig
+
+
+DiyRequestBodyAdvice
+
+72 add
+        if (targetType instanceof ParameterizedType) {
+            ParameterizedType pt = (ParameterizedType)targetType;
+            Type actualType = getListActualType(pt);
+            inputMessage.getHeaders().add(ACTUAL_TYPE, actualType.getTypeName());
+        }
+		
+add    public static final String ACTUAL_TYPE = "actualType";
+
+JsonHttpMessageConverter 14 -> super(MediaType.APPLICATION_JSON, MediaType.TEXT_HTML, MediaType.APPLICATION_OCTET_STREAM,
+
+ResuleBean
+
+34 del SUCCESS.setData(null);
+39 ResultBean -> {
+    public ResultBean() {
+        this.code = BaseErrorCode.NO_ERROR;
+        this.setMsg(ErrorCodeMsgManager.getErrMsg(code));
+    }
+	
+add     private static final int MAX_VALUE = 100000000;
+toJSON -> 
+    public String toJSON() {
+        JSONObject json = (JSONObject) JSONUtil.toJSON(this);
+        // 1 000 000 以上的错误码为和三方对接的错误码，需要剥离前缀
+        json.put(Constants.CODE, this.code % MAX_VALUE);
+        return json.toString();
+    }
+
+ServiceBeanValidatorFactoryBean 
+	add
+    public static void validateBackend(ServiceBean bean, IService<?> service, boolean isSelective) {
+        Table table = bean.getTable();
+        Map<Column, AbstractDataValue> properties = bean.getProperties();
+        for (Column col : table.getColumns()) {
+            if (!isSelective || properties.containsKey(col)) {
+                ValidatorManager.check(bean, col, service, true);
+            }
+        }
+
+        Map<String, List<ServiceBean>> fkBeans = bean.getFkBeans();
+        if (fkBeans != null) {
+            fkBeans.values().stream().forEach(item -> item.stream().forEach(serviceBean -> validateBackend(serviceBean, service, isSelective)));
+        }
+    }
+
+del AdminController CrsfInterceptor
+	
+AppExceptionHandler 	
+	handlerException -> 
+    @org.springframework.web.bind.annotation.ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public Object handlerException(Exception ex, HttpServletRequest req) throws Exception {
+        log.error("req err,uri:{},method:{},query:{}", req.getRequestURI(), req.getMethod(), req.getQueryString());
+        if (ex instanceof BindException) {
+            BindException be = (BindException) ex;
+            List<ObjectError> allErrors = be.getBindingResult().getAllErrors();
+            if (!ArrayUtil.isEmpty(allErrors)) {
+                String message = allErrors.get(0).getDefaultMessage();
+                return getResultBeanByException(new AppException(BaseErrorCode.ERROR, message));
+            }
+        }
+        return getResultBeanByException(ex);
+    }
+
+    private static ResultBean getResultBeanByException(Exception ex) {
+        ResultBean msg = new ResultBean();
+        AppException e = AppException.getAppException(ex);
+        msg.setMsg(e.getMessage());
+        msg.setCode(e.getErrCode());
+        msg.setData(null);
+        log.error("", e);
+        return msg;
+    }
+	
+CacheSyncThreadManager
+	add
+	    public static <E extends ServiceBean> void deleteAll(Table table, ICacheService<?> dataService) {
+        CacheSyncThread<E> cacheSyncThread = (CacheSyncThread<E>) getCacheSyncThread(table, dataService);
+        cacheSyncThread.deleteAll();
+    }
+	
+MyBatisSqlSentence	
+	initSqlAndArgs ->
+	    private void initSqlAndArgs(String sql, AbstractDataValue... params) {
+        int length = params == null ? 0 : params.length;
+        this.sql = sql;
+        if (length > 0) {
+            args = new Object[length];
+            for (int i = 0; i < length; i++) {
+                if (params[i] == null) {
+                    this.sql = this.sql.replace("{" + i + "}", "#{_parameter.args[" + i + "], javaType=java.lang.Object}");
+                    continue;
+                }
+                try {
+                    Method method = params[i].getClass().getMethod("getValue4DB");
+                    args[i] = params[i].getValue4DB();
+                    this.sql = this.sql.replace("{" + i + "}", "#{_parameter.args[" + i + "], javaType=" + method.getReturnType().getName() + "}");
+                } catch (NoSuchMethodException | SecurityException e) {
+                    throw AppException.getAppException(e);
+                }
+            }
+        }
+    }
+
+FilterUtil
+add
+    public static void orLikeWordToFilter(Filter filter, IFilterField field, String word) {
+        if (!StringUtil.isEmpty(word)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(Constants.PERCENT_SIGN).append(word).append(Constants.PERCENT_SIGN);
+            filter.orFilter(Operator.LIKE, field, sb.toString());
+        }
+    }
+MyBatisSelectorFilter	
+	add
+	
+    public Collection<SelectTable> getTableList() {
+        return getAllTables().values();
+    }
+	
+SelectTable
+	
+	181 ~194
+	@Deprecated
+    public SelectTable joinTableByFilter(Table table, String asName, Filter filter) {
+        return joinTableByFilter(table, asName, filter, null, JoinType.LEFT_JOIN);
+    }
+
+    @Deprecated
+    public SelectTable joinTableByFilter(Table table, String asName, Filter filter, Column fkColumn, JoinType joinType) {
+        if (filter == null) {
+            throw new AppException("fk filter is null!");
+        }
+
+        if (fkColumn == null) {
+            fkColumn = this.findFKColumn(table);
+        }
+        if (fkColumn == null) {
+            // 试试看能否找到两表之间的关系表
+            RelationTable relationTable = TableManager.getRelationTable(this.table);
+            if (relationTable.table == table) {
+                return this.joinTable(relationTable.relationTable).joinTable(table);
+            }
+            throw new AppException("join by diy filter must designat a fk column!");
+        }
+
+        SelectTable child = new SelectTable(table, asName, filter, fkColumn, this, joinType);
+        addChild(child);
+        return child;
+    }
+	
+	
+
+	73 ~ 81 -> 
+    private SelectTable(Table table, String asName, Filter filter, Column fkColumn, SelectTable parent, JoinType joinType) {
+        this(table, asName);
+        this.fkIsMine = isMineFk(table, fkColumn, parent);
+        this.filter = MyBatisFilter.getInstance(filter);
+        this.parent = parent;
+        if (this.parent != null) {
+            this.selector = this.parent.selector;
+        }
+        if (fkIsMine) {
+            this.fkColumn = getColumn(fkColumn);
+        } else {
+            this.fkColumn = parent.getColumn(fkColumn);
+        }
+        this.joinType = joinType;
+    }
+	
+	add
+    /**
+     * 用于分表的sql
+     * selectTable存的是table原始表，生成sql的时候需要知道子表。
+     * 所以增加此方法
+     */
+    public String toString(CutChildTable childTable) {
+        StringBuilder sb = new StringBuilder();
+        if (parent != null) {
+            sb.append(joinType.toString()).append(Constants.BLANK);
+        }
+
+        if (childTable.getParent() == table) {
+            sb.append(childTable.getAsName());
+        } else {
+            sb.append(table.getName());
+            // oracle不需要加as，mysql加不加都可
+            if (!StringUtil.isEmpty(asName)) {
+                sb.append(" ").append(asName);
+            }
+        }
+        sb.append(Constants.ENTER);
+
+        if (this.children != null) {
+            for (SelectTable child : this.children) {
+                sb.append(child.toString(childTable));
+            }
+        }
+        return sb.toString();
+    }
+
+TableSelector
+	109 ~ 147 -> 
+	public SelectTable joinTable(Table table, Filter filter) {
+        return this.table.joinTableByFilter(table, table.getName(), filter);
+    }
+
+    public SelectTable joinTable(Table table, Filter filter, Column fkColumn) {
+        return this.table.joinTableByFilter(table, table.getName(), filter, fkColumn, JoinType.LEFT_JOIN);
+    }
+
+    public SelectTable joinTable(Table table, String asName, Filter filter) {
+        return this.table.joinTableByFilter(table, asName, filter);
+    }
+
+    public SelectTable joinTable(Table table, String asName, Filter filter, JoinType joinType) {
+        return this.table.joinTableByFilter(table, asName, filter, null, joinType);
+    }
+
+    public TableSelector addSelectColumn(Column column) {
+        if (this.selectColumns == null) {
+            this.selectColumns = new SelectColumns();
+        }
+        this.selectColumns.addColumn(column);
+        return this;
+    }
+
+    public TableSelector addSelectColumn(Table table) {
+        if (this.selectColumns == null) {
+            this.selectColumns = new SelectColumns();
+        }
+        for (Column column : table.getColumns()) {
+            this.selectColumns.addColumn(column);
+        }
+        return this;
+    }
+
+    public TableSelector addSelectColumn(SelectTable table) {
+        if (this.selectColumns == null) {
+            this.selectColumns = new SelectColumns();
+        }
+        for (Column column : table.getColumns()) {
+            this.selectColumns.addColumn(column);
+        }
+        return this;
+    }
+
+	add
+    public Collection<SelectTable> getTableList() {
+        return this.allTables.values();
+    }
+	
+del dic com\tuhanbao\service\dynamic
+
+
+NotBlankValidator 16 -> isEmptyTrim
+
+del ESAPIUtil
+
+UniqueValidator ->
+public class UniqueValidator {
+    public boolean check(IService<?> service, ServiceBean bean, Object value, Column col) {
+        if (value == null) {
+            return false;
+        }
+        Filter filter = new Filter().andFilter(col, value);
+        Column pk = bean.getTable().getPK();
+        if (pk != null && bean.getValue(pk) != null) {
+            filter.andFilter(Operator.NOT_EQUAL, pk, bean.getValue(pk));
+        }
+        int num = service.count(bean.getTable(), filter);
+        return num == 0;
+    }
+}
+
