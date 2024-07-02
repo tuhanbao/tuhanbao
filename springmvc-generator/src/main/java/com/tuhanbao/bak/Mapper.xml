@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="{mapper}" >
+  <resultMap id="SeqMap" type="{base_project_head}.base.dataservice.SeqBean" >
+    <result column="id" property="id" jdbcType="BIGINT" />
+  </resultMap>
+
+  <sql id="filter_where_clause" >
+    <if test="filter.items != null">
+      <where>
+        <foreach collection="filter.items" item="item" separator="" >
+          ${item.getMyBatisSql()}
+          <if test="item.isList()">
+            <foreach collection="item.listValue()" item="listItem" open="(" close=")" separator="," >
+              #{listItem}
+            </foreach>
+          </if>
+        </foreach>
+      </where>
+    </if>
+    ${filter.getOrderSql()}
+  </sql>
+
+  <sql id="filter_where_clause_with_table" >
+    <if test="filter.items != null">
+      <where>
+        <foreach collection="filter.items" item="item" separator="" >
+          ${item.getMyBatisSqlWithDataGroup()}
+          <if test="item.isList()">
+            <foreach collection="item.listValue()" item="listItem" open="(" close=")" separator="," >
+              #{listItem}
+            </foreach>
+          </if>
+        </foreach>
+      </where>
+    </if>
+    ${filter.getOrderSql()}
+  </sql>
+
+  <insert id="insert" {mysql_insert}parameterType="{base_project_head}.base.dataservice.ServiceBean" >
+    insert into ${_parameter.getTable().getName()} ${_parameter.getMyBatisColumnValueStr()}
+  </insert>
+  <delete id="deleteByFilter" parameterType="map" >
+    delete from ${table.getName()}
+    <if test="filter != null" >
+      <include refid="filter_where_clause" />
+    </if>
+  </delete>
+  <delete id="deleteRelative" parameterType="com.td.ca.web.filter.MyBatisSelectorFilter">
+    delete
+    <foreach collection="_parameter.getTableList()" item="table" separator="," >
+      ${table.getAsName()}
+    </foreach>
+    from ${_parameter.getTable().toString()}
+    <if test="_parameter.filter != null" >
+      <include refid="filter_where_clause_with_table" />
+    </if>
+  </delete>
+  <update id="updateByFilter" parameterType="map" >
+    update ${tableName} set ${model.getMyBatisUpdateValueStr()}
+    <if test="filter != null" >
+      <include refid="filter_where_clause" />
+    </if>
+  </update>
+  <update id="updateSelective" parameterType="map" >
+    update ${tableName} set ${model.getMyBatisUpdateValueStrSelected()}
+    <if test="filter != null" >
+      <include refid="filter_where_clause" />
+    </if>
+  </update>
+  <update id="updateRelative" parameterType="map" >
+    update ${selector.getTable().toString()} set
+    <foreach collection="models" item="model" separator="," >
+      ${model.getMyBatisUpdateValueStrSelected(null, true)}
+    </foreach>
+    <include refid="filter_where_clause_with_table" />
+  </update>
+  <select id="countByFilter" parameterType="{base_project_head}.web.filter.MyBatisSelectorFilter" resultType="java.lang.Integer">
+    select count(1) from ${_parameter.getTable().toString()}
+    <if test="_parameter.filter != null" >
+      <include refid="filter_where_clause_with_table" />
+    </if>
+  </select>
+  <select id="executeMathFuncByFilter" parameterType="map">
+  select ${func.name()}(${col.getNameWithAs()}) from ${selector.getTable().toString()}
+  <if test="filter != null" >
+    <include refid="filter_where_clause_with_table" />
+  </if>
+  </select>
+  <select id="select" resultType="map" parameterType="{base_project_head}.web.filter.MyBatisSelectorFilter" >
+    <include refid="CutPagePrefix" />
+    select
+    <foreach collection="_parameter.getSelectColumns()" item="column" separator="," >
+      ${column.getNameWithAs()}
+    </foreach>
+    from ${_parameter.getTable().toString()}
+    <if test="_parameter.filter != null" >
+      <include refid="filter_where_clause_with_table" />
+    </if>
+    <include refid="CutPageSuffix" />
+  </select>
+
+  <delete id="deleteByFilterCutTable" parameterType="map">
+    <foreach collection="table.getAllTables()" item="childTable" separator=";">
+      delete from ${childTable.getName()}
+      <if test="filter != null">
+        <include refid="filter_where_clause"/>
+      </if>
+    </foreach>
+  </delete>
+  <update id="updateByFilterCutTable" parameterType="map">
+    <foreach collection="table.getAllTables()" item="childTable" separator=";">
+      update ${childTable.getAsName()} set ${model.getMyBatisUpdateValueStr()}
+      <if test="filter != null">
+        <include refid="filter_where_clause"/>
+      </if>
+    </foreach>
+  </update>
+  <update id="updateSelectiveCutTable" parameterType="map">
+    <foreach collection="table.getAllTables()" item="childTable" separator=";">
+      update ${childTable.getAsName()} set ${model.getMyBatisUpdateValueStrSelected()}
+      <if test="filter != null">
+        <include refid="filter_where_clause"/>
+      </if>
+    </foreach>
+  </update>
+  <select id="countByFilterCutTable" parameterType="{base_project_head}.web.filter.MyBatisSelectorFilter">
+    <foreach collection="_parameter.getTable().getTable().getAllTables()" item="childTable" separator=" union all ">
+      select count(1) from ${_parameter.getTable().toString(childTable)}
+      <if test="_parameter.filter != null">
+        <include refid="filter_where_clause_with_table"/>
+      </if>
+    </foreach>
+  </select>
+  <select id="executeMathFuncByFilterCutTable" parameterType="map">
+    <foreach collection="selector.getTable().getTable().getAllTables()" item="childTable" separator=" union all ">
+      select ${func.name()}(${col.getNameWithAs()}) from ${selector.getTable().toString(childTable)}
+      <if test="filter != null">
+        <include refid="filter_where_clause_with_table"/>
+      </if>
+    </foreach>
+  </select>
+  <select id="selectCutTable" resultType="map" parameterType="{base_project_head}.web.filter.MyBatisSelectorFilter">
+    <foreach collection="_parameter.getTable().getTable().getAllTables()" item="childTable" separator=" union all ">
+      select
+      <foreach collection="_parameter.getSelectColumns()" item="column" separator=",">
+        ${column.getNameWithAs()}
+      </foreach>
+      from ${_parameter.getTable().toString(childTable)}
+      <if test="_parameter.filter != null">
+        <include refid="filter_where_clause_with_table"/>
+      </if>
+    </foreach>
+  </select>
+
+  <select id="excuteSql" resultType="Map" parameterType="{base_project_head}.web.db.MyBatisSqlSentence" >
+    ${_parameter.getSql()}
+  </select>
+  <select id="excuteBatch" parameterType="java.util.List" >
+    <foreach collection="list" item="item" index="index" close=";" separator=";">
+      <if test="item.event.name() == 'ADD'" >
+        insert into ${item.data.getTable().getName()} ${item.data.getMyBatisColumnValueStr("item.data")}
+      </if>
+      <if test="item.event.name() == 'UPDATE'" >
+        update ${item.data.getTable().getAsName()} set ${item.data.getMyBatisUpdateValueStr("item.data")} where ${item.data.getTable().getPK()} = #{item.data.keyValue}
+      </if>
+      <if test="item.event.name() == 'UPDATE_SELECTIVE'" >
+        update ${item.data.getTable().getAsName()} set ${item.data.getMyBatisUpdateValueStrSelected("item.data")} where ${item.data.getTable().getPK()} = #{item.data.keyValue}
+      </if>
+      <if test="item.event.name() == 'DELETE'" >
+        delete from ${item.data.getTable().getAsName()} where ${item.data.getTable().getPK()} = #{item.data.keyValue}
+      </if>
+    </foreach>
+  </select>
+  <select id="nextVal" resultMap="SeqMap" parameterType="java.lang.String" >
+    select ${_parameter}.nextval as id from dual
+  </select>
+{cutpage}
+</mapper>

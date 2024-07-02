@@ -1,0 +1,313 @@
+
+MOClazzCreator
+106 -> append(") getValue(TableConstants.")
+139 -> .append("(value.getValue());") .append(Constants.ENTER)
+
+188 189 ->
+                ImportTable rtTable = childFKCol.getFkColumn().getTable();
+                boolean isFkMySelf = childFKCol.getFkColumn().getTable() == table;
+				
+194 -> classInfo.addMethodInfo(getRtSetMethod(col, fkModelName, rtModelName, getColClassName(childFKCol), classInfo, isFkMySelf));
+
+242 243 ->            if (anotherFK.getTable() != table) {
+                    return col;
+del method.addAnnotation("@SuppressWarnings(\"unchecked\")");                
+
+196 -> } 删除else 移除范围外
+
+getRtSetMethod ->
+    private MethodInfo getRtSetMethod(ImportColumn col, String fkModelName, String rtModelName, String rtColName, ClassInfo classInfo, boolean fkIsMine) {
+        MethodInfo method = new MethodInfo();
+        String fkMySelfStr = fkIsMine ? ", true" : Constants.EMPTY;
+        String methodName = "set" + rtModelName + "s";
+        if (classInfo.constainsMethodName(methodName)) {
+            throw new AppException("has same method name.");
+        }
+        method.setName(methodName);
+        method.setPe(PackageEnum.PUBLIC);
+        method.setType("void");
+        StringBuilder methodBody = new StringBuilder();
+        method.setArgs("List<" + rtModelName + ">" + " value");
+
+        methodBody.append(
+                "this.setFKBean(TableConstants." + col.getTable().getAliasName() + "." + col.getAliasName().toUpperCase() + ", value.stream().map(item -> {").append(Constants.ENTER);
+        methodBody.append(Constants.GAP3).append(fkModelName + " rt = new " + fkModelName + "();").append(Constants.ENTER);
+        methodBody.append(Constants.GAP3).append("rt.set" + rtColName + "(item);").append(Constants.ENTER);
+        methodBody.append(Constants.GAP3).append("return rt;").append(Constants.ENTER);
+        methodBody.append(Constants.GAP2).append("}).collect(Collectors.toList()));");
+        method.setMethodBody(methodBody.toString());
+        return method;
+    }
+
+ServiceClazzCreator
+59 60 ->
+        String modulePackageName = ClazzUtil.convertUnderline2LowerHump(module);
+        String transactionManager = "TransactionManager";
+        return "(\"" + modulePackageName + transactionManager + "\")";
+		
+		
+SolidClazzCreator
+	getServiceImpl ->	
+	private CreateFileEvent getServiceImpl(String module, DBType dbType) {
+        try {
+            String servicePath = this.project.getServiceUrl(module);
+            String mapperName = this.getMapperName(module);
+            String url =
+                    FileUtil.appendPath(
+                            project.getSrcPath(),
+                            FileUtil.appendPath(servicePath.replace(".", Constants.FILE_SEP), "ServiceImpl.java"));
+
+            String mapper = this.project.getMapperUrl(module) + Constants.STOP_EN + mapperName;
+            String tableConstants =
+                    this.project.getConstantsUrl() + Constants.STOP_EN + "TableConstants";
+
+            String oldTxt = getSolidBakFileText("ServiceImpl.java");
+            oldTxt = replace(oldTxt, replaceMap);
+            String newTxt = oldTxt.replace("{package}", this.project.getServiceUrl(module));
+            newTxt = newTxt.replace("{table_constants}", tableConstants);
+            newTxt = newTxt.replace("{mapper}", mapper).replace("{mapper.name}", mapperName);
+
+            return new CreateFileEvent(url, newTxt);
+
+        } catch (IOException e) {
+            throw AppException.getAppException(e);
+        }
+    }
+
+	del getCutTableByHashServiceImpl
+	135 add targetUrl = FileUtil.getUrl(targetUrl.replace(PARENT_DIC, ".."));
+	124 add targetUrl = targetUrl.replace("..", PARENT_DIC);
+	
+	106~ 109
+	            if (ProjectConfig.AUTO_CREATE_SERVICEIMPL) {
+                list.add(getServiceImpl(module, dbType, "ServiceImpl"));
+                list.add(getServiceImpl(module, dbType, "CutTableByHashServiceImpl"));
+                list.add(getServiceImpl(module, dbType, "LocalCacheServiceImpl"));
+            }
+
+            if (ProjectConfig.NEED_DYNAMIC_TABLE) {
+                list.add(getServiceImpl(module, dbType, "CommonServiceImpl"));
+            }
+			
+			
+	insertReplaceProperties ->		    public static void insertReplaceProperties(SpringMvcProjectInfo project, Map<String, String> replaceMap) {
+        replaceMap.put("{config}", project.getConfigUrl());
+        replaceMap.put("{impl}", project.getImplUrl());
+        replaceMap.put("{res}", project.getResUrl());
+        replaceMap.put("{base_controller}", project.getBaseControllerUrl());
+        replaceMap.put("{controller}", project.getControllerUrl(null));
+
+        String projectName = project.getProjectName().toLowerCase();
+        replaceMap.put("{project-name}", projectName);
+        String projectNameUl = projectName.replace("-", "_");
+        replaceMap.put("{project_name}", projectNameUl);
+        replaceMap.put("{PROJECT_NAME}", projectNameUl.toUpperCase());
+        replaceMap.put("{projectName}", ClazzUtil.convertUnderline2LowerHump(projectNameUl));
+        replaceMap.put("{ProjectName}", ClazzUtil.convertUnderline2UpperHump(projectNameUl));
+        replaceMap.put("{projectname}", projectName.replace("-", ""));
+
+        replaceMap.put("{project_head}", project.getPackageHead());
+        replaceMap.put("{base_project_head}", Constants.DEFAULT_PACKAGE_HEAD);
+
+        replaceMap.putAll(project.getReplaceMap());
+    }
+	
+	add 
+	    public static final String PARENT_DIC = "{parentDic}";
+	
+
+SolidObject
+  60 ->	
+	            boolean isFile = targetUrl.contains(".");
+            if (isFile) {
+                this.targetUrl = "";
+                this.targetName = targetUrl;
+            } else {
+                this.targetUrl = targetUrl;
+				
+
+Xls2Config	80 -> .append(value.toLowerCase()).append("\";").append(Constants.ENTER).append(Constants.ENTER);
+
+Xls2LanguageResource getLanguageResouces ->getLanguageResources
+
+
+DBGeneratorFilter
+    getDataSourceJavaFile ->
+	private IEvent getDataSourceJavaFile(SpringMvcProjectInfo project, ConfigPattern configPattern, Map<String, String> values, boolean isPrimary)
+            throws IOException {
+        String dbName = values.get(NAME);
+        String key = "DataSourceConfig.java";
+        String targetUrl = project.getIServicePath(dbName);
+        SolidObject so = new SolidObject(key, null, targetUrl, OverwriteStrategy.COVER.value);
+        String dbNameUpper = ClazzUtil.convertUnderline2UpperHump(dbName);
+        so.setTargetName(dbNameUpper + key);
+
+        Map<String, String> replaceMap = new HashMap<>();
+        SolidClazzCreator.insertReplaceProperties(project, replaceMap);
+        dbName = dbName.toLowerCase();
+        replaceMap.put("{moduleName}", ClazzUtil.convertUnderline2LowerHump(dbName));
+        replaceMap.put("{modulename}", dbName.replace("_", ""));
+        replaceMap.put("{ModuleName}", ClazzUtil.convertUnderline2UpperHump(dbName));
+        replaceMap.put("{module_name}", dbName);
+        replaceMap.put("{MODULE_NAME}", dbName.toUpperCase());
+        if (isPrimary) {
+            replaceMap.put("{primary}", "\n    @Primary");
+            replaceMap.put("{primary_import}", "\nimport org.springframework.context.annotation.Primary;");
+        } else {
+            replaceMap.put("{primary}", "");
+            replaceMap.put("{primary_import}", "");
+        }
+        return SolidClazzCreator.getFileEvent(so, project, replaceMap);
+    }
+	
+DIYConfigGeneratorFilter				
+	432 add clazzInfo.addImportInfo(AppException.class);
+	396 397 ->
+	methodBody.append(Constants.GAP3).append("throw new AppException(\"no config file for : \" + KEY);").append(Constants.ENTER);
+	
+	
+ParseExcelFilter
+
+	del 24~33
+	
+TableConstantsGeneratorFilter	
+ 186 add
+        if (table.getTableConfig().getExpireTime() > 0) {
+            sb.append(Constants.GAP3 + "TABLE.setExpireTime(" + table.getTableConfig().getExpireTime() + ");").append(Constants.ENTER);
+        }
+        if (table.getTableConfig().isAutoIncrement()) {
+            sb.append(Constants.GAP3 + "TABLE.setAutoIncrement(true);").append(Constants.ENTER);
+        }
+        String[][] groupKeys = table.getTableConfig().getGroupKeys();
+        if (groupKeys != null) {
+            for (String[] array : groupKeys) {
+                String groupKeyCols = StringUtil.array2String(array, ", ").toUpperCase(Locale.ROOT);
+                sb.append(Constants.GAP3 + "TABLE.addGroupKey(" + groupKeyCols + ");").append(Constants.ENTER);
+            }
+        }
+		
+TableGeneratorFilter
+203 createTable -> 
+		
+		public static J2EETable createTable(String[] tableConfig, String[] prefixs) {
+        // tableConfig
+        // #表名 中文描述 缓存(NOT/ALL/AUTO)默认为NO
+        // 序列号（oracle数据库可配置，非必填，填autocreate，会根据表名自动生成序列） 默认排序字段（可不填）
+        // T_CRAWLER_CLASS NO autocreate
+        int i = 0;
+        String tableName = indexOf(tableConfig, i++).trim();
+        String aliasName = indexOf(tableConfig, i++);
+        String comment = indexOf(tableConfig, i++);
+        String module = indexOf(tableConfig, i++);
+        String cacheStr = indexOf(tableConfig, i++);
+        CacheType cacheType = CacheType.getCacheType(cacheStr);
+        int expireTime = getExpireTime(cacheStr);
+        String seq = indexOf(tableConfig, i++);
+        String orderCol = indexOf(tableConfig, i++);
+        String indexInfo = indexOf(tableConfig, i++);
+        String otherInfo = indexOf(tableConfig, i++);
+
+        DBType dbType;
+        try {
+            dbType = ModuleManager.getDBSrc(module).getDbType();
+        } catch (Exception e) {
+            dbType = DBType.MYSQL;
+        }
+
+        TableConfig tcfg = new TableConfig();
+        tcfg.setCacheType(cacheType);
+        tcfg.setExpireTime(expireTime);
+        tcfg.setDefaultOrderColName(orderCol);
+        if (dbType == DBType.ORACLE) {
+            tcfg.setSequence(getSeqName(seq, tableName, prefixs));
+        } else if (dbType == DBType.MYSQL) {
+            tcfg.setAutoIncrement(Constants.AUTOCREATE.equalsIgnoreCase(seq));
+        }
+        if (!StringUtil.isEmpty(indexInfo)) {
+            tcfg.setIndexInfo(indexInfo);
+        }
+        if (!StringUtil.isEmpty(otherInfo)) {
+            KeyValueBean otherInfoBean = new KeyValueBean(otherInfo, ";", "=");
+            String notify = otherInfoBean.get(NOTIFY);
+            tcfg.setNeedNotify(BooleanValue.valueOf(notify).getValue());
+
+            String autoAddTimeColStr = otherInfoBean.get(AUTO_ADD_TIME_COL);
+            if (!StringUtil.isEmpty(autoAddTimeColStr)) {
+                tcfg.setAutoAddTimeCol(BooleanValue.valueOf(autoAddTimeColStr).getValue());
+            }
+
+            String cutTableStr = otherInfoBean.get(CUT_TABLE);
+            if (!StringUtil.isEmpty(cutTableStr)) {
+                // cutTable=cutType:hash,cutKey:app_name,size:10,maxRows:100,maxTime:100;
+                KeyValueBean cutTableInfo = new KeyValueBean(cutTableStr, ",", ":");
+                CutTableInfo cti = new CutTableInfo();
+                cti.setCutType(CutType.getCutType(cutTableInfo.get(CutTableInfo.CUT_TYPE)));
+                cti.setColName(cutTableInfo.get(CutTableInfo.CUT_KEY));
+                cti.setValues(cutTableInfo.getProperties());
+                tcfg.setCutTableInfo(cti);
+            }
+
+            String groupKeys = otherInfoBean.get(GROUP_KEYS);
+            if (!StringUtil.isEmpty(groupKeys)) {
+                // cutTable=cutType:hash,cutKey:app_name,size:10,maxRows:100,maxTime:100;
+                String[][] arrays = StringUtil.string2Arrays(groupKeys, ",", "&");
+                tcfg.setGroupKeys(arrays);
+            }
+        }
+
+        J2EETable table = new J2EETable(tableName, aliasName, module, prefixs, tcfg);
+        table.setComment(changeComment(comment));
+        return table;
+    }
+
+
+add
+    public static final String NOTIFY = "notify";
+    public static final String AUTO_ADD_TIME_COL = "autoAddTimeCol";
+    public static final String CUT_TABLE = "cutTable";
+    public static final String GROUP_KEYS = "groupKeys";
+	
+	private static int getExpireTime(String cacheStr) {
+        if (StringUtil.isEmpty(cacheStr)) {
+            return -1;
+        }
+        int start = cacheStr.indexOf("(");
+        if (start == -1) {
+            return -1;
+        } else {
+            int end = cacheStr.indexOf(")");
+            return Integer.valueOf(cacheStr.substring(start + 1, end));
+        }
+    }
+		
+AGCContext 23 add
+		SpringMvcProjectInfo project = new SpringMvcProjectInfo(ProjectConfig.PROJECT_URL, ProjectConfig.PROJECT_NAME, ProjectConfig.PROJECT_HEAD);
+        if (!StringUtil.isEmpty(ProjectConfig.PARENT_PROJECT_NAME)) {
+            String projectHead =
+                    StringUtil.isEmpty(ProjectConfig.PARENT_PROJECT_HEAD) ? ProjectConfig.PROJECT_HEAD : ProjectConfig.PARENT_PROJECT_HEAD;
+            // projectUrl不需要关注，随便设置一个
+            SpringMvcProjectInfo parent = new SpringMvcProjectInfo(ProjectConfig.PROJECT_URL, ProjectConfig.PARENT_PROJECT_NAME, projectHead);
+            project.setParent(parent);
+        }
+
+        this.putAttr(AbstractExcelAGCFilter.PROJECT, project);
+            }
+			
+			
+del JsCreator, JspCreator
+
+ModuleManager 
+add
+    public static void clear() {
+        MODULES.clear();
+    }
+	
+ProjectConfig
+	106 add
+	        if (config.containsKey(NEED_DYNAMIC_TABLE_NAME)) {
+            NEED_DYNAMIC_TABLE = config.getBoolean(NEED_DYNAMIC_TABLE_NAME);
+        }
+	add
+	  public static boolean NEED_DYNAMIC_TABLE = false;
+	  
+	  private static final String NEED_DYNAMIC_TABLE_NAME = "need_dynamic_table";
