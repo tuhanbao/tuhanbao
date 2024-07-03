@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.rdap.at</groupId>
+    <artifactId>rdap-at</artifactId>
+    <version>0.0.1</version>
+    <name>rdap-at</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <maven-compiler.source>21</maven-compiler.source>
+        <maven-plugin-compiler.version>3.8.1</maven-plugin-compiler.version>
+        <maven-plugin-source.version>2.1</maven-plugin-source.version>
+        <junit.version>5.9.3</junit.version>
+        <junit.platform>1.9.2</junit.platform>
+        <mockito.version>5.3.1</mockito.version>
+        <jackson.version>2.15.3</jackson.version>
+        <spring.boot.version>3.2.1</spring.boot.version>
+        <dubbo.actuator.version>3.2.7</dubbo.actuator.version>
+        <dubbo.observability.version>3.2.0</dubbo.observability.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.rdap</groupId>
+            <artifactId>rdap-common</artifactId>
+            <version>3.0.10-SNAPSHOT</version>
+
+            <!-- 有个低版本依赖 -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-context</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.alibaba.cloud</groupId>
+                    <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
+        <!--SpringBoot Actuator 提供的监控功能-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>3.2.5</version>
+        </dependency>
+        <dependency>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>2.0.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-actuator</artifactId>
+            <version>${dubbo.actuator.version}</version>
+        </dependency>
+        <!--添加Dubbo的Metrics信息到Actuator-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-observability-starter</artifactId>
+            <version>${dubbo.observability.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
+        <!-- 解决版本冲突 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>rdap_at</finalName>
+        <defaultGoal>clean package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <!-- 是否替换资源中的属性 -->
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- <includes> <include>**/*.properties</include> <include>**/*.xml</include> 
+                    </includes> <filtering>true</filtering> -->
+            </resource>
+        </resources>
+    </build>
+</project>

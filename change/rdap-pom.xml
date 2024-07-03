@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.td.ca</groupId>
+        <artifactId>framework</artifactId>
+        <version>3.0.10-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <groupId>com.rdap</groupId>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>rdap-common</module>
+        <module>rdap-base-api</module>
+        <module>rdap-auth</module>
+        <module>rdap-test/code-generator</module>
+    </modules>
+    <properties>
+        <dubbo.otel.traceing.version>3.2.9</dubbo.otel.traceing.version>
+        <cloudnativeplatform.version>2.0.2</cloudnativeplatform.version>
+        <redisson.version>3.27.2</redisson.version>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.td.ca</groupId>
+                <artifactId>util-web</artifactId>
+                <version>3.0.10-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rdap.platform</groupId>
+                <artifactId>springSDK-common-log</artifactId>
+                <version>${cloudnativeplatform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-tracing-otel-otlp-starter</artifactId>
+                <version>${dubbo.otel.traceing.version}</version>
+            </dependency>
+            <!-- DT TEST end -->
+        </dependencies>
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>rdap-mixd</id>
+            <url>http://10.160.146.177:8081/repository/rdap-mix/</url>
+        </repository>
+        <snapshotRepository>
+            <id>rdap-mixd</id>
+            <url>http://10.160.146.177:8081/repository/rdap-mix/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <!-- 插件统一管理 -->
+    <build>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+</project>
